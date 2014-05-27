@@ -1,0 +1,518 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		726EFA4C190D94AF0076029B /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 726EFA4B190D94AF0076029B /* Foundation.framework */; };
+		726EFA4E190D94AF0076029B /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 726EFA4D190D94AF0076029B /* CoreGraphics.framework */; };
+		726EFA50190D94AF0076029B /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 726EFA4F190D94AF0076029B /* UIKit.framework */; };
+		726EFA52190D94AF0076029B /* SpriteKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 726EFA51190D94AF0076029B /* SpriteKit.framework */; };
+		726EFA58190D94AF0076029B /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 726EFA56190D94AF0076029B /* InfoPlist.strings */; };
+		726EFA5A190D94AF0076029B /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 726EFA59190D94AF0076029B /* main.m */; };
+		726EFA5E190D94AF0076029B /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 726EFA5D190D94AF0076029B /* AppDelegate.m */; };
+		726EFA61190D94AF0076029B /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 726EFA5F190D94AF0076029B /* Main.storyboard */; };
+		726EFA64190D94AF0076029B /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 726EFA63190D94AF0076029B /* ViewController.m */; };
+		726EFA67190D94AF0076029B /* MyScene.m in Sources */ = {isa = PBXBuildFile; fileRef = 726EFA66190D94AF0076029B /* MyScene.m */; };
+		726EFA6B190D94AF0076029B /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 726EFA6A190D94AF0076029B /* Images.xcassets */; };
+		726EFA72190D94B00076029B /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 726EFA71190D94B00076029B /* XCTest.framework */; };
+		726EFA73190D94B00076029B /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 726EFA4B190D94AF0076029B /* Foundation.framework */; };
+		726EFA74190D94B00076029B /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 726EFA4F190D94AF0076029B /* UIKit.framework */; };
+		726EFA7C190D94B00076029B /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 726EFA7A190D94B00076029B /* InfoPlist.strings */; };
+		726EFA7E190D94B00076029B /* OmNomDonutsTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 726EFA7D190D94B00076029B /* OmNomDonutsTests.m */; };
+		726EFA89190D9B280076029B /* GameScene.m in Sources */ = {isa = PBXBuildFile; fileRef = 726EFA88190D9B280076029B /* GameScene.m */; };
+		72A3D209192936A9002C29E1 /* DonutFactory.m in Sources */ = {isa = PBXBuildFile; fileRef = 72A3D208192936A9002C29E1 /* DonutFactory.m */; };
+		72A3D20C19293D07002C29E1 /* Donut.m in Sources */ = {isa = PBXBuildFile; fileRef = 72A3D20B19293D07002C29E1 /* Donut.m */; };
+		72A3D21D19294B1A002C29E1 /* donut.png in Resources */ = {isa = PBXBuildFile; fileRef = 72A3D21919294B1A002C29E1 /* donut.png */; };
+		72A3D21E19294B1A002C29E1 /* donut@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 72A3D21A19294B1A002C29E1 /* donut@2x.png */; };
+		72A3D22319294E07002C29E1 /* background.png in Resources */ = {isa = PBXBuildFile; fileRef = 72A3D22119294E07002C29E1 /* background.png */; };
+		72A3D22419294E07002C29E1 /* background@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 72A3D22219294E07002C29E1 /* background@2x.png */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		726EFA75190D94B00076029B /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 726EFA40190D94AF0076029B /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 726EFA47190D94AF0076029B;
+			remoteInfo = OmNomDonuts;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		726EFA48190D94AF0076029B /* OmNomDonuts.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = OmNomDonuts.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		726EFA4B190D94AF0076029B /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		726EFA4D190D94AF0076029B /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
+		726EFA4F190D94AF0076029B /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
+		726EFA51190D94AF0076029B /* SpriteKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SpriteKit.framework; path = System/Library/Frameworks/SpriteKit.framework; sourceTree = SDKROOT; };
+		726EFA55190D94AF0076029B /* OmNomDonuts-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "OmNomDonuts-Info.plist"; sourceTree = "<group>"; };
+		726EFA57190D94AF0076029B /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		726EFA59190D94AF0076029B /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		726EFA5B190D94AF0076029B /* OmNomDonuts-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "OmNomDonuts-Prefix.pch"; sourceTree = "<group>"; };
+		726EFA5C190D94AF0076029B /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
+		726EFA5D190D94AF0076029B /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
+		726EFA60190D94AF0076029B /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		726EFA62190D94AF0076029B /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
+		726EFA63190D94AF0076029B /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
+		726EFA65190D94AF0076029B /* MyScene.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MyScene.h; sourceTree = "<group>"; };
+		726EFA66190D94AF0076029B /* MyScene.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MyScene.m; sourceTree = "<group>"; };
+		726EFA6A190D94AF0076029B /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
+		726EFA70190D94B00076029B /* OmNomDonutsTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = OmNomDonutsTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		726EFA71190D94B00076029B /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
+		726EFA79190D94B00076029B /* OmNomDonutsTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "OmNomDonutsTests-Info.plist"; sourceTree = "<group>"; };
+		726EFA7B190D94B00076029B /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		726EFA7D190D94B00076029B /* OmNomDonutsTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = OmNomDonutsTests.m; sourceTree = "<group>"; };
+		726EFA87190D9B270076029B /* GameScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameScene.h; sourceTree = "<group>"; };
+		726EFA88190D9B280076029B /* GameScene.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GameScene.m; sourceTree = "<group>"; };
+		72A3D207192936A8002C29E1 /* DonutFactory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DonutFactory.h; sourceTree = "<group>"; };
+		72A3D208192936A9002C29E1 /* DonutFactory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DonutFactory.m; sourceTree = "<group>"; };
+		72A3D20A19293D07002C29E1 /* Donut.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Donut.h; sourceTree = "<group>"; };
+		72A3D20B19293D07002C29E1 /* Donut.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Donut.m; sourceTree = "<group>"; };
+		72A3D21919294B1A002C29E1 /* donut.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = donut.png; sourceTree = "<group>"; };
+		72A3D21A19294B1A002C29E1 /* donut@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "donut@2x.png"; sourceTree = "<group>"; };
+		72A3D22119294E07002C29E1 /* background.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = background.png; sourceTree = "<group>"; };
+		72A3D22219294E07002C29E1 /* background@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "background@2x.png"; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		726EFA45190D94AF0076029B /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				726EFA4E190D94AF0076029B /* CoreGraphics.framework in Frameworks */,
+				726EFA50190D94AF0076029B /* UIKit.framework in Frameworks */,
+				726EFA52190D94AF0076029B /* SpriteKit.framework in Frameworks */,
+				726EFA4C190D94AF0076029B /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		726EFA6D190D94B00076029B /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				726EFA72190D94B00076029B /* XCTest.framework in Frameworks */,
+				726EFA74190D94B00076029B /* UIKit.framework in Frameworks */,
+				726EFA73190D94B00076029B /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		726EFA3F190D94AF0076029B = {
+			isa = PBXGroup;
+			children = (
+				726EFA53190D94AF0076029B /* OmNomDonuts */,
+				726EFA77190D94B00076029B /* OmNomDonutsTests */,
+				726EFA4A190D94AF0076029B /* Frameworks */,
+				726EFA49190D94AF0076029B /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		726EFA49190D94AF0076029B /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				726EFA48190D94AF0076029B /* OmNomDonuts.app */,
+				726EFA70190D94B00076029B /* OmNomDonutsTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		726EFA4A190D94AF0076029B /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				726EFA4B190D94AF0076029B /* Foundation.framework */,
+				726EFA4D190D94AF0076029B /* CoreGraphics.framework */,
+				726EFA4F190D94AF0076029B /* UIKit.framework */,
+				726EFA51190D94AF0076029B /* SpriteKit.framework */,
+				726EFA71190D94B00076029B /* XCTest.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		726EFA53190D94AF0076029B /* OmNomDonuts */ = {
+			isa = PBXGroup;
+			children = (
+				726EFA5C190D94AF0076029B /* AppDelegate.h */,
+				726EFA5D190D94AF0076029B /* AppDelegate.m */,
+				726EFA5F190D94AF0076029B /* Main.storyboard */,
+				726EFA62190D94AF0076029B /* ViewController.h */,
+				726EFA63190D94AF0076029B /* ViewController.m */,
+				726EFA65190D94AF0076029B /* MyScene.h */,
+				726EFA66190D94AF0076029B /* MyScene.m */,
+				72A3D21919294B1A002C29E1 /* donut.png */,
+				72A3D21A19294B1A002C29E1 /* donut@2x.png */,
+				72A3D22119294E07002C29E1 /* background.png */,
+				72A3D22219294E07002C29E1 /* background@2x.png */,
+				726EFA6A190D94AF0076029B /* Images.xcassets */,
+				726EFA54190D94AF0076029B /* Supporting Files */,
+				726EFA87190D9B270076029B /* GameScene.h */,
+				726EFA88190D9B280076029B /* GameScene.m */,
+				72A3D207192936A8002C29E1 /* DonutFactory.h */,
+				72A3D208192936A9002C29E1 /* DonutFactory.m */,
+				72A3D20A19293D07002C29E1 /* Donut.h */,
+				72A3D20B19293D07002C29E1 /* Donut.m */,
+			);
+			path = OmNomDonuts;
+			sourceTree = "<group>";
+		};
+		726EFA54190D94AF0076029B /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				726EFA55190D94AF0076029B /* OmNomDonuts-Info.plist */,
+				726EFA56190D94AF0076029B /* InfoPlist.strings */,
+				726EFA59190D94AF0076029B /* main.m */,
+				726EFA5B190D94AF0076029B /* OmNomDonuts-Prefix.pch */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		726EFA77190D94B00076029B /* OmNomDonutsTests */ = {
+			isa = PBXGroup;
+			children = (
+				726EFA7D190D94B00076029B /* OmNomDonutsTests.m */,
+				726EFA78190D94B00076029B /* Supporting Files */,
+			);
+			path = OmNomDonutsTests;
+			sourceTree = "<group>";
+		};
+		726EFA78190D94B00076029B /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				726EFA79190D94B00076029B /* OmNomDonutsTests-Info.plist */,
+				726EFA7A190D94B00076029B /* InfoPlist.strings */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		726EFA47190D94AF0076029B /* OmNomDonuts */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 726EFA81190D94B00076029B /* Build configuration list for PBXNativeTarget "OmNomDonuts" */;
+			buildPhases = (
+				726EFA44190D94AF0076029B /* Sources */,
+				726EFA45190D94AF0076029B /* Frameworks */,
+				726EFA46190D94AF0076029B /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = OmNomDonuts;
+			productName = OmNomDonuts;
+			productReference = 726EFA48190D94AF0076029B /* OmNomDonuts.app */;
+			productType = "com.apple.product-type.application";
+		};
+		726EFA6F190D94B00076029B /* OmNomDonutsTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 726EFA84190D94B00076029B /* Build configuration list for PBXNativeTarget "OmNomDonutsTests" */;
+			buildPhases = (
+				726EFA6C190D94B00076029B /* Sources */,
+				726EFA6D190D94B00076029B /* Frameworks */,
+				726EFA6E190D94B00076029B /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				726EFA76190D94B00076029B /* PBXTargetDependency */,
+			);
+			name = OmNomDonutsTests;
+			productName = OmNomDonutsTests;
+			productReference = 726EFA70190D94B00076029B /* OmNomDonutsTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		726EFA40190D94AF0076029B /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0510;
+				TargetAttributes = {
+					726EFA6F190D94B00076029B = {
+						TestTargetID = 726EFA47190D94AF0076029B;
+					};
+				};
+			};
+			buildConfigurationList = 726EFA43190D94AF0076029B /* Build configuration list for PBXProject "OmNomDonuts" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 726EFA3F190D94AF0076029B;
+			productRefGroup = 726EFA49190D94AF0076029B /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				726EFA47190D94AF0076029B /* OmNomDonuts */,
+				726EFA6F190D94B00076029B /* OmNomDonutsTests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		726EFA46190D94AF0076029B /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				72A3D21D19294B1A002C29E1 /* donut.png in Resources */,
+				726EFA58190D94AF0076029B /* InfoPlist.strings in Resources */,
+				72A3D22319294E07002C29E1 /* background.png in Resources */,
+				726EFA6B190D94AF0076029B /* Images.xcassets in Resources */,
+				726EFA61190D94AF0076029B /* Main.storyboard in Resources */,
+				72A3D22419294E07002C29E1 /* background@2x.png in Resources */,
+				72A3D21E19294B1A002C29E1 /* donut@2x.png in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		726EFA6E190D94B00076029B /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				726EFA7C190D94B00076029B /* InfoPlist.strings in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		726EFA44190D94AF0076029B /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				726EFA67190D94AF0076029B /* MyScene.m in Sources */,
+				72A3D20C19293D07002C29E1 /* Donut.m in Sources */,
+				72A3D209192936A9002C29E1 /* DonutFactory.m in Sources */,
+				726EFA64190D94AF0076029B /* ViewController.m in Sources */,
+				726EFA89190D9B280076029B /* GameScene.m in Sources */,
+				726EFA5E190D94AF0076029B /* AppDelegate.m in Sources */,
+				726EFA5A190D94AF0076029B /* main.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		726EFA6C190D94B00076029B /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				726EFA7E190D94B00076029B /* OmNomDonutsTests.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		726EFA76190D94B00076029B /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 726EFA47190D94AF0076029B /* OmNomDonuts */;
+			targetProxy = 726EFA75190D94B00076029B /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		726EFA56190D94AF0076029B /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				726EFA57190D94AF0076029B /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		726EFA5F190D94AF0076029B /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				726EFA60190D94AF0076029B /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+		726EFA7A190D94B00076029B /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				726EFA7B190D94B00076029B /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		726EFA7F190D94B00076029B /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+			};
+			name = Debug;
+		};
+		726EFA80190D94B00076029B /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = YES;
+				ENABLE_NS_ASSERTIONS = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
+				SDKROOT = iphoneos;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		726EFA82190D94B00076029B /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "OmNomDonuts/OmNomDonuts-Prefix.pch";
+				INFOPLIST_FILE = "OmNomDonuts/OmNomDonuts-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SPRITEKIT_TEXTURE_ATLAS_OUTPUT = YES;
+				WRAPPER_EXTENSION = app;
+			};
+			name = Debug;
+		};
+		726EFA83190D94B00076029B /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "OmNomDonuts/OmNomDonuts-Prefix.pch";
+				INFOPLIST_FILE = "OmNomDonuts/OmNomDonuts-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SPRITEKIT_TEXTURE_ATLAS_OUTPUT = YES;
+				WRAPPER_EXTENSION = app;
+			};
+			name = Release;
+		};
+		726EFA85190D94B00076029B /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/OmNomDonuts.app/OmNomDonuts";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(inherited)",
+					"$(DEVELOPER_FRAMEWORKS_DIR)",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "OmNomDonuts/OmNomDonuts-Prefix.pch";
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				INFOPLIST_FILE = "OmNomDonutsTests/OmNomDonutsTests-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUNDLE_LOADER)";
+				WRAPPER_EXTENSION = xctest;
+			};
+			name = Debug;
+		};
+		726EFA86190D94B00076029B /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/OmNomDonuts.app/OmNomDonuts";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(inherited)",
+					"$(DEVELOPER_FRAMEWORKS_DIR)",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "OmNomDonuts/OmNomDonuts-Prefix.pch";
+				INFOPLIST_FILE = "OmNomDonutsTests/OmNomDonutsTests-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUNDLE_LOADER)";
+				WRAPPER_EXTENSION = xctest;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		726EFA43190D94AF0076029B /* Build configuration list for PBXProject "OmNomDonuts" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				726EFA7F190D94B00076029B /* Debug */,
+				726EFA80190D94B00076029B /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		726EFA81190D94B00076029B /* Build configuration list for PBXNativeTarget "OmNomDonuts" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				726EFA82190D94B00076029B /* Debug */,
+				726EFA83190D94B00076029B /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		726EFA84190D94B00076029B /* Build configuration list for PBXNativeTarget "OmNomDonutsTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				726EFA85190D94B00076029B /* Debug */,
+				726EFA86190D94B00076029B /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 726EFA40190D94AF0076029B /* Project object */;
+}
