@@ -10,19 +10,25 @@
 #import "MyScene.h"
 #import "DonutFactory.h"
 #import "Donut.h"
+#import <math.h>
+
+static const CFTimeInterval kSlowestDeployPeriod = 1.2;
+static const CFTimeInterval kFastestDeployPeriod = 0.3;
+static const CFTimeInterval kExponentialDecayLambda = 1.0/100.0;
 
 @interface GameScene ()
 
 @property (nonatomic, strong) DonutFactory *donutFactory;
 
-- (void)deployDonut;
+- (void)deployDonutAfterDeplay:(CFTimeInterval)delay;
 - (void)hitDonut:(Donut *)donut;
-- (void)missDonutAtPoint:(CGPoint)point;
+
+- (void)onErrorAtPoint:(CGPoint)point;
 
 - (void)createContent;
-- (void)onDonutWillDisappear;
+- (void)onDonutWillDisappear:(Donut *)donut;
 
-- (void)deployDonutWithUpdate:(NSTimeInterval)currentTime;
+- (void)deployDonutWithUpdate:(CFTimeInterval)currentTime;
 
 @property (nonatomic, assign) NSUInteger numberOfMisses;
 @property (nonatomic, assign) NSUInteger numberOfHits;
@@ -32,8 +38,10 @@
 
 @property (nonatomic, assign, getter=isContentCreated) BOOL contentCreated;
 
-@property (nonatomic, assign) NSTimeInterval deployPeriod;
-@property (nonatomic, assign) NSTimeInterval lastDeployTime;
+@property (nonatomic, assign) CFTimeInterval deployPeriod;
+@property (nonatomic, assign) CFTimeInterval lastDeployTime;
+
+@property (nonatomic, assign) CFTimeInterval gameStartTime;
 
 @end
 
@@ -61,6 +69,13 @@
 - (void)update:(CFTimeInterval)currentTime
 {
     /* Called before each frame is rendered */
+
+    if (self.gameStartTime == 0)
+        self.gameStartTime = currentTime;
+
+    CFTimeInterval elapsed = currentTime - self.gameStartTime;
+    self.deployPeriod = MAX(kFastestDeployPeriod, kSlowestDeployPeriod*exp(-elapsed*kExponentialDecayLambda));
+
     [self deployDonutWithUpdate:currentTime];
 }
 
@@ -93,26 +108,33 @@
     [self addChild:numberOfHitsLabel];
 
     self.numberOfHitsLabel = numberOfHitsLabel;
-
-    self.deployPeriod = 1.2;
 }
 
-- (void)deployDonutWithUpdate:(NSTimeInterval)currentTime
+- (void)deployDonutWithUpdate:(CFTimeInterval)currentTime
 {
     if (currentTime - self.lastDeployTime < self.deployPeriod) {
         return;
     }
 
-    [self deployDonut];
+
+    [self deployDonutAfterDeplay:0];
+
+    if (arc4random() % 4 == 0)
+        [self deployDonutAfterDeplay:0.3];
+
+    if (arc4random() % 8 == 0)
+        [self deployDonutAfterDeplay:0.6];
 
     self.lastDeployTime = currentTime;
 }
 
-- (void)deployDonut
+- (void)deployDonutAfterDeplay:(CFTimeInterval)delay
 {
     Donut *donut = [self.donutFactory getDonutWithSize:CGSizeMake(64, 64)];
     [self addChild:donut];
     CGPoint point = CGPointMake(arc4random()%(int)self.size.width, arc4random()%(int)self.size.height);
+
+    SKAction *wait = [SKAction waitForDuration:delay];
 
     SKAction *move = [SKAction moveTo:point duration:0.2];
     move.timingMode = SKActionTimingEaseInEaseOut;
@@ -124,18 +146,18 @@
     SKAction *scaleDown = [SKAction scaleTo:0 duration:1.2];
     scaleDown.timingMode = SKActionTimingEaseIn;
 
-    SKAction *callBack = [SKAction performSelector:@selector(onDonutWillDisappear) onTarget:self];
-
     NSArray *actions = @[
+                         wait,
                          move,
                          scaleUp,
                          scaleDown,
-                         callBack,
+                         [SKAction runBlock:^{
+                             [self onDonutWillDisappear:donut];
+                         }],
                          [SKAction removeFromParent]
                          ];
     SKAction *sequence = [SKAction sequence:actions];
     [donut runAction:sequence];
-    
 }
 
 - (void)hitDonut:(Donut *)donut
@@ -151,14 +173,27 @@
     self.numberOfHits++;
 }
 
-- (void)missDonutAtPoint:(CGPoint)point
+- (void)onDonutWillDisappear:(Donut *)donut
 {
     self.numberOfMisses++;
+    [self onErrorAtPoint:donut.position];
 }
 
-- (void)onDonutWillDisappear
+- (void)onErrorAtPoint:(CGPoint)point
 {
-    self.numberOfMisses++;
+    SKShapeNode *shape = [SKShapeNode node];
+    shape.path = [UIBezierPath bezierPathWithRoundedRect:CGRectMake(-5, -5, 10, 10) cornerRadius:5].CGPath;
+    shape.fillColor = shape.strokeColor = [SKColor redColor];
+    shape.position = point;
+
+    NSArray *actions = @[
+                         [SKAction fadeOutWithDuration:0.2],
+                         [SKAction removeFromParent]
+                         ];
+    SKAction *sequence = [SKAction sequence:actions];
+    [shape runAction:sequence];
+
+    [self addChild:shape];
 }
 
 - (void)setNumberOfMisses:(NSUInteger)numberOfMisses
@@ -172,35 +207,6 @@
     _numberOfHits = numberOfHits;
 
     self.numberOfHitsLabel.text = [@(numberOfHits) description];
-
-    switch (numberOfHits) {
-        case 10:
-            self.deployPeriod = 1;
-            break;
-        case 20:
-            self.deployPeriod = 0.8;
-            break;
-        case 30:
-            self.deployPeriod = 0.6;
-            break;
-        case 40:
-            self.deployPeriod = 0.5;
-            break;
-        case 50:
-            self.deployPeriod = 0.45;
-            break;
-        case 60:
-            self.deployPeriod = 0.4;
-            break;
-        case 70:
-            self.deployPeriod = 0.37;
-            break;
-        case 80:
-            self.deployPeriod = 0.35;
-            break;
-        default:
-            break;
-    }
 }
 
 #pragma mark - Touches
@@ -214,6 +220,8 @@
         if ([node isKindOfClass:Donut.class]) {
             Donut *donut = (Donut *)node;
             [self hitDonut:donut];
+        } else {
+            [self onErrorAtPoint:point];
         }
     }];
 
