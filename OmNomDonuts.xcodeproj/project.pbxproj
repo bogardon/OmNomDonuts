@@ -30,6 +30,8 @@
 		72A3D21E19294B1A002C29E1 /* donut@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 72A3D21A19294B1A002C29E1 /* donut@2x.png */; };
 		72A3D22319294E07002C29E1 /* background.png in Resources */ = {isa = PBXBuildFile; fileRef = 72A3D22119294E07002C29E1 /* background.png */; };
 		72A3D22419294E07002C29E1 /* background@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 72A3D22219294E07002C29E1 /* background@2x.png */; };
+		72F21E6519451E3700958F69 /* record@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 72F21E6419451E3700958F69 /* record@2x.png */; };
+		72F21E67194525F100958F69 /* record_player@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 72F21E66194525F100958F69 /* record_player@2x.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -75,6 +77,8 @@
 		72A3D21A19294B1A002C29E1 /* donut@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "donut@2x.png"; sourceTree = "<group>"; };
 		72A3D22119294E07002C29E1 /* background.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = background.png; sourceTree = "<group>"; };
 		72A3D22219294E07002C29E1 /* background@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "background@2x.png"; sourceTree = "<group>"; };
+		72F21E6419451E3700958F69 /* record@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "record@2x.png"; sourceTree = "<group>"; };
+		72F21E66194525F100958F69 /* record_player@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "record_player@2x.png"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -145,6 +149,8 @@
 				726EFA66190D94AF0076029B /* MyScene.m */,
 				72A3D21919294B1A002C29E1 /* donut.png */,
 				72A3D21A19294B1A002C29E1 /* donut@2x.png */,
+				72F21E6419451E3700958F69 /* record@2x.png */,
+				72F21E66194525F100958F69 /* record_player@2x.png */,
 				72A3D22119294E07002C29E1 /* background.png */,
 				72A3D22219294E07002C29E1 /* background@2x.png */,
 				726EFA6A190D94AF0076029B /* Images.xcassets */,
@@ -264,10 +270,12 @@
 			buildActionMask = 2147483647;
 			files = (
 				72A3D21D19294B1A002C29E1 /* donut.png in Resources */,
+				72F21E6519451E3700958F69 /* record@2x.png in Resources */,
 				726EFA58190D94AF0076029B /* InfoPlist.strings in Resources */,
 				72A3D22319294E07002C29E1 /* background.png in Resources */,
 				726EFA6B190D94AF0076029B /* Images.xcassets in Resources */,
 				726EFA61190D94AF0076029B /* Main.storyboard in Resources */,
+				72F21E67194525F100958F69 /* record_player@2x.png in Resources */,
 				72A3D22419294E07002C29E1 /* background@2x.png in Resources */,
 				72A3D21E19294B1A002C29E1 /* donut@2x.png in Resources */,
 			);

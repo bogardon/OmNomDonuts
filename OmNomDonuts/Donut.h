@@ -10,4 +10,6 @@
 
 @interface Donut : SKSpriteNode
 
+@property (nonatomic, assign, getter = isHit) BOOL hit;
+
 @end

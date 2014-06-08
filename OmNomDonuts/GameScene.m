@@ -20,21 +20,24 @@ static const CFTimeInterval kExponentialDecayLambda = 1.0/100.0;
 
 @property (nonatomic, strong) DonutFactory *donutFactory;
 
-- (void)deployDonutAfterDeplay:(CFTimeInterval)delay;
-- (void)hitDonut:(Donut *)donut;
-
-- (void)onErrorAtPoint:(CGPoint)point;
-
 - (void)createContent;
-- (void)onDonutWillDisappear:(Donut *)donut;
 
 - (void)deployDonutWithUpdate:(CFTimeInterval)currentTime;
+- (void)deployDonutAfterDelay:(CFTimeInterval)delay;
 
-@property (nonatomic, assign) NSUInteger numberOfMisses;
-@property (nonatomic, assign) NSUInteger numberOfHits;
+- (void)hitDonut:(Donut *)donut;
+- (void)missDonut:(Donut *)donut;
 
+- (void)showErrorAtPoint:(CGPoint)point;
+
+- (void)modifyScoreWithDifference:(NSInteger)difference;
+
+@property (nonatomic, assign) NSInteger numberOfMisses;
+
+@property (nonatomic, assign) NSInteger score;
+
+@property (nonatomic, strong) SKLabelNode *scoreLabel;
 @property (nonatomic, strong) SKLabelNode *numberOfMissesLabel;
-@property (nonatomic, strong) SKLabelNode *numberOfHitsLabel;
 
 @property (nonatomic, assign, getter=isContentCreated) BOOL contentCreated;
 
@@ -87,6 +90,10 @@ static const CFTimeInterval kExponentialDecayLambda = 1.0/100.0;
     background.anchorPoint = CGPointMake(0, 0);
     [self addChild:background];
 
+    SKSpriteNode *recordPlayer = [SKSpriteNode spriteNodeWithImageNamed:@"record_player"];
+    recordPlayer.anchorPoint = CGPointMake(0, 0);
+    [self addChild:recordPlayer];
+
     SKLabelNode *numberOfMissesLabel = [SKLabelNode labelNodeWithFontNamed:@"Chalkduster"];
     numberOfMissesLabel.name = @"misses";
     numberOfMissesLabel.text = @"0";
@@ -98,16 +105,16 @@ static const CFTimeInterval kExponentialDecayLambda = 1.0/100.0;
 
     self.numberOfMissesLabel = numberOfMissesLabel;
 
-    SKLabelNode *numberOfHitsLabel = [SKLabelNode labelNodeWithFontNamed:@"Chalkduster"];
-    numberOfHitsLabel.name = @"hits";
-    numberOfHitsLabel.text = @"0";
-    numberOfHitsLabel.fontColor = [SKColor greenColor];
-    numberOfHitsLabel.fontSize = 30;
-    numberOfHitsLabel.position = CGPointMake(CGRectGetMidX(self.frame),CGRectGetMaxY(self.frame));
-    numberOfHitsLabel.verticalAlignmentMode = SKLabelVerticalAlignmentModeTop;
-    [self addChild:numberOfHitsLabel];
+    SKLabelNode *scoreLabel = [SKLabelNode labelNodeWithFontNamed:@"Chalkduster"];
+    scoreLabel.name = @"score";
+    scoreLabel.text = @"0";
+    scoreLabel.fontColor = [SKColor darkTextColor];
+    scoreLabel.fontSize = 30;
+    scoreLabel.position = CGPointMake(CGRectGetMidX(self.frame),CGRectGetMaxY(self.frame));
+    scoreLabel.verticalAlignmentMode = SKLabelVerticalAlignmentModeTop;
+    [self addChild:scoreLabel];
 
-    self.numberOfHitsLabel = numberOfHitsLabel;
+    self.scoreLabel = scoreLabel;
 }
 
 - (void)deployDonutWithUpdate:(CFTimeInterval)currentTime
@@ -116,19 +123,15 @@ static const CFTimeInterval kExponentialDecayLambda = 1.0/100.0;
         return;
     }
 
+    [self deployDonutAfterDelay:0];
 
-    [self deployDonutAfterDeplay:0];
-
-    if (arc4random() % 4 == 0)
-        [self deployDonutAfterDeplay:0.3];
-
-    if (arc4random() % 8 == 0)
-        [self deployDonutAfterDeplay:0.6];
+    if (arc4random() % 5 == 0)
+        [self deployDonutAfterDelay:0.3];
 
     self.lastDeployTime = currentTime;
 }
 
-- (void)deployDonutAfterDeplay:(CFTimeInterval)delay
+- (void)deployDonutAfterDelay:(CFTimeInterval)delay
 {
     Donut *donut = [self.donutFactory getDonutWithSize:CGSizeMake(64, 64)];
     [self addChild:donut];
@@ -152,7 +155,7 @@ static const CFTimeInterval kExponentialDecayLambda = 1.0/100.0;
                          scaleUp,
                          scaleDown,
                          [SKAction runBlock:^{
-                             [self onDonutWillDisappear:donut];
+                             [self missDonut:donut];
                          }],
                          [SKAction removeFromParent]
                          ];
@@ -163,23 +166,24 @@ static const CFTimeInterval kExponentialDecayLambda = 1.0/100.0;
 - (void)hitDonut:(Donut *)donut
 {
     [donut removeAllActions];
-    donut.userInteractionEnabled = NO;
+
     NSArray *actions = @[
                          [SKAction fadeOutWithDuration:0.2],
                          [SKAction removeFromParent]
                          ];
     SKAction *sequence = [SKAction sequence:actions];
     [donut runAction:sequence];
-    self.numberOfHits++;
+
+    [self modifyScoreWithDifference:10];
 }
 
-- (void)onDonutWillDisappear:(Donut *)donut
+- (void)missDonut:(Donut *)donut
 {
     self.numberOfMisses++;
-    [self onErrorAtPoint:donut.position];
+    [self showErrorAtPoint:donut.position];
 }
 
-- (void)onErrorAtPoint:(CGPoint)point
+- (void)showErrorAtPoint:(CGPoint)point
 {
     SKShapeNode *shape = [SKShapeNode node];
     shape.path = [UIBezierPath bezierPathWithRoundedRect:CGRectMake(-5, -5, 10, 10) cornerRadius:5].CGPath;
@@ -196,17 +200,28 @@ static const CFTimeInterval kExponentialDecayLambda = 1.0/100.0;
     [self addChild:shape];
 }
 
-- (void)setNumberOfMisses:(NSUInteger)numberOfMisses
+- (void)modifyScoreWithDifference:(NSInteger)difference
 {
-    _numberOfMisses = numberOfMisses;
-    self.numberOfMissesLabel.text = [@(numberOfMisses) description];
-}
+    self.score += difference;
 
-- (void)setNumberOfHits:(NSUInteger)numberOfHits
-{
-    _numberOfHits = numberOfHits;
 
-    self.numberOfHitsLabel.text = [@(numberOfHits) description];
+    NSInteger displayedScore = [self.scoreLabel.text integerValue];
+
+
+    NSArray *actions = @[
+                          [SKAction runBlock:^{
+                              if (difference > 0) {
+                                  self.scoreLabel.text = [@([self.scoreLabel.text integerValue] + 1) description];
+                              } else {
+                                  self.scoreLabel.text = [@([self.scoreLabel.text integerValue] - 1) description];
+                              }
+                          }],
+                          [SKAction waitForDuration:0.05]
+                          ];
+    SKAction *sequence = [SKAction sequence:actions];
+
+    [self.scoreLabel removeAllActions];
+    [self.scoreLabel runAction:[SKAction repeatAction:sequence count:ABS(self.score - displayedScore)]];
 }
 
 #pragma mark - Touches
@@ -216,12 +231,13 @@ static const CFTimeInterval kExponentialDecayLambda = 1.0/100.0;
     [touches enumerateObjectsUsingBlock:^(UITouch *touch, BOOL *stop) {
         CGPoint point = [touch locationInNode:self];
 
-        SKNode *node = [self nodeAtPoint:point];
-        if ([node isKindOfClass:Donut.class]) {
-            Donut *donut = (Donut *)node;
+        Donut *donut = (Donut *)[self nodeAtPoint:point];
+        if ([donut isKindOfClass:Donut.class] && !donut.isHit) {
+            donut.hit = YES;
             [self hitDonut:donut];
         } else {
-            [self onErrorAtPoint:point];
+            [self modifyScoreWithDifference:-5];
+            [self showErrorAtPoint:point];
         }
     }];
 
