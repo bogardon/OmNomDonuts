@@ -7,7 +7,7 @@
 //
 
 #import "GameScene.h"
-#import "MyScene.h"
+#import "MainMenuScene.h"
 #import "DonutFactory.h"
 #import "Donut.h"
 #import <math.h>
@@ -204,13 +204,11 @@ static const CFTimeInterval kExponentialDecayLambda = 1.0/100.0;
 {
     self.score += difference;
 
-
     NSInteger displayedScore = [self.scoreLabel.text integerValue];
-
 
     NSArray *actions = @[
                           [SKAction runBlock:^{
-                              if (difference > 0) {
+                              if (self.score - displayedScore > 0) {
                                   self.scoreLabel.text = [@([self.scoreLabel.text integerValue] + 1) description];
                               } else {
                                   self.scoreLabel.text = [@([self.scoreLabel.text integerValue] - 1) description];
@@ -231,10 +229,13 @@ static const CFTimeInterval kExponentialDecayLambda = 1.0/100.0;
     [touches enumerateObjectsUsingBlock:^(UITouch *touch, BOOL *stop) {
         CGPoint point = [touch locationInNode:self];
 
-        Donut *donut = (Donut *)[self nodeAtPoint:point];
-        if ([donut isKindOfClass:Donut.class] && !donut.isHit) {
-            donut.hit = YES;
-            [self hitDonut:donut];
+        SKNode *node = [self nodeAtPoint:point];
+        if ([node isKindOfClass:Donut.class]) {
+            Donut *donut = (Donut *)node;
+            if (!donut.isHit) {
+                donut.hit = YES;
+                [self hitDonut:donut];
+            }
         } else {
             [self modifyScoreWithDifference:-5];
             [self showErrorAtPoint:point];

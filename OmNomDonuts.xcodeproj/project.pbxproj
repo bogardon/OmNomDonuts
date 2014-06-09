@@ -16,7 +16,7 @@
 		726EFA5E190D94AF0076029B /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 726EFA5D190D94AF0076029B /* AppDelegate.m */; };
 		726EFA61190D94AF0076029B /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 726EFA5F190D94AF0076029B /* Main.storyboard */; };
 		726EFA64190D94AF0076029B /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 726EFA63190D94AF0076029B /* ViewController.m */; };
-		726EFA67190D94AF0076029B /* MyScene.m in Sources */ = {isa = PBXBuildFile; fileRef = 726EFA66190D94AF0076029B /* MyScene.m */; };
+		726EFA67190D94AF0076029B /* MainMenuScene.m in Sources */ = {isa = PBXBuildFile; fileRef = 726EFA66190D94AF0076029B /* MainMenuScene.m */; };
 		726EFA6B190D94AF0076029B /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 726EFA6A190D94AF0076029B /* Images.xcassets */; };
 		726EFA72190D94B00076029B /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 726EFA71190D94B00076029B /* XCTest.framework */; };
 		726EFA73190D94B00076029B /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 726EFA4B190D94AF0076029B /* Foundation.framework */; };
@@ -59,8 +59,8 @@
 		726EFA60190D94AF0076029B /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		726EFA62190D94AF0076029B /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
 		726EFA63190D94AF0076029B /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
-		726EFA65190D94AF0076029B /* MyScene.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MyScene.h; sourceTree = "<group>"; };
-		726EFA66190D94AF0076029B /* MyScene.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MyScene.m; sourceTree = "<group>"; };
+		726EFA65190D94AF0076029B /* MainMenuScene.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MainMenuScene.h; sourceTree = "<group>"; };
+		726EFA66190D94AF0076029B /* MainMenuScene.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MainMenuScene.m; sourceTree = "<group>"; };
 		726EFA6A190D94AF0076029B /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		726EFA70190D94B00076029B /* OmNomDonutsTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = OmNomDonutsTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		726EFA71190D94B00076029B /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
@@ -145,8 +145,8 @@
 				726EFA5F190D94AF0076029B /* Main.storyboard */,
 				726EFA62190D94AF0076029B /* ViewController.h */,
 				726EFA63190D94AF0076029B /* ViewController.m */,
-				726EFA65190D94AF0076029B /* MyScene.h */,
-				726EFA66190D94AF0076029B /* MyScene.m */,
+				726EFA65190D94AF0076029B /* MainMenuScene.h */,
+				726EFA66190D94AF0076029B /* MainMenuScene.m */,
 				72A3D21919294B1A002C29E1 /* donut.png */,
 				72A3D21A19294B1A002C29E1 /* donut@2x.png */,
 				72F21E6419451E3700958F69 /* record@2x.png */,
@@ -296,7 +296,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				726EFA67190D94AF0076029B /* MyScene.m in Sources */,
+				726EFA67190D94AF0076029B /* MainMenuScene.m in Sources */,
 				72A3D20C19293D07002C29E1 /* Donut.m in Sources */,
 				72A3D209192936A9002C29E1 /* DonutFactory.m in Sources */,
 				726EFA64190D94AF0076029B /* ViewController.m in Sources */,
