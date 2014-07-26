@@ -11,6 +11,7 @@
 #import "DonutFactory.h"
 #import "Donut.h"
 #import <math.h>
+#import "ViewController.h"
 
 static const CFTimeInterval kSlowestDeployPeriod = 1.2;
 static const CFTimeInterval kFastestDeployPeriod = 0.3;
@@ -82,6 +83,25 @@ static const CFTimeInterval kExponentialDecayLambda = 1.0/100.0;
     [self deployDonutWithUpdate:currentTime];
 }
 
+#pragma mark - Public
+
+- (void)resetGame
+{
+    self.gameStartTime = 0;
+    self.score = 0;
+    self.numberOfMisses = 0;
+    self.numberOfMissesLabel.text = nil;
+    self.scoreLabel.text = @"0";
+
+    NSMutableArray *donuts = [NSMutableArray array];
+    [[self children] enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+        if ([obj isKindOfClass:Donut.class]) {
+            [donuts addObject:obj];
+        }
+    }];
+    [self removeChildrenInArray:donuts];
+}
+
 #pragma mark - Private
 
 - (void)createContent
@@ -96,18 +116,17 @@ static const CFTimeInterval kExponentialDecayLambda = 1.0/100.0;
 
     SKLabelNode *numberOfMissesLabel = [SKLabelNode labelNodeWithFontNamed:@"Chalkduster"];
     numberOfMissesLabel.name = @"misses";
-    numberOfMissesLabel.text = @"0";
     numberOfMissesLabel.fontColor = [SKColor redColor];
     numberOfMissesLabel.fontSize = 30;
-    numberOfMissesLabel.position = CGPointMake(CGRectGetMidX(self.frame),0);
-    numberOfMissesLabel.verticalAlignmentMode = SKLabelVerticalAlignmentModeBottom;
+    numberOfMissesLabel.position = CGPointMake(CGRectGetMaxX(self.frame),CGRectGetMaxY(self.frame));
+    numberOfMissesLabel.verticalAlignmentMode = SKLabelVerticalAlignmentModeTop;
+    numberOfMissesLabel.horizontalAlignmentMode = SKLabelHorizontalAlignmentModeRight;
     [self addChild:numberOfMissesLabel];
 
     self.numberOfMissesLabel = numberOfMissesLabel;
 
     SKLabelNode *scoreLabel = [SKLabelNode labelNodeWithFontNamed:@"Chalkduster"];
     scoreLabel.name = @"score";
-    scoreLabel.text = @"0";
     scoreLabel.fontColor = [SKColor darkTextColor];
     scoreLabel.fontSize = 30;
     scoreLabel.position = CGPointMake(CGRectGetMidX(self.frame),CGRectGetMaxY(self.frame));
@@ -140,7 +159,7 @@ static const CFTimeInterval kExponentialDecayLambda = 1.0/100.0;
     SKAction *wait = [SKAction waitForDuration:delay];
 
     SKAction *move = [SKAction moveTo:point duration:0.2];
-    move.timingMode = SKActionTimingEaseInEaseOut;
+    move.timingMode = SKActionTimingEaseOut;
     [donut setScale:0.1];
 
     SKAction *scaleUp = [SKAction scaleTo:1 duration:1.2];

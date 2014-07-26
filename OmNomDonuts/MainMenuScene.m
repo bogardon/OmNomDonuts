@@ -22,6 +22,7 @@
         /* Setup your scene here */
         
         self.backgroundColor = [SKColor colorWithRed:0.15 green:0.15 blue:0.3 alpha:1.0];
+
     }
     return self;
 }
@@ -36,7 +37,7 @@
 
 - (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event
 {
-    [self.view presentScene:[[GameScene alloc] initWithSize:self.size]];
+    [self.delegate mainMenuSceneDidPlayGame:self];
 }
 
 @end

@@ -8,6 +8,10 @@
 
 #import <SpriteKit/SpriteKit.h>
 
+@class MainMenuScene;
+
 @interface GameScene : SKScene
+
+- (void)resetGame;
 
 @end
