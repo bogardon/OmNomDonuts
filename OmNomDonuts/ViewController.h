@@ -11,7 +11,4 @@
 
 @interface ViewController : UIViewController
 
-- (void)showMainMenuScene;
-- (void)showGameScene;
-
 @end

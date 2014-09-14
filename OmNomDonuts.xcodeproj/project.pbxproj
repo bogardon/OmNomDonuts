@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		7263B00C19C4E7350053D61B /* LifeCounterNode.m in Sources */ = {isa = PBXBuildFile; fileRef = 7263B00B19C4E7350053D61B /* LifeCounterNode.m */; };
 		726EFA4C190D94AF0076029B /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 726EFA4B190D94AF0076029B /* Foundation.framework */; };
 		726EFA4E190D94AF0076029B /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 726EFA4D190D94AF0076029B /* CoreGraphics.framework */; };
 		726EFA50190D94AF0076029B /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 726EFA4F190D94AF0076029B /* UIKit.framework */; };
@@ -30,6 +31,8 @@
 		72A3D21E19294B1A002C29E1 /* donut@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 72A3D21A19294B1A002C29E1 /* donut@2x.png */; };
 		72A3D22319294E07002C29E1 /* background.png in Resources */ = {isa = PBXBuildFile; fileRef = 72A3D22119294E07002C29E1 /* background.png */; };
 		72A3D22419294E07002C29E1 /* background@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 72A3D22219294E07002C29E1 /* background@2x.png */; };
+		72EBF5E419C5584900C3F4DA /* blue_plate.png in Resources */ = {isa = PBXBuildFile; fileRef = 72EBF5E219C5584900C3F4DA /* blue_plate.png */; };
+		72EBF5E519C5584900C3F4DA /* blue_plate@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 72EBF5E319C5584900C3F4DA /* blue_plate@2x.png */; };
 		72F21E6519451E3700958F69 /* record@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 72F21E6419451E3700958F69 /* record@2x.png */; };
 		72F21E67194525F100958F69 /* record_player@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 72F21E66194525F100958F69 /* record_player@2x.png */; };
 /* End PBXBuildFile section */
@@ -45,6 +48,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		7263B00A19C4E7350053D61B /* LifeCounterNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LifeCounterNode.h; sourceTree = "<group>"; };
+		7263B00B19C4E7350053D61B /* LifeCounterNode.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LifeCounterNode.m; sourceTree = "<group>"; };
 		726EFA48190D94AF0076029B /* OmNomDonuts.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = OmNomDonuts.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		726EFA4B190D94AF0076029B /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		726EFA4D190D94AF0076029B /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -77,6 +82,8 @@
 		72A3D21A19294B1A002C29E1 /* donut@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "donut@2x.png"; sourceTree = "<group>"; };
 		72A3D22119294E07002C29E1 /* background.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = background.png; sourceTree = "<group>"; };
 		72A3D22219294E07002C29E1 /* background@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "background@2x.png"; sourceTree = "<group>"; };
+		72EBF5E219C5584900C3F4DA /* blue_plate.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = blue_plate.png; sourceTree = "<group>"; };
+		72EBF5E319C5584900C3F4DA /* blue_plate@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "blue_plate@2x.png"; sourceTree = "<group>"; };
 		72F21E6419451E3700958F69 /* record@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "record@2x.png"; sourceTree = "<group>"; };
 		72F21E66194525F100958F69 /* record_player@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "record_player@2x.png"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -106,6 +113,57 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		7263B00619C4E6930053D61B /* GameScene */ = {
+			isa = PBXGroup;
+			children = (
+				726EFA87190D9B270076029B /* GameScene.h */,
+				726EFA88190D9B280076029B /* GameScene.m */,
+				72A3D207192936A8002C29E1 /* DonutFactory.h */,
+				72A3D208192936A9002C29E1 /* DonutFactory.m */,
+				72A3D20A19293D07002C29E1 /* Donut.h */,
+				72A3D20B19293D07002C29E1 /* Donut.m */,
+				7263B00A19C4E7350053D61B /* LifeCounterNode.h */,
+				7263B00B19C4E7350053D61B /* LifeCounterNode.m */,
+			);
+			name = GameScene;
+			sourceTree = "<group>";
+		};
+		7263B00719C4E6A50053D61B /* Other */ = {
+			isa = PBXGroup;
+			children = (
+				726EFA5C190D94AF0076029B /* AppDelegate.h */,
+				726EFA5D190D94AF0076029B /* AppDelegate.m */,
+				726EFA5F190D94AF0076029B /* Main.storyboard */,
+				726EFA62190D94AF0076029B /* ViewController.h */,
+				726EFA63190D94AF0076029B /* ViewController.m */,
+			);
+			name = Other;
+			sourceTree = "<group>";
+		};
+		7263B00819C4E6CA0053D61B /* Images */ = {
+			isa = PBXGroup;
+			children = (
+				72EBF5E219C5584900C3F4DA /* blue_plate.png */,
+				72EBF5E319C5584900C3F4DA /* blue_plate@2x.png */,
+				72A3D21919294B1A002C29E1 /* donut.png */,
+				72A3D21A19294B1A002C29E1 /* donut@2x.png */,
+				72F21E6419451E3700958F69 /* record@2x.png */,
+				72F21E66194525F100958F69 /* record_player@2x.png */,
+				72A3D22119294E07002C29E1 /* background.png */,
+				72A3D22219294E07002C29E1 /* background@2x.png */,
+			);
+			name = Images;
+			sourceTree = "<group>";
+		};
+		7263B00919C4E6D60053D61B /* MainMenuScene */ = {
+			isa = PBXGroup;
+			children = (
+				726EFA65190D94AF0076029B /* MainMenuScene.h */,
+				726EFA66190D94AF0076029B /* MainMenuScene.m */,
+			);
+			name = MainMenuScene;
+			sourceTree = "<group>";
+		};
 		726EFA3F190D94AF0076029B = {
 			isa = PBXGroup;
 			children = (
@@ -140,27 +198,12 @@
 		726EFA53190D94AF0076029B /* OmNomDonuts */ = {
 			isa = PBXGroup;
 			children = (
-				726EFA5C190D94AF0076029B /* AppDelegate.h */,
-				726EFA5D190D94AF0076029B /* AppDelegate.m */,
-				726EFA5F190D94AF0076029B /* Main.storyboard */,
-				726EFA62190D94AF0076029B /* ViewController.h */,
-				726EFA63190D94AF0076029B /* ViewController.m */,
-				726EFA65190D94AF0076029B /* MainMenuScene.h */,
-				726EFA66190D94AF0076029B /* MainMenuScene.m */,
-				72A3D21919294B1A002C29E1 /* donut.png */,
-				72A3D21A19294B1A002C29E1 /* donut@2x.png */,
-				72F21E6419451E3700958F69 /* record@2x.png */,
-				72F21E66194525F100958F69 /* record_player@2x.png */,
-				72A3D22119294E07002C29E1 /* background.png */,
-				72A3D22219294E07002C29E1 /* background@2x.png */,
+				7263B00619C4E6930053D61B /* GameScene */,
+				7263B00719C4E6A50053D61B /* Other */,
+				7263B00919C4E6D60053D61B /* MainMenuScene */,
+				7263B00819C4E6CA0053D61B /* Images */,
 				726EFA6A190D94AF0076029B /* Images.xcassets */,
 				726EFA54190D94AF0076029B /* Supporting Files */,
-				726EFA87190D9B270076029B /* GameScene.h */,
-				726EFA88190D9B280076029B /* GameScene.m */,
-				72A3D207192936A8002C29E1 /* DonutFactory.h */,
-				72A3D208192936A9002C29E1 /* DonutFactory.m */,
-				72A3D20A19293D07002C29E1 /* Donut.h */,
-				72A3D20B19293D07002C29E1 /* Donut.m */,
 			);
 			path = OmNomDonuts;
 			sourceTree = "<group>";
@@ -271,6 +314,8 @@
 			files = (
 				72A3D21D19294B1A002C29E1 /* donut.png in Resources */,
 				72F21E6519451E3700958F69 /* record@2x.png in Resources */,
+				72EBF5E419C5584900C3F4DA /* blue_plate.png in Resources */,
+				72EBF5E519C5584900C3F4DA /* blue_plate@2x.png in Resources */,
 				726EFA58190D94AF0076029B /* InfoPlist.strings in Resources */,
 				72A3D22319294E07002C29E1 /* background.png in Resources */,
 				726EFA6B190D94AF0076029B /* Images.xcassets in Resources */,
@@ -298,6 +343,7 @@
 			files = (
 				726EFA67190D94AF0076029B /* MainMenuScene.m in Sources */,
 				72A3D20C19293D07002C29E1 /* Donut.m in Sources */,
+				7263B00C19C4E7350053D61B /* LifeCounterNode.m in Sources */,
 				72A3D209192936A9002C29E1 /* DonutFactory.m in Sources */,
 				726EFA64190D94AF0076029B /* ViewController.m in Sources */,
 				726EFA89190D9B280076029B /* GameScene.m in Sources */,

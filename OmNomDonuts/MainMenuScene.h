@@ -2,22 +2,12 @@
 //  MyScene.h
 //  OmNomDonuts
 //
-
+//  Created by John Z Wu on 4/27/14.
 //  Copyright (c) 2014 __MyCompanyName__. All rights reserved.
 //
 
 #import <SpriteKit/SpriteKit.h>
 
-@class MainMenuScene;
-
-@protocol MainMenuSceneDelegate <NSObject>
-
-- (void)mainMenuSceneDidPlayGame:(MainMenuScene *)mainMenuScene;
-
-@end
-
 @interface MainMenuScene : SKScene
-
-@property (nonatomic, weak) id <MainMenuSceneDelegate> delegate;
 
 @end
