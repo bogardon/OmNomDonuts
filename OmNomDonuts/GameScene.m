@@ -20,42 +20,29 @@ static const CFTimeInterval kFastestDeployPeriod = 0.3;
 static const CFTimeInterval kExponentialDecayLambda = 1.0 / 100.0;
 static const NSInteger kMaxLives = 5;
 
-@interface GameScene ()
-
-@property(nonatomic, assign) NSInteger numberOfMisses;
-@property(nonatomic, assign) NSInteger score;
-@property(nonatomic, assign, getter=isContentCreated) BOOL contentCreated;
-@property(nonatomic, assign) CFTimeInterval gameStartTime;
-
-@end
-
 @implementation GameScene {
   SKLabelNode *_scoreLabel;
   LifeCounterNode *_lifeCounter;
   SKShapeNode *_pauseNode;
 
+  NSInteger _numberOfMisses;
+  NSInteger _score;
+
+  CFTimeInterval _gameStartTime;
   CFTimeInterval _lastCurrentTime;
   CFTimeInterval _elapsedGameTime;
   CFTimeInterval _lastDeployTime;
-
-  GameplayEffect _effects;
 }
 
 - (instancetype)initWithSize:(CGSize)size {
   if (self = [super initWithSize:size]) {
+    [self createContent];
+    [self resetGame];
   }
   return self;
 }
 
 #pragma mark - SKScene
-
-- (void)didMoveToView:(SKView *)view {
-  if (!self.isContentCreated) {
-    self.contentCreated = YES;
-    [self createContent];
-    [self resetGame];
-  }
-}
 
 - (void)update:(CFTimeInterval)currentTime {
   if (_lastCurrentTime == 0) {
@@ -86,9 +73,9 @@ static const NSInteger kMaxLives = 5;
 #pragma mark - Private
 
 - (void)resetGame {
-  self.gameStartTime = 0;
-  self.score = 0;
-  self.numberOfMisses = 0;
+  _gameStartTime = 0;
+  _score = 0;
+  _numberOfMisses = 0;
   _scoreLabel.text = @"0";
   _lifeCounter.lives = kMaxLives;
 
@@ -212,13 +199,13 @@ static const NSInteger kMaxLives = 5;
 }
 
 - (void)missDonut:(Donut *)donut {
-  self.numberOfMisses++;
+  _numberOfMisses++;
 
   [self showErrorAtPoint:donut.position];
 
   _lifeCounter.lives--;
 
-  if (self.numberOfMisses == 5) {
+  if (_numberOfMisses == 5) {
     [self loseGame];
   }
 }
@@ -246,7 +233,7 @@ static const NSInteger kMaxLives = 5;
 }
 
 - (void)modifyScoreWithDifference:(NSInteger)difference {
-  self.score = MAX(0, self.score + difference);
+  _score = MAX(0, _score + difference);
 
   NSInteger displayedScore = [_scoreLabel.text integerValue];
 
@@ -256,7 +243,7 @@ static const NSInteger kMaxLives = 5;
 
   NSArray *actions = @[
     [SKAction runBlock:^{
-      NSInteger difference = self.score - displayedScore;
+      NSInteger difference = _score - displayedScore;
       NSInteger step = difference / ABS(difference);
       NSString *text = [@([_scoreLabel.text integerValue] + step) description];
       _scoreLabel.text = text;
@@ -266,7 +253,7 @@ static const NSInteger kMaxLives = 5;
   SKAction *sequence = [SKAction sequence:actions];
 
   [_scoreLabel removeAllActions];
-  [_scoreLabel runAction:[SKAction repeatAction:sequence count:ABS(self.score - displayedScore)]];
+  [_scoreLabel runAction:[SKAction repeatAction:sequence count:ABS(_score - displayedScore)]];
 }
 
 #pragma mark - Touches

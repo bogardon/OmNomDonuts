@@ -11,7 +11,6 @@
 #import "ViewController.h"
 
 @interface MainMenuScene ()
-@property(nonatomic, assign) BOOL contentCreated;
 @end
 
 @implementation MainMenuScene
@@ -19,17 +18,11 @@
 - (id)initWithSize:(CGSize)size {
   if (self = [super initWithSize:size]) {
     self.backgroundColor = [SKColor colorWithRed:0.15 green:0.15 blue:0.3 alpha:1.0];
-  }
-  return self;
-}
-
-- (void)didMoveToView:(SKView *)view {
-  if (!self.contentCreated) {
-    self.contentCreated = YES;
     SKSpriteNode *background = [SKSpriteNode spriteNodeWithImageNamed:@"background_red"];
     background.anchorPoint = CGPointMake(0, 0);
     [self addChild:background];
   }
+  return self;
 }
 
 - (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event {
