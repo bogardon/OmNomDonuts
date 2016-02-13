@@ -7,12 +7,15 @@
 //
 
 #import "ViewController.h"
-#import "MainMenuScene.h"
+
+#import <SpriteKit/SpriteKit.h>
+
 #import "GameScene.h"
+#import "MainMenuScene.h"
 
 @interface ViewController ()
 
-@property (nonatomic, readonly) SKView *skView;
+@property(nonatomic, readonly) SKView *skView;
 
 @end
 
@@ -29,20 +32,11 @@
   [self.skView presentScene:mainMenuScene];
 }
 
-- (BOOL)shouldAutorotate {
-  return YES;
-}
-
 - (UIInterfaceOrientationMask)supportedInterfaceOrientations {
   return UIInterfaceOrientationMaskPortrait;
 }
 
-- (void)didReceiveMemoryWarning {
-  [super didReceiveMemoryWarning];
-  // Release any cached data, images, etc that aren't in use.
-}
-
-#pragma mark - Private
+#pragma mark - Private Methods
 
 - (SKView *)skView {
   return (SKView *)self.view;

@@ -7,23 +7,25 @@
 //
 
 #import "GameScene.h"
-#import "MainMenuScene.h"
-#import "Donut.h"
+
 #import <math.h>
-#import "ViewController.h"
+
+#import "Donut.h"
 #import "LifeCounterNode.h"
+#import "MainMenuScene.h"
+#import "ViewController.h"
 
 static const CFTimeInterval kSlowestDeployPeriod = 1.2;
 static const CFTimeInterval kFastestDeployPeriod = 0.3;
-static const CFTimeInterval kExponentialDecayLambda = 1.0/100.0;
+static const CFTimeInterval kExponentialDecayLambda = 1.0 / 100.0;
 static const NSInteger kMaxLives = 5;
 
 @interface GameScene ()
 
-@property (nonatomic, assign) NSInteger numberOfMisses;
-@property (nonatomic, assign) NSInteger score;
-@property (nonatomic, assign, getter=isContentCreated) BOOL contentCreated;
-@property (nonatomic, assign) CFTimeInterval gameStartTime;
+@property(nonatomic, assign) NSInteger numberOfMisses;
+@property(nonatomic, assign) NSInteger score;
+@property(nonatomic, assign, getter=isContentCreated) BOOL contentCreated;
+@property(nonatomic, assign) CFTimeInterval gameStartTime;
 
 @end
 
@@ -39,7 +41,7 @@ static const NSInteger kMaxLives = 5;
   GameplayEffect _effects;
 }
 
--(instancetype)initWithSize:(CGSize)size {
+- (instancetype)initWithSize:(CGSize)size {
   if (self = [super initWithSize:size]) {
   }
   return self;
@@ -107,12 +109,14 @@ static const NSInteger kMaxLives = 5;
   _lifeCounter.alpha = alpha;
   _scoreLabel.alpha = alpha;
   _pauseNode.alpha = alpha;
-  [self enumerateChildNodesWithName:@"donut" usingBlock:^(SKNode *node, BOOL *stop) {
-    node.alpha = alpha;
-  }];
-  [self enumerateChildNodesWithName:@"error" usingBlock:^(SKNode *node, BOOL *stop) {
-    node.alpha = alpha;
-  }];
+  [self enumerateChildNodesWithName:@"donut"
+                         usingBlock:^(SKNode *node, BOOL *stop) {
+                           node.alpha = alpha;
+                         }];
+  [self enumerateChildNodesWithName:@"error"
+                         usingBlock:^(SKNode *node, BOOL *stop) {
+                           node.alpha = alpha;
+                         }];
 }
 
 - (void)loseGame {
@@ -131,7 +135,7 @@ static const NSInteger kMaxLives = 5;
   _scoreLabel.name = @"score";
   _scoreLabel.fontColor = [SKColor darkTextColor];
   _scoreLabel.fontSize = 20;
-  _scoreLabel.position = CGPointMake(CGRectGetMinX(self.frame) + 5,CGRectGetMaxY(self.frame) - 5);
+  _scoreLabel.position = CGPointMake(CGRectGetMinX(self.frame) + 5, CGRectGetMaxY(self.frame) - 5);
   _scoreLabel.verticalAlignmentMode = SKLabelVerticalAlignmentModeTop;
   _scoreLabel.horizontalAlignmentMode = SKLabelHorizontalAlignmentModeLeft;
   [self addChild:_scoreLabel];
@@ -149,7 +153,7 @@ static const NSInteger kMaxLives = 5;
   [path moveToPoint:CGPointZero];
   [path addLineToPoint:CGPointMake(0, 16)];
   [path addLineToPoint:CGPointMake(4, 16)];
-  [path addLineToPoint:CGPointMake(4 ,0)];
+  [path addLineToPoint:CGPointMake(4, 0)];
   [path closePath];
   [path moveToPoint:CGPointMake(8, 0)];
   [path addLineToPoint:CGPointMake(8, 16)];
@@ -170,8 +174,8 @@ static const NSInteger kMaxLives = 5;
   donut.size = CGSizeMake(40, 40);
   donut.name = @"donut";
 
-  CGPoint position = CGPointMake(arc4random() % (int)self.size.width,
-                                 arc4random() % ((int)self.size.height - 20));
+  CGPoint position =
+      CGPointMake(arc4random() % (int)self.size.width, arc4random() % ((int)self.size.height - 20));
   donut.position = position;
   [donut setScale:0];
   [self addChild:donut];
@@ -185,14 +189,14 @@ static const NSInteger kMaxLives = 5;
   scaleDown.timingMode = SKActionTimingEaseIn;
 
   NSArray *actions = @[
-                       wait,
-                       scaleUp,
-                       scaleDown,
-                       [SKAction runBlock:^{
-                         [self missDonut:donut];
-                       }],
-                       [SKAction removeFromParent]
-                       ];
+    wait,
+    scaleUp,
+    scaleDown,
+    [SKAction runBlock:^{
+      [self missDonut:donut];
+    }],
+    [SKAction removeFromParent]
+  ];
   SKAction *sequence = [SKAction sequence:actions];
   [donut runAction:sequence];
 }
@@ -200,10 +204,7 @@ static const NSInteger kMaxLives = 5;
 - (void)hitDonut:(Donut *)donut {
   [donut removeAllActions];
 
-  NSArray *actions = @[
-                       [SKAction fadeOutWithDuration:0.2],
-                       [SKAction removeFromParent]
-                       ];
+  NSArray *actions = @[ [SKAction fadeOutWithDuration:0.2], [SKAction removeFromParent] ];
   SKAction *sequence = [SKAction sequence:actions];
   [donut runAction:sequence];
 
@@ -223,24 +224,21 @@ static const NSInteger kMaxLives = 5;
 }
 
 - (void)slowDonutsForInterval:(CFTimeInterval)interval {
-  [self enumerateChildNodesWithName:@"donut" usingBlock:^(SKNode *node, BOOL *stop) {
-    node.speed = 0.5;
-  }];
-
+  [self enumerateChildNodesWithName:@"donut"
+                         usingBlock:^(SKNode *node, BOOL *stop) {
+                           node.speed = 0.5;
+                         }];
 }
 
 - (void)showErrorAtPoint:(CGPoint)point {
   SKShapeNode *shape = [SKShapeNode node];
   shape.name = @"error";
-  shape.path = [UIBezierPath bezierPathWithRoundedRect:CGRectMake(-5, -5, 10, 10)
-                                          cornerRadius:5].CGPath;
+  shape.path =
+      [UIBezierPath bezierPathWithRoundedRect:CGRectMake(-5, -5, 10, 10) cornerRadius:5].CGPath;
   shape.fillColor = shape.strokeColor = [SKColor redColor];
   shape.position = point;
 
-  NSArray *actions = @[
-                       [SKAction fadeOutWithDuration:0.2],
-                       [SKAction removeFromParent]
-                       ];
+  NSArray *actions = @[ [SKAction fadeOutWithDuration:0.2], [SKAction removeFromParent] ];
   SKAction *sequence = [SKAction sequence:actions];
   [shape runAction:sequence];
 
@@ -257,20 +255,18 @@ static const NSInteger kMaxLives = 5;
   }
 
   NSArray *actions = @[
-                       [SKAction runBlock:^{
-                         NSInteger difference = self.score - displayedScore;
-                         NSInteger step = difference/ABS(difference);
-                         NSString *text =
-                            [@([_scoreLabel.text integerValue] + step) description];
-                         _scoreLabel.text = text;
-                        }],
-                        [SKAction waitForDuration:0.05]
-                        ];
+    [SKAction runBlock:^{
+      NSInteger difference = self.score - displayedScore;
+      NSInteger step = difference / ABS(difference);
+      NSString *text = [@([_scoreLabel.text integerValue] + step) description];
+      _scoreLabel.text = text;
+    }],
+    [SKAction waitForDuration:0.05]
+  ];
   SKAction *sequence = [SKAction sequence:actions];
 
   [_scoreLabel removeAllActions];
-  [_scoreLabel runAction:[SKAction repeatAction:sequence
-                                              count:ABS(self.score - displayedScore)]];
+  [_scoreLabel runAction:[SKAction repeatAction:sequence count:ABS(self.score - displayedScore)]];
 }
 
 #pragma mark - Touches

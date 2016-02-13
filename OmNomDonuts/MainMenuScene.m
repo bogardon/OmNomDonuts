@@ -6,17 +6,17 @@
 //  Copyright (c) 2014 __MyCompanyName__. All rights reserved.
 //
 
-#import "MainMenuScene.h"
 #import "GameScene.h"
+#import "MainMenuScene.h"
 #import "ViewController.h"
 
 @interface MainMenuScene ()
-@property (nonatomic, assign) BOOL contentCreated;
+@property(nonatomic, assign) BOOL contentCreated;
 @end
 
 @implementation MainMenuScene
 
--(id)initWithSize:(CGSize)size {    
+- (id)initWithSize:(CGSize)size {
   if (self = [super initWithSize:size]) {
     self.backgroundColor = [SKColor colorWithRed:0.15 green:0.15 blue:0.3 alpha:1.0];
   }
