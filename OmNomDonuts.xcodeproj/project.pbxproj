@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		720B0FA31C6F052100D1FEC1 /* Launch Screen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 720B0FA21C6F052100D1FEC1 /* Launch Screen.storyboard */; };
 		7263B00C19C4E7350053D61B /* LifeCounterNode.m in Sources */ = {isa = PBXBuildFile; fileRef = 7263B00B19C4E7350053D61B /* LifeCounterNode.m */; };
 		726EFA4C190D94AF0076029B /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 726EFA4B190D94AF0076029B /* Foundation.framework */; };
 		726EFA4E190D94AF0076029B /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 726EFA4D190D94AF0076029B /* CoreGraphics.framework */; };
@@ -56,6 +57,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		720B0FA21C6F052100D1FEC1 /* Launch Screen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = "Launch Screen.storyboard"; sourceTree = "<group>"; };
 		7263B00A19C4E7350053D61B /* LifeCounterNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LifeCounterNode.h; sourceTree = "<group>"; };
 		7263B00B19C4E7350053D61B /* LifeCounterNode.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LifeCounterNode.m; sourceTree = "<group>"; };
 		726EFA48190D94AF0076029B /* OmNomDonuts.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = OmNomDonuts.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -239,6 +241,7 @@
 				726EFA56190D94AF0076029B /* InfoPlist.strings */,
 				726EFA59190D94AF0076029B /* main.m */,
 				726EFA5B190D94AF0076029B /* OmNomDonuts-Prefix.pch */,
+				720B0FA21C6F052100D1FEC1 /* Launch Screen.storyboard */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -305,7 +308,7 @@
 		726EFA40190D94AF0076029B /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0510;
+				LastUpgradeCheck = 0720;
 				TargetAttributes = {
 					726EFA6F190D94B00076029B = {
 						TestTargetID = 726EFA47190D94AF0076029B;
@@ -354,6 +357,7 @@
 				72EBF5ED19C55B2800C3F4DA /* greyout_donut@2x.png in Resources */,
 				72A3D21E19294B1A002C29E1 /* donut@2x.png in Resources */,
 				72EBF5F319C5619000C3F4DA /* background_red.png in Resources */,
+				720B0FA31C6F052100D1FEC1 /* Launch Screen.storyboard in Resources */,
 				72EBF5FB19C6547400C3F4DA /* donut2@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -448,6 +452,7 @@
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
+				ENABLE_TESTABILITY = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_OPTIMIZATION_LEVEL = 0;
@@ -504,10 +509,11 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "OmNomDonuts/OmNomDonuts-Prefix.pch";
 				INFOPLIST_FILE = "OmNomDonuts/OmNomDonuts-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.lemoncakestudios.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SPRITEKIT_TEXTURE_ATLAS_OUTPUT = YES;
 				WRAPPER_EXTENSION = app;
@@ -518,10 +524,11 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "OmNomDonuts/OmNomDonuts-Prefix.pch";
 				INFOPLIST_FILE = "OmNomDonuts/OmNomDonuts-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.lemoncakestudios.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SPRITEKIT_TEXTURE_ATLAS_OUTPUT = YES;
 				WRAPPER_EXTENSION = app;
@@ -544,6 +551,7 @@
 					"$(inherited)",
 				);
 				INFOPLIST_FILE = "OmNomDonutsTests/OmNomDonutsTests-Info.plist";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.lemoncakestudios.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUNDLE_LOADER)";
 				WRAPPER_EXTENSION = xctest;
@@ -562,6 +570,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "OmNomDonuts/OmNomDonuts-Prefix.pch";
 				INFOPLIST_FILE = "OmNomDonutsTests/OmNomDonutsTests-Info.plist";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.lemoncakestudios.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUNDLE_LOADER)";
 				WRAPPER_EXTENSION = xctest;
