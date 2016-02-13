@@ -13,6 +13,10 @@
 #import "Donut.h"
 #import "LifeCounterNode.h"
 #import "MainMenuScene.h"
+#import "MissNode.h"
+#import "PauseNode.h"
+#import "SKNode+Control.h"
+#import "ScoreCounterNode.h"
 #import "ViewController.h"
 
 static const CFTimeInterval kSlowestDeployPeriod = 1.2;
@@ -21,9 +25,9 @@ static const CFTimeInterval kExponentialDecayLambda = 1.0 / 100.0;
 static const NSInteger kMaxLives = 5;
 
 @implementation GameScene {
-  SKLabelNode *_scoreLabel;
+  ScoreCounterNode *_scoreCounter;
   LifeCounterNode *_lifeCounter;
-  SKShapeNode *_pauseNode;
+  PauseNode *_pauseNode;
 
   NSInteger _numberOfMisses;
   NSInteger _score;
@@ -70,14 +74,18 @@ static const NSInteger kMaxLives = 5;
   _lastDeployTime = _elapsedGameTime;
 }
 
-#pragma mark - Private
+#pragma mark Private Methods
+
+- (void)onPause {
+  self.view.paused ^= YES;
+}
 
 - (void)resetGame {
   _gameStartTime = 0;
   _score = 0;
   _numberOfMisses = 0;
-  _scoreLabel.text = @"0";
-  _lifeCounter.lives = kMaxLives;
+  [_scoreCounter reset];
+  [_lifeCounter reset];
 
   NSMutableArray *donuts = [NSMutableArray array];
   [[self children] enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
@@ -90,20 +98,6 @@ static const NSInteger kMaxLives = 5;
 
 - (void)pauseGame:(BOOL)pause {
   self.paused = pause;
-
-  CGFloat alpha = pause ? 0.3 : 1;
-
-  _lifeCounter.alpha = alpha;
-  _scoreLabel.alpha = alpha;
-  _pauseNode.alpha = alpha;
-  [self enumerateChildNodesWithName:@"donut"
-                         usingBlock:^(SKNode *node, BOOL *stop) {
-                           node.alpha = alpha;
-                         }];
-  [self enumerateChildNodesWithName:@"error"
-                         usingBlock:^(SKNode *node, BOOL *stop) {
-                           node.alpha = alpha;
-                         }];
 }
 
 - (void)loseGame {
@@ -118,14 +112,14 @@ static const NSInteger kMaxLives = 5;
   background.anchorPoint = CGPointMake(0, 0);
   [self addChild:background];
 
-  _scoreLabel = [SKLabelNode labelNodeWithFontNamed:@"HelveticaNeue"];
-  _scoreLabel.name = @"score";
-  _scoreLabel.fontColor = [SKColor darkTextColor];
-  _scoreLabel.fontSize = 20;
-  _scoreLabel.position = CGPointMake(CGRectGetMinX(self.frame) + 5, CGRectGetMaxY(self.frame) - 5);
-  _scoreLabel.verticalAlignmentMode = SKLabelVerticalAlignmentModeTop;
-  _scoreLabel.horizontalAlignmentMode = SKLabelHorizontalAlignmentModeLeft;
-  [self addChild:_scoreLabel];
+  _scoreCounter = [ScoreCounterNode labelNodeWithFontNamed:@"HelveticaNeue"];
+  _scoreCounter.fontColor = [SKColor darkTextColor];
+  _scoreCounter.fontSize = 20;
+  _scoreCounter.position =
+      CGPointMake(CGRectGetMinX(self.frame) + 5, CGRectGetMaxY(self.frame) - 5);
+  _scoreCounter.verticalAlignmentMode = SKLabelVerticalAlignmentModeTop;
+  _scoreCounter.horizontalAlignmentMode = SKLabelHorizontalAlignmentModeLeft;
+  [self addChild:_scoreCounter];
 
   _lifeCounter = [[LifeCounterNode alloc] initWithMaxLives:kMaxLives];
   CGRect accumulatedFrame = [_lifeCounter calculateAccumulatedFrame];
@@ -134,25 +128,11 @@ static const NSInteger kMaxLives = 5;
                   CGRectGetMaxY(self.frame) - accumulatedFrame.size.height / 2 - 5);
   [self addChild:_lifeCounter];
 
-  _pauseNode = [[SKShapeNode alloc] init];
-  _pauseNode.lineWidth = 0;
-  UIBezierPath *path = [UIBezierPath bezierPath];
-  [path moveToPoint:CGPointZero];
-  [path addLineToPoint:CGPointMake(0, 16)];
-  [path addLineToPoint:CGPointMake(4, 16)];
-  [path addLineToPoint:CGPointMake(4, 0)];
-  [path closePath];
-  [path moveToPoint:CGPointMake(8, 0)];
-  [path addLineToPoint:CGPointMake(8, 16)];
-  [path addLineToPoint:CGPointMake(12, 16)];
-  [path addLineToPoint:CGPointMake(12, 0)];
-  [path closePath];
-  _pauseNode.fillColor = [UIColor colorWithWhite:0 alpha:0.75f];
-  _pauseNode.path = path.CGPath;
-  _pauseNode.name = @"pause";
+  _pauseNode = [[PauseNode alloc] init];
   accumulatedFrame = [_pauseNode calculateAccumulatedFrame];
   _pauseNode.position = CGPointMake(CGRectGetMaxX(self.frame) - accumulatedFrame.size.width - 5,
                                     CGRectGetMaxY(self.frame) - accumulatedFrame.size.height - 5);
+  [_pauseNode addTarget:self selector:@selector(onPause)];
   [self addChild:_pauseNode];
 }
 
@@ -195,15 +175,13 @@ static const NSInteger kMaxLives = 5;
   SKAction *sequence = [SKAction sequence:actions];
   [donut runAction:sequence];
 
-  [self modifyScoreWithDifference:10];
+  _scoreCounter.score += 10;
 }
 
 - (void)missDonut:(Donut *)donut {
   _numberOfMisses++;
 
-  [self showErrorAtPoint:donut.position];
-
-  _lifeCounter.lives--;
+  [_lifeCounter decrementLives];
 
   if (_numberOfMisses == 5) {
     [self loseGame];
@@ -217,68 +195,29 @@ static const NSInteger kMaxLives = 5;
                          }];
 }
 
-- (void)showErrorAtPoint:(CGPoint)point {
-  SKShapeNode *shape = [SKShapeNode node];
-  shape.name = @"error";
-  shape.path =
-      [UIBezierPath bezierPathWithRoundedRect:CGRectMake(-5, -5, 10, 10) cornerRadius:5].CGPath;
-  shape.fillColor = shape.strokeColor = [SKColor redColor];
+- (void)showMissAtPoint:(CGPoint)point {
+  MissNode *shape = [MissNode node];
   shape.position = point;
-
-  NSArray *actions = @[ [SKAction fadeOutWithDuration:0.2], [SKAction removeFromParent] ];
-  SKAction *sequence = [SKAction sequence:actions];
-  [shape runAction:sequence];
-
+  [shape showAndHide];
   [self addChild:shape];
-}
-
-- (void)modifyScoreWithDifference:(NSInteger)difference {
-  _score = MAX(0, _score + difference);
-
-  NSInteger displayedScore = [_scoreLabel.text integerValue];
-
-  if (displayedScore <= 0 && difference < 0) {
-    return;
-  }
-
-  NSArray *actions = @[
-    [SKAction runBlock:^{
-      NSInteger difference = _score - displayedScore;
-      NSInteger step = difference / ABS(difference);
-      NSString *text = [@([_scoreLabel.text integerValue] + step) description];
-      _scoreLabel.text = text;
-    }],
-    [SKAction waitForDuration:0.05]
-  ];
-  SKAction *sequence = [SKAction sequence:actions];
-
-  [_scoreLabel removeAllActions];
-  [_scoreLabel runAction:[SKAction repeatAction:sequence count:ABS(_score - displayedScore)]];
 }
 
 #pragma mark - Touches
 
 - (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event {
-  if (self.paused) {
-    [self pauseGame:NO];
-  } else {
-    [touches enumerateObjectsUsingBlock:^(UITouch *touch, BOOL *stop) {
-      CGPoint point = [touch locationInNode:self];
-      SKNode *node = [self nodeAtPoint:point];
-      if ([node.name isEqualToString:@"donut"]) {
-        Donut *donut = (Donut *)node;
-        if (!donut.isHit) {
-          donut.hit = YES;
-          [self hitDonut:donut];
-        }
-      } else if ([node.name isEqualToString:@"pause"]) {
-        [self pauseGame:YES];
-      } else {
-        [self modifyScoreWithDifference:-5];
-        [self showErrorAtPoint:point];
+  [touches enumerateObjectsUsingBlock:^(UITouch *touch, BOOL *stop) {
+    CGPoint point = [touch locationInNode:self];
+    SKNode *node = [self nodeAtPoint:point];
+    if ([node.name isEqualToString:@"donut"]) {
+      Donut *donut = (Donut *)node;
+      if (!donut.isHit) {
+        donut.hit = YES;
+        [self hitDonut:donut];
       }
-    }];
-  }
+    } else {
+      [self showMissAtPoint:point];
+    }
+  }];
 }
 
 @end

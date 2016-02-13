@@ -10,8 +10,10 @@
 
 @interface LifeCounterNode : SKNode
 
-- (id)initWithMaxLives:(NSInteger)maxLives;
+- (instancetype)initWithMaxLives:(NSInteger)maxLives;
 
-@property (nonatomic, assign) NSInteger lives;
+- (void)reset;
+
+- (void)decrementLives;
 
 @end
