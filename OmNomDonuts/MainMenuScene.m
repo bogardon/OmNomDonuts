@@ -8,6 +8,7 @@
 
 #import "MainMenuScene.h"
 #import "GameScene.h"
+#import "ViewController.h"
 
 @interface MainMenuScene ()
 @property (nonatomic, assign) BOOL contentCreated;
@@ -25,7 +26,9 @@
 - (void)didMoveToView:(SKView *)view {
   if (!self.contentCreated) {
     self.contentCreated = YES;
-
+    SKSpriteNode *background = [SKSpriteNode spriteNodeWithImageNamed:@"background_red"];
+    background.anchorPoint = CGPointMake(0, 0);
+    [self addChild:background];
   }
 }
 

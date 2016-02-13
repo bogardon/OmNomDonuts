@@ -8,28 +8,30 @@
 
 #import "LifeCounterNode.h"
 
-#import "DonutFactory.h"
-#import "Donut.h"
-
 @implementation LifeCounterNode {
     NSInteger _maxLives;
 }
 
-- (id)initWithMaxLives:(NSInteger)maxLives
-{
-    self = [super init];
-    if (self) {
-      _maxLives = maxLives;
-      DonutFactory *factory = [[DonutFactory alloc] init];
-      for (int i = 0; i < maxLives; i++) {
-          Donut *donut = [factory getDonutWithSize:CGSizeMake(20, 20)];
-          donut.name = [@(i) description];
-          donut.anchorPoint = CGPointMake(0, 0.5);
-          donut.position = CGPointMake(i*20+i*5, 0);
-          [self addChild:donut];
-      }
+- (id)initWithMaxLives:(NSInteger)maxLives {
+  self = [super init];
+  if (self) {
+    _maxLives = maxLives;
+
+    SKTexture *pink = [SKTexture textureWithImageNamed:@"pink_donut"];
+    SKTexture *grey = [SKTexture textureWithImageNamed:@"greyout_donut"];
+    for (int i = 0; i < maxLives; i++) {
+      CGSize size = CGSizeMake(20, 20);
+      SKSpriteNode *on = [SKSpriteNode spriteNodeWithTexture:pink size:size];
+      SKSpriteNode *off = [SKSpriteNode spriteNodeWithTexture:grey size:size];
+      on.name = [NSString stringWithFormat:@"pink%d", i];
+      off.name = [NSString stringWithFormat:@"grey%d", i];
+      on.anchorPoint = off.anchorPoint = CGPointMake(0, 0.5);
+      on.position = off.position = CGPointMake(i*20+i*5, 0);
+      [self addChild:off];
+      [self addChild:on];
     }
-    return self;
+  }
+  return self;
 }
 
 - (void)setLives:(NSInteger)lives
@@ -37,8 +39,9 @@
     _lives = MAX(0, MIN(_maxLives, lives));
 
     for (int i = 0; i < _maxLives; i++) {
-        Donut *donut = (Donut *)[self childNodeWithName:[@(i) description]];
-        donut.hidden = i >= _lives;
+      NSString *name = [NSString stringWithFormat:@"pink%d", i];
+      SKSpriteNode *on = (SKSpriteNode *)[self childNodeWithName:name];
+      on.hidden = i >= _lives;
     }
 }
 

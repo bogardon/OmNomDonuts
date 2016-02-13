@@ -10,4 +10,13 @@
 
 @implementation Donut
 
++ (SKTexture *)donutTexture {
+  static SKTexture *donutTexture = nil;
+  static dispatch_once_t onceToken;
+  dispatch_once(&onceToken, ^{
+    donutTexture = [SKTexture textureWithImageNamed:@"donut2"];
+  });
+  return donutTexture;
+}
+
 @end

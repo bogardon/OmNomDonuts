@@ -25,7 +25,6 @@
 		726EFA7C190D94B00076029B /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 726EFA7A190D94B00076029B /* InfoPlist.strings */; };
 		726EFA7E190D94B00076029B /* OmNomDonutsTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 726EFA7D190D94B00076029B /* OmNomDonutsTests.m */; };
 		726EFA89190D9B280076029B /* GameScene.m in Sources */ = {isa = PBXBuildFile; fileRef = 726EFA88190D9B280076029B /* GameScene.m */; };
-		72A3D209192936A9002C29E1 /* DonutFactory.m in Sources */ = {isa = PBXBuildFile; fileRef = 72A3D208192936A9002C29E1 /* DonutFactory.m */; };
 		72A3D20C19293D07002C29E1 /* Donut.m in Sources */ = {isa = PBXBuildFile; fileRef = 72A3D20B19293D07002C29E1 /* Donut.m */; };
 		72A3D21D19294B1A002C29E1 /* donut.png in Resources */ = {isa = PBXBuildFile; fileRef = 72A3D21919294B1A002C29E1 /* donut.png */; };
 		72A3D21E19294B1A002C29E1 /* donut@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 72A3D21A19294B1A002C29E1 /* donut@2x.png */; };
@@ -33,6 +32,15 @@
 		72A3D22419294E07002C29E1 /* background@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 72A3D22219294E07002C29E1 /* background@2x.png */; };
 		72EBF5E419C5584900C3F4DA /* blue_plate.png in Resources */ = {isa = PBXBuildFile; fileRef = 72EBF5E219C5584900C3F4DA /* blue_plate.png */; };
 		72EBF5E519C5584900C3F4DA /* blue_plate@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 72EBF5E319C5584900C3F4DA /* blue_plate@2x.png */; };
+		72EBF5EA19C55B2800C3F4DA /* pink_donut.png in Resources */ = {isa = PBXBuildFile; fileRef = 72EBF5E619C55B2800C3F4DA /* pink_donut.png */; };
+		72EBF5EB19C55B2800C3F4DA /* pink_donut@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 72EBF5E719C55B2800C3F4DA /* pink_donut@2x.png */; };
+		72EBF5EC19C55B2800C3F4DA /* greyout_donut.png in Resources */ = {isa = PBXBuildFile; fileRef = 72EBF5E819C55B2800C3F4DA /* greyout_donut.png */; };
+		72EBF5ED19C55B2800C3F4DA /* greyout_donut@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 72EBF5E919C55B2800C3F4DA /* greyout_donut@2x.png */; };
+		72EBF5F019C55D7F00C3F4DA /* GGButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 72EBF5EF19C55D7F00C3F4DA /* GGButton.m */; };
+		72EBF5F319C5619000C3F4DA /* background_red.png in Resources */ = {isa = PBXBuildFile; fileRef = 72EBF5F119C5619000C3F4DA /* background_red.png */; };
+		72EBF5F419C5619000C3F4DA /* background_red@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 72EBF5F219C5619000C3F4DA /* background_red@2x.png */; };
+		72EBF5FA19C6547400C3F4DA /* donut2.png in Resources */ = {isa = PBXBuildFile; fileRef = 72EBF5F819C6547400C3F4DA /* donut2.png */; };
+		72EBF5FB19C6547400C3F4DA /* donut2@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 72EBF5F919C6547400C3F4DA /* donut2@2x.png */; };
 		72F21E6519451E3700958F69 /* record@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 72F21E6419451E3700958F69 /* record@2x.png */; };
 		72F21E67194525F100958F69 /* record_player@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 72F21E66194525F100958F69 /* record_player@2x.png */; };
 /* End PBXBuildFile section */
@@ -74,8 +82,6 @@
 		726EFA7D190D94B00076029B /* OmNomDonutsTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = OmNomDonutsTests.m; sourceTree = "<group>"; };
 		726EFA87190D9B270076029B /* GameScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameScene.h; sourceTree = "<group>"; };
 		726EFA88190D9B280076029B /* GameScene.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GameScene.m; sourceTree = "<group>"; };
-		72A3D207192936A8002C29E1 /* DonutFactory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DonutFactory.h; sourceTree = "<group>"; };
-		72A3D208192936A9002C29E1 /* DonutFactory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DonutFactory.m; sourceTree = "<group>"; };
 		72A3D20A19293D07002C29E1 /* Donut.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Donut.h; sourceTree = "<group>"; };
 		72A3D20B19293D07002C29E1 /* Donut.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Donut.m; sourceTree = "<group>"; };
 		72A3D21919294B1A002C29E1 /* donut.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = donut.png; sourceTree = "<group>"; };
@@ -84,6 +90,16 @@
 		72A3D22219294E07002C29E1 /* background@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "background@2x.png"; sourceTree = "<group>"; };
 		72EBF5E219C5584900C3F4DA /* blue_plate.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = blue_plate.png; sourceTree = "<group>"; };
 		72EBF5E319C5584900C3F4DA /* blue_plate@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "blue_plate@2x.png"; sourceTree = "<group>"; };
+		72EBF5E619C55B2800C3F4DA /* pink_donut.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = pink_donut.png; sourceTree = "<group>"; };
+		72EBF5E719C55B2800C3F4DA /* pink_donut@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "pink_donut@2x.png"; sourceTree = "<group>"; };
+		72EBF5E819C55B2800C3F4DA /* greyout_donut.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = greyout_donut.png; sourceTree = "<group>"; };
+		72EBF5E919C55B2800C3F4DA /* greyout_donut@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "greyout_donut@2x.png"; sourceTree = "<group>"; };
+		72EBF5EE19C55D7F00C3F4DA /* GGButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GGButton.h; sourceTree = "<group>"; };
+		72EBF5EF19C55D7F00C3F4DA /* GGButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GGButton.m; sourceTree = "<group>"; };
+		72EBF5F119C5619000C3F4DA /* background_red.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = background_red.png; sourceTree = "<group>"; };
+		72EBF5F219C5619000C3F4DA /* background_red@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "background_red@2x.png"; sourceTree = "<group>"; };
+		72EBF5F819C6547400C3F4DA /* donut2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = donut2.png; sourceTree = "<group>"; };
+		72EBF5F919C6547400C3F4DA /* donut2@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "donut2@2x.png"; sourceTree = "<group>"; };
 		72F21E6419451E3700958F69 /* record@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "record@2x.png"; sourceTree = "<group>"; };
 		72F21E66194525F100958F69 /* record_player@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "record_player@2x.png"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -118,8 +134,6 @@
 			children = (
 				726EFA87190D9B270076029B /* GameScene.h */,
 				726EFA88190D9B280076029B /* GameScene.m */,
-				72A3D207192936A8002C29E1 /* DonutFactory.h */,
-				72A3D208192936A9002C29E1 /* DonutFactory.m */,
 				72A3D20A19293D07002C29E1 /* Donut.h */,
 				72A3D20B19293D07002C29E1 /* Donut.m */,
 				7263B00A19C4E7350053D61B /* LifeCounterNode.h */,
@@ -131,11 +145,8 @@
 		7263B00719C4E6A50053D61B /* Other */ = {
 			isa = PBXGroup;
 			children = (
-				726EFA5C190D94AF0076029B /* AppDelegate.h */,
-				726EFA5D190D94AF0076029B /* AppDelegate.m */,
-				726EFA5F190D94AF0076029B /* Main.storyboard */,
-				726EFA62190D94AF0076029B /* ViewController.h */,
-				726EFA63190D94AF0076029B /* ViewController.m */,
+				72EBF5EE19C55D7F00C3F4DA /* GGButton.h */,
+				72EBF5EF19C55D7F00C3F4DA /* GGButton.m */,
 			);
 			name = Other;
 			sourceTree = "<group>";
@@ -143,6 +154,14 @@
 		7263B00819C4E6CA0053D61B /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				72EBF5F819C6547400C3F4DA /* donut2.png */,
+				72EBF5F919C6547400C3F4DA /* donut2@2x.png */,
+				72EBF5F119C5619000C3F4DA /* background_red.png */,
+				72EBF5F219C5619000C3F4DA /* background_red@2x.png */,
+				72EBF5E619C55B2800C3F4DA /* pink_donut.png */,
+				72EBF5E719C55B2800C3F4DA /* pink_donut@2x.png */,
+				72EBF5E819C55B2800C3F4DA /* greyout_donut.png */,
+				72EBF5E919C55B2800C3F4DA /* greyout_donut@2x.png */,
 				72EBF5E219C5584900C3F4DA /* blue_plate.png */,
 				72EBF5E319C5584900C3F4DA /* blue_plate@2x.png */,
 				72A3D21919294B1A002C29E1 /* donut.png */,
@@ -211,6 +230,11 @@
 		726EFA54190D94AF0076029B /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				726EFA5C190D94AF0076029B /* AppDelegate.h */,
+				726EFA5D190D94AF0076029B /* AppDelegate.m */,
+				726EFA5F190D94AF0076029B /* Main.storyboard */,
+				726EFA62190D94AF0076029B /* ViewController.h */,
+				726EFA63190D94AF0076029B /* ViewController.m */,
 				726EFA55190D94AF0076029B /* OmNomDonuts-Info.plist */,
 				726EFA56190D94AF0076029B /* InfoPlist.strings */,
 				726EFA59190D94AF0076029B /* main.m */,
@@ -320,9 +344,17 @@
 				72A3D22319294E07002C29E1 /* background.png in Resources */,
 				726EFA6B190D94AF0076029B /* Images.xcassets in Resources */,
 				726EFA61190D94AF0076029B /* Main.storyboard in Resources */,
+				72EBF5EA19C55B2800C3F4DA /* pink_donut.png in Resources */,
 				72F21E67194525F100958F69 /* record_player@2x.png in Resources */,
+				72EBF5F419C5619000C3F4DA /* background_red@2x.png in Resources */,
+				72EBF5EB19C55B2800C3F4DA /* pink_donut@2x.png in Resources */,
 				72A3D22419294E07002C29E1 /* background@2x.png in Resources */,
+				72EBF5FA19C6547400C3F4DA /* donut2.png in Resources */,
+				72EBF5EC19C55B2800C3F4DA /* greyout_donut.png in Resources */,
+				72EBF5ED19C55B2800C3F4DA /* greyout_donut@2x.png in Resources */,
 				72A3D21E19294B1A002C29E1 /* donut@2x.png in Resources */,
+				72EBF5F319C5619000C3F4DA /* background_red.png in Resources */,
+				72EBF5FB19C6547400C3F4DA /* donut2@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -342,9 +374,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				726EFA67190D94AF0076029B /* MainMenuScene.m in Sources */,
+				72EBF5F019C55D7F00C3F4DA /* GGButton.m in Sources */,
 				72A3D20C19293D07002C29E1 /* Donut.m in Sources */,
 				7263B00C19C4E7350053D61B /* LifeCounterNode.m in Sources */,
-				72A3D209192936A9002C29E1 /* DonutFactory.m in Sources */,
 				726EFA64190D94AF0076029B /* ViewController.m in Sources */,
 				726EFA89190D9B280076029B /* GameScene.m in Sources */,
 				726EFA5E190D94AF0076029B /* AppDelegate.m in Sources */,

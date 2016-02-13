@@ -6,20 +6,12 @@
 //
 //
 
-typedef NS_ENUM(NSInteger, GameState){
-    GameStatePlaying,
-    GameStatePaused,
-    GameStateLost
-};
-
 #import <SpriteKit/SpriteKit.h>
 
-@class MainMenuScene;
+typedef NS_OPTIONS(NSUInteger, GameplayEffect) {
+  GameplayEffectNone                 = 0,
+  GameplayEffectSlowDown             = 1 << 0,
+};
 
 @interface GameScene : SKScene
-
-- (void)resetGame;
-
-@property(nonatomic, assign) GameState state;
-
 @end

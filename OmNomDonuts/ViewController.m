@@ -24,7 +24,9 @@
   self.skView.showsFPS = YES;
   self.skView.showsNodeCount = YES;
 
-  [self showMainMenuScene];
+  MainMenuScene *mainMenuScene = [MainMenuScene sceneWithSize:self.skView.bounds.size];
+  mainMenuScene.scaleMode = SKSceneScaleModeAspectFill;
+  [self.skView presentScene:mainMenuScene];
 }
 
 - (BOOL)shouldAutorotate {
@@ -44,14 +46,6 @@
 
 - (SKView *)skView {
   return (SKView *)self.view;
-}
-
-#pragma mark - Pubilc
-
-- (void)showMainMenuScene {
-  MainMenuScene *mainMenuScene = [MainMenuScene sceneWithSize:self.skView.bounds.size];
-  mainMenuScene.scaleMode = SKSceneScaleModeAspectFill;
-  [self.skView presentScene:mainMenuScene];
 }
 
 @end
