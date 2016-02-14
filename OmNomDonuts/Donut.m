@@ -8,15 +8,12 @@
 
 #import "Donut.h"
 
+#import "SKNode+Control.h"
+
 @implementation Donut
 
-+ (SKTexture *)donutTexture {
-  static SKTexture *donutTexture = nil;
-  static dispatch_once_t onceToken;
-  dispatch_once(&onceToken, ^{
-    donutTexture = [SKTexture textureWithImageNamed:@"donut2"];
-  });
-  return donutTexture;
+- (void)touchesEnded:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event {
+  [self invokeTargets];
 }
 
 @end

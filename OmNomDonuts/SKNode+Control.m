@@ -52,6 +52,7 @@
     NSInvocation *invocation = [NSInvocation invocationWithMethodSignature:methodSignature];
     invocation.selector = pair.selector;
     invocation.target = pair.target;
+    [invocation setArgument:(__bridge void * _Nonnull)(self) atIndex:2];
     [invocation invoke];
   }
 }

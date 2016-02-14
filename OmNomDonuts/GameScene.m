@@ -76,7 +76,7 @@ static const NSInteger kMaxLives = 5;
 
 #pragma mark Private Methods
 
-- (void)onPause {
+- (void)onPause:(id)sender {
   self.view.paused ^= YES;
 }
 
@@ -89,7 +89,7 @@ static const NSInteger kMaxLives = 5;
 
   NSMutableArray *donuts = [NSMutableArray array];
   [[self children] enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
-    if ([obj isKindOfClass:Donut.class]) {
+    if ([obj isKindOfClass:[Donut class]]) {
       [donuts addObject:obj];
     }
   }];
@@ -132,7 +132,7 @@ static const NSInteger kMaxLives = 5;
   accumulatedFrame = [_pauseNode calculateAccumulatedFrame];
   _pauseNode.position = CGPointMake(CGRectGetMaxX(self.frame) - accumulatedFrame.size.width - 5,
                                     CGRectGetMaxY(self.frame) - accumulatedFrame.size.height - 5);
-  [_pauseNode addTarget:self selector:@selector(onPause)];
+  [_pauseNode addTarget:self selector:@selector(onPause:)];
   [self addChild:_pauseNode];
 }
 
