@@ -8,8 +8,36 @@
 
 #import <SpriteKit/SpriteKit.h>
 
+typedef NS_ENUM(NSInteger, DonutState) {
+  kDonutStateInitial,
+  kDonutStateExpanding,
+  kDonutStateContracting,
+  kDonutStateHit,
+  kDonutStateMissed
+};
+
+typedef NS_ENUM(NSInteger, DonutType) {
+  kDonutTypeRegular,
+  kDonutTypeDecelerator,
+  kDonutTypeBlackhole
+};
+
+@class Donut;
+
+@protocol DonutStateDelegate<NSObject>
+
+- (void)donutStateDidChange:(Donut *)donut;
+
+@end
+
 @interface Donut : SKSpriteNode
 
-@property (nonatomic, assign, getter = isHit) BOOL hit;
+@property(nonatomic, weak) id<DonutStateDelegate> delegate;
+@property(nonatomic, readonly) DonutState state;
+@property(nonatomic, readonly) DonutType type;
+
+- (instancetype)initWithType:(DonutType)donutType;
+- (void)expandAndContract;
+- (void)fadeOut;
 
 @end

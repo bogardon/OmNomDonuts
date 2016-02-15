@@ -17,7 +17,6 @@ static const CGFloat kPadding = 5.0;
 
 @implementation LifeCounterNode {
   NSInteger _maxLives;
-  NSInteger _currentLives;
 }
 
 - (instancetype)initWithMaxLives:(NSInteger)maxLives {

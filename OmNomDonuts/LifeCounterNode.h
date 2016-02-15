@@ -12,6 +12,8 @@
 
 - (instancetype)initWithMaxLives:(NSInteger)maxLives;
 
+@property(nonatomic, readonly) NSInteger currentLives;
+
 - (void)reset;
 
 - (void)decrementLives;

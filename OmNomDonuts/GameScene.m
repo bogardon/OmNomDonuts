@@ -23,14 +23,16 @@ static const CFTimeInterval kSlowestDeployPeriod = 1.2;
 static const CFTimeInterval kFastestDeployPeriod = 0.3;
 static const CFTimeInterval kExponentialDecayLambda = 1.0 / 100.0;
 static const NSInteger kMaxLives = 5;
+static const CGFloat kPadding = 4.0;
+
+@interface GameScene ()<DonutStateDelegate>
+
+@end
 
 @implementation GameScene {
   ScoreCounterNode *_scoreCounter;
   LifeCounterNode *_lifeCounter;
   PauseNode *_pauseNode;
-
-  NSInteger _numberOfMisses;
-  NSInteger _score;
 
   CFTimeInterval _gameStartTime;
   CFTimeInterval _lastCurrentTime;
@@ -39,7 +41,8 @@ static const NSInteger kMaxLives = 5;
 }
 
 - (instancetype)initWithSize:(CGSize)size {
-  if (self = [super initWithSize:size]) {
+  self = [super initWithSize:size];
+  if (self) {
     [self createContent];
     [self resetGame];
   }
@@ -74,7 +77,49 @@ static const NSInteger kMaxLives = 5;
   _lastDeployTime = _elapsedGameTime;
 }
 
+#pragma mark DonutStateDelegate
+
+- (void)donutStateDidChange:(Donut *)donut {
+  switch (donut.state) {
+    case kDonutStateInitial:
+      break;
+    case kDonutStateExpanding:
+      break;
+    case kDonutStateContracting:
+      break;
+    case kDonutStateHit:
+      [self onDonutHit:donut];
+      break;
+    case kDonutStateMissed:
+      [_lifeCounter decrementLives];
+      if (!_lifeCounter.currentLives) {
+        [self loseGame];
+      }
+      break;
+  }
+}
+
+#pragma mark - Touches
+
+- (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event {
+  UITouch *touch = [touches anyObject];
+  [self showMissAtPoint:[touch locationInNode:self]];
+}
+
 #pragma mark Private Methods
+
+- (void)onDonutHit:(Donut *)donut {
+  switch (donut.type) {
+    case kDonutTypeRegular:
+      _scoreCounter.score += 10;
+      [donut fadeOut];
+      break;
+    case kDonutTypeDecelerator:
+      break;
+    case kDonutTypeBlackhole:
+      break;
+  }
+}
 
 - (void)onPause:(id)sender {
   self.view.paused ^= YES;
@@ -82,8 +127,6 @@ static const NSInteger kMaxLives = 5;
 
 - (void)resetGame {
   _gameStartTime = 0;
-  _score = 0;
-  _numberOfMisses = 0;
   [_scoreCounter reset];
   [_lifeCounter reset];
 
@@ -103,7 +146,7 @@ static const NSInteger kMaxLives = 5;
 - (void)loseGame {
   MainMenuScene *mainMenuScene = [[MainMenuScene alloc] initWithSize:self.view.bounds.size];
   mainMenuScene.scaleMode = SKSceneScaleModeAspectFill;
-  SKTransition *transition = [SKTransition flipVerticalWithDuration:0.5f];
+  SKTransition *transition = [SKTransition flipVerticalWithDuration:0.5];
   [self.view presentScene:mainMenuScene transition:transition];
 }
 
@@ -116,7 +159,7 @@ static const NSInteger kMaxLives = 5;
   _scoreCounter.fontColor = [SKColor darkTextColor];
   _scoreCounter.fontSize = 20;
   _scoreCounter.position =
-      CGPointMake(CGRectGetMinX(self.frame) + 5, CGRectGetMaxY(self.frame) - 5);
+      CGPointMake(CGRectGetMinX(self.frame) + kPadding, CGRectGetMaxY(self.frame) - kPadding);
   _scoreCounter.verticalAlignmentMode = SKLabelVerticalAlignmentModeTop;
   _scoreCounter.horizontalAlignmentMode = SKLabelHorizontalAlignmentModeLeft;
   [self addChild:_scoreCounter];
@@ -125,74 +168,27 @@ static const NSInteger kMaxLives = 5;
   CGRect accumulatedFrame = [_lifeCounter calculateAccumulatedFrame];
   _lifeCounter.position =
       CGPointMake(CGRectGetMidX(self.frame) - accumulatedFrame.size.width / 2,
-                  CGRectGetMaxY(self.frame) - accumulatedFrame.size.height / 2 - 5);
+                  CGRectGetMaxY(self.frame) - accumulatedFrame.size.height / 2 - kPadding);
   [self addChild:_lifeCounter];
 
   _pauseNode = [[PauseNode alloc] init];
   accumulatedFrame = [_pauseNode calculateAccumulatedFrame];
-  _pauseNode.position = CGPointMake(CGRectGetMaxX(self.frame) - accumulatedFrame.size.width - 5,
-                                    CGRectGetMaxY(self.frame) - accumulatedFrame.size.height - 5);
+  _pauseNode.position =
+      CGPointMake(CGRectGetMaxX(self.frame) - accumulatedFrame.size.width - kPadding,
+                  CGRectGetMaxY(self.frame) - accumulatedFrame.size.height - kPadding);
   [_pauseNode addTarget:self selector:@selector(onPause:)];
   [self addChild:_pauseNode];
 }
 
 - (void)deployDonutAfterDelay:(CFTimeInterval)delay speed:(CGFloat)speed {
-  Donut *donut = [Donut spriteNodeWithTexture:[SKTexture textureWithImageNamed:@"donut2"]];
-  donut.size = CGSizeMake(40, 40);
-  donut.name = @"donut";
-
+  Donut *donut = [[Donut alloc] initWithType:kDonutTypeRegular];
+  donut.delegate = self;
   CGPoint position =
       CGPointMake(arc4random() % (int)self.size.width, arc4random() % ((int)self.size.height - 20));
   donut.position = position;
-  [donut setScale:0];
   [self addChild:donut];
 
-  SKAction *wait = [SKAction waitForDuration:delay];
-
-  SKAction *scaleUp = [SKAction scaleTo:1 duration:1.2];
-  scaleUp.timingMode = SKActionTimingEaseOut;
-
-  SKAction *scaleDown = [SKAction scaleTo:0 duration:1.2];
-  scaleDown.timingMode = SKActionTimingEaseIn;
-
-  NSArray *actions = @[
-    wait,
-    scaleUp,
-    scaleDown,
-    [SKAction runBlock:^{
-      [self missDonut:donut];
-    }],
-    [SKAction removeFromParent]
-  ];
-  SKAction *sequence = [SKAction sequence:actions];
-  [donut runAction:sequence];
-}
-
-- (void)hitDonut:(Donut *)donut {
-  [donut removeAllActions];
-
-  NSArray *actions = @[ [SKAction fadeOutWithDuration:0.2], [SKAction removeFromParent] ];
-  SKAction *sequence = [SKAction sequence:actions];
-  [donut runAction:sequence];
-
-  _scoreCounter.score += 10;
-}
-
-- (void)missDonut:(Donut *)donut {
-  _numberOfMisses++;
-
-  [_lifeCounter decrementLives];
-
-  if (_numberOfMisses == 5) {
-    [self loseGame];
-  }
-}
-
-- (void)slowDonutsForInterval:(CFTimeInterval)interval {
-  [self enumerateChildNodesWithName:@"donut"
-                         usingBlock:^(SKNode *node, BOOL *stop) {
-                           node.speed = 0.5;
-                         }];
+  [donut expandAndContract];
 }
 
 - (void)showMissAtPoint:(CGPoint)point {
@@ -200,24 +196,6 @@ static const NSInteger kMaxLives = 5;
   shape.position = point;
   [shape showAndHide];
   [self addChild:shape];
-}
-
-#pragma mark - Touches
-
-- (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event {
-  [touches enumerateObjectsUsingBlock:^(UITouch *touch, BOOL *stop) {
-    CGPoint point = [touch locationInNode:self];
-    SKNode *node = [self nodeAtPoint:point];
-    if ([node.name isEqualToString:@"donut"]) {
-      Donut *donut = (Donut *)node;
-      if (!donut.isHit) {
-        donut.hit = YES;
-        [self hitDonut:donut];
-      }
-    } else {
-      [self showMissAtPoint:point];
-    }
-  }];
 }
 
 @end
