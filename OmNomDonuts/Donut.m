@@ -12,7 +12,7 @@
 
 static const CGSize kStandardSize = {40, 40};
 static const NSTimeInterval kFadeDuration = 0.2;
-static const NSTimeInterval kExpandAndContractDuration = 1.2;
+static const NSTimeInterval kExpandAndContractDuration = 2;
 
 @interface Donut ()
 @property(nonatomic, assign) DonutState state;
@@ -51,6 +51,8 @@ static const NSTimeInterval kExpandAndContractDuration = 1.2;
 - (void)expandAndContract {
   [self setScale:0];
 
+  SKAction *wait = [SKAction waitForDuration:1.0 withRange:1.0];
+
   SKAction *scaleUp = [SKAction scaleTo:1 duration:kExpandAndContractDuration];
   scaleUp.timingMode = SKActionTimingEaseOut;
 
@@ -58,6 +60,7 @@ static const NSTimeInterval kExpandAndContractDuration = 1.2;
   scaleDown.timingMode = SKActionTimingEaseIn;
 
   NSArray *actions = @[
+    wait,
     [SKAction runBlock:^{
       self.state = kDonutStateExpanding;
     }],
@@ -76,7 +79,7 @@ static const NSTimeInterval kExpandAndContractDuration = 1.2;
 }
 
 - (void)fadeOut {
-  NSArray *actions = @[ [SKAction fadeOutWithDuration:kFadeDuration], [SKAction removeFromParent] ];
+  NSArray *actions = @[[SKAction fadeOutWithDuration:kFadeDuration], [SKAction removeFromParent]];
   SKAction *sequence = [SKAction sequence:actions];
   [self runAction:sequence];
 }

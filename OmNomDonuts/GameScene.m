@@ -19,9 +19,6 @@
 #import "ScoreCounterNode.h"
 #import "ViewController.h"
 
-static const CFTimeInterval kSlowestDeployPeriod = 1.2;
-static const CFTimeInterval kFastestDeployPeriod = 0.3;
-static const CFTimeInterval kExponentialDecayLambda = 1.0 / 100.0;
 static const NSInteger kMaxLives = 5;
 static const CGFloat kPadding = 4.0;
 
@@ -33,11 +30,6 @@ static const CGFloat kPadding = 4.0;
   ScoreCounterNode *_scoreCounter;
   LifeCounterNode *_lifeCounter;
   PauseNode *_pauseNode;
-
-  CFTimeInterval _gameStartTime;
-  CFTimeInterval _lastCurrentTime;
-  CFTimeInterval _elapsedGameTime;
-  CFTimeInterval _lastDeployTime;
 }
 
 - (instancetype)initWithSize:(CGSize)size {
@@ -45,6 +37,7 @@ static const CGFloat kPadding = 4.0;
   if (self) {
     [self createContent];
     [self resetGame];
+    [self startGame];
   }
   return self;
 }
@@ -52,29 +45,7 @@ static const CGFloat kPadding = 4.0;
 #pragma mark - SKScene
 
 - (void)update:(CFTimeInterval)currentTime {
-  if (_lastCurrentTime == 0) {
-    _lastCurrentTime = currentTime;
-  }
-
-  if (self.paused) {
-    _lastCurrentTime = currentTime;
-    return;
-  }
-
-  _elapsedGameTime += currentTime - _lastCurrentTime;
-  _lastCurrentTime = currentTime;
-
-  CFTimeInterval deployPeriod =
-      MAX(kFastestDeployPeriod,
-          kSlowestDeployPeriod * exp(-_elapsedGameTime * kExponentialDecayLambda));
-
-  if (_elapsedGameTime - _lastDeployTime < deployPeriod) {
-    return;
-  }
-
-  [self deployDonutAfterDelay:0 speed:1];
-
-  _lastDeployTime = _elapsedGameTime;
+  // Figure out if we even need this.
 }
 
 #pragma mark DonutStateDelegate
@@ -125,8 +96,31 @@ static const CGFloat kPadding = 4.0;
   self.view.paused ^= YES;
 }
 
+- (void)startGame {
+  SKAction *wait = [SKAction waitForDuration:2.0];
+  SKAction *deploy = [SKAction performSelector:@selector(onDeployTimer) onTarget:self];
+  SKAction *sequence = [SKAction sequence:@[deploy, wait]];
+  [self runAction:[SKAction repeatActionForever:sequence]];
+}
+
+- (void)onDeployTimer {
+  for (NSInteger i = 0; i < 2; i++) {
+    [self deployDonut];
+  }
+}
+
+- (void)deployDonut {
+  Donut *donut = [[Donut alloc] initWithType:kDonutTypeRegular];
+  donut.delegate = self;
+  CGPoint position =
+      CGPointMake(arc4random() % (int)self.size.width, arc4random() % ((int)self.size.height - 20));
+  donut.position = position;
+  [self addChild:donut];
+
+  [donut expandAndContract];
+}
+
 - (void)resetGame {
-  _gameStartTime = 0;
   [_scoreCounter reset];
   [_lifeCounter reset];
 
@@ -178,17 +172,6 @@ static const CGFloat kPadding = 4.0;
                   CGRectGetMaxY(self.frame) - accumulatedFrame.size.height - kPadding);
   [_pauseNode addTarget:self selector:@selector(onPause:)];
   [self addChild:_pauseNode];
-}
-
-- (void)deployDonutAfterDelay:(CFTimeInterval)delay speed:(CGFloat)speed {
-  Donut *donut = [[Donut alloc] initWithType:kDonutTypeRegular];
-  donut.delegate = self;
-  CGPoint position =
-      CGPointMake(arc4random() % (int)self.size.width, arc4random() % ((int)self.size.height - 20));
-  donut.position = position;
-  [self addChild:donut];
-
-  [donut expandAndContract];
 }
 
 - (void)showMissAtPoint:(CGPoint)point {

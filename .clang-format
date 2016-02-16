@@ -1,30 +1,9 @@
-# Clang format with similar settings to how clang-format internally works.
-# If you're on a mac here is some set-up instructions:
-# https://docs.google.com/document/d/14Rnz0ML614MKA6HzHq_Y4ThqxSFqV2Vr6Z3hN-Rm3I8/edit#
-
-# If you're on a linux you can ignore this and check out go/clang-format for
-# various ways to run the linter.
-
 BasedOnStyle:  Google
 
-# Objc allows 100 instead of the traditional 80.
+AlignTrailingComments: false
 ColumnLimit: 100
-
-# If false, a function call’s or function definition’s parameters will either
-# all be on the same line or will have one line each.
 BinPackParameters: false
-
-# Allow putting all parameters of a function declaration onto the next line even
-# if BinPackParameters is false.
-# For example this should be ok:
-# someFunction(foo,
-#             bar,
-#             baz);
+BinPackArguments: false
 AllowAllParametersOfDeclarationOnNextLine: true
-
-# Specific to google's internal build of clang-format maybe one day we can
-# enable this.
-# ObjCSpaceAfterProperty: false
-# BinPackArguments: false
-
 ObjCBlockIndentWidth: 2
+SpacesInContainerLiterals: false
