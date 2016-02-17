@@ -23,6 +23,8 @@ static const NSTimeInterval kExpandAndContractDuration = 2;
 - (instancetype)initWithType:(DonutType)donutType {
   self = [super init];
   if (self) {
+    _type = donutType;
+
     switch (donutType) {
       case kDonutTypeRegular:
         self.texture = [SKTexture textureWithImageNamed:@"donut2.png"];
@@ -54,10 +56,7 @@ static const NSTimeInterval kExpandAndContractDuration = 2;
   SKAction *wait = [SKAction waitForDuration:1.0 withRange:1.0];
 
   SKAction *scaleUp = [SKAction scaleTo:1 duration:kExpandAndContractDuration];
-  scaleUp.timingMode = SKActionTimingEaseOut;
-
   SKAction *scaleDown = [SKAction scaleTo:0 duration:kExpandAndContractDuration];
-  scaleDown.timingMode = SKActionTimingEaseIn;
 
   NSArray *actions = @[
     wait,

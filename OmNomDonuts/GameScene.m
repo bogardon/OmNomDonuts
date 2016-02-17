@@ -14,6 +14,7 @@
 #import "LifeCounterNode.h"
 #import "MainMenuScene.h"
 #import "MissNode.h"
+#import "NSArray+Utils.h"
 #import "PauseNode.h"
 #import "SKNode+Control.h"
 #import "ScoreCounterNode.h"
@@ -21,9 +22,12 @@
 
 static const NSInteger kMaxLives = 5;
 static const CGFloat kPadding = 4.0;
+static const NSTimeInterval kDeployPeriod = 3.0;
+static NSString *const kDecelerateActionKey = @"kDecelerateActionKey";
+static NSString *const kDeployActionKey = @"kDeployActionKey";
 
 @interface GameScene ()<DonutStateDelegate>
-
+@property(nonatomic, assign) CGFloat currentGameSpeed;
 @end
 
 @implementation GameScene {
@@ -62,9 +66,8 @@ static const CGFloat kPadding = 4.0;
       [self onDonutHit:donut];
       break;
     case kDonutStateMissed:
-      [_lifeCounter decrementLives];
-      if (!_lifeCounter.currentLives) {
-        [self loseGame];
+      if (donut.type == kDonutTypeRegular) {
+        [_lifeCounter decrementLives];
       }
       break;
   }
@@ -79,14 +82,46 @@ static const CGFloat kPadding = 4.0;
 
 #pragma mark Private Methods
 
+- (void)setCurrentGameSpeed:(CGFloat)currentGameSpeed {
+  _currentGameSpeed = currentGameSpeed;
+  NSLog(@"%f", currentGameSpeed);
+  [[self pendingDonuts]
+      enumerateObjectsUsingBlock:^(Donut *donut, NSUInteger idx, BOOL *_Nonnull stop) {
+        donut.speed = currentGameSpeed;
+      }];
+  [self actionForKey:kDeployActionKey].speed = currentGameSpeed;
+}
+
+- (NSArray *)allDonuts {
+  return [self.children filteredArrayWithBlock:^BOOL(id object) {
+    return [object isKindOfClass:[Donut class]];
+  }];
+}
+
+- (NSArray *)pendingDonuts {
+  return [self.children filteredArrayWithBlock:^BOOL(Donut *donut) {
+    return [donut isKindOfClass:[Donut class]] && donut.state != kDonutStateHit &&
+           donut.state != kDonutStateMissed;
+  }];
+}
+
 - (void)onDonutHit:(Donut *)donut {
   switch (donut.type) {
     case kDonutTypeRegular:
       _scoreCounter.score += 10;
       [donut fadeOut];
       break;
-    case kDonutTypeDecelerator:
+    case kDonutTypeDecelerator: {
+      [self removeActionForKey:kDecelerateActionKey];
+      self.currentGameSpeed = 0.5;
+      SKAction *wait = [SKAction waitForDuration:5.0];
+      SKAction *revert = [SKAction runBlock:^{
+        self.currentGameSpeed = 1.0;
+      }];
+      [self runAction:[SKAction sequence:@[wait, revert]] withKey:kDecelerateActionKey];
+      [donut fadeOut];
       break;
+    }
     case kDonutTypeBlackhole:
       break;
   }
@@ -97,20 +132,23 @@ static const CGFloat kPadding = 4.0;
 }
 
 - (void)startGame {
-  SKAction *wait = [SKAction waitForDuration:2.0];
+  SKAction *wait = [SKAction waitForDuration:kDeployPeriod];
   SKAction *deploy = [SKAction performSelector:@selector(onDeployTimer) onTarget:self];
   SKAction *sequence = [SKAction sequence:@[deploy, wait]];
-  [self runAction:[SKAction repeatActionForever:sequence]];
+  [self runAction:[SKAction repeatActionForever:sequence] withKey:kDeployActionKey];
 }
 
 - (void)onDeployTimer {
-  for (NSInteger i = 0; i < 2; i++) {
-    [self deployDonut];
+  for (NSInteger i = 0; i < 3; i++) {
+    [self deployDonutWithType:kDonutTypeRegular];
+  }
+  if (self.currentGameSpeed == 1 && arc4random() % 4 == 0) {
+    [self deployDonutWithType:kDonutTypeDecelerator];
   }
 }
 
-- (void)deployDonut {
-  Donut *donut = [[Donut alloc] initWithType:kDonutTypeRegular];
+- (void)deployDonutWithType:(DonutType)type {
+  Donut *donut = [[Donut alloc] initWithType:type];
   donut.delegate = self;
   CGPoint position =
       CGPointMake(arc4random() % (int)self.size.width, arc4random() % ((int)self.size.height - 20));
@@ -118,23 +156,16 @@ static const CGFloat kPadding = 4.0;
   [self addChild:donut];
 
   [donut expandAndContract];
+  donut.speed = _currentGameSpeed;
 }
 
 - (void)resetGame {
   [_scoreCounter reset];
   [_lifeCounter reset];
+  _currentGameSpeed = 1.0;
 
-  NSMutableArray *donuts = [NSMutableArray array];
-  [[self children] enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
-    if ([obj isKindOfClass:[Donut class]]) {
-      [donuts addObject:obj];
-    }
-  }];
-  [self removeChildrenInArray:donuts];
-}
-
-- (void)pauseGame:(BOOL)pause {
-  self.paused = pause;
+  [self removeAllActions];
+  [self removeChildrenInArray:[self allDonuts]];
 }
 
 - (void)loseGame {
