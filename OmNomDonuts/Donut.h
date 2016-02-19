@@ -35,9 +35,12 @@ typedef NS_ENUM(NSInteger, DonutType) {
 @property(nonatomic, weak) id<DonutStateDelegate> delegate;
 @property(nonatomic, readonly) DonutState state;
 @property(nonatomic, readonly) DonutType type;
+@property(nonatomic, readonly) NSInteger value;
 
-- (instancetype)initWithType:(DonutType)donutType;
+- (instancetype)initWithType:(DonutType)type;
 - (void)expandAndContract;
 - (void)fadeOut;
+- (void)swallow;
+- (void)gravitateTowardsPosition:(CGPoint)point;
 
 @end

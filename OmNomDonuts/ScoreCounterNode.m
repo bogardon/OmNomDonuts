@@ -27,12 +27,11 @@ static const CGFloat kStepDelay = 0.05;
   }
 
   NSInteger displayedScore = self.text.integerValue;
+  NSInteger difference = score - displayedScore;
+  NSInteger step = difference / ABS(difference);
   NSArray *actions = @[
     [SKAction runBlock:^{
-      NSInteger difference = score - displayedScore;
-      NSInteger step = difference / ABS(difference);
-      NSString *text = [@(self.text.integerValue + step) description];
-      self.text = text;
+      self.text = [@(self.text.integerValue + step) description];
     }],
     [SKAction waitForDuration:kStepDelay]
   ];

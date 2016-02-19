@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		72014C931C76EDF2002E7BC7 /* SKScene+Utils.m in Sources */ = {isa = PBXBuildFile; fileRef = 72014C921C76EDF2002E7BC7 /* SKScene+Utils.m */; };
 		720B0FA31C6F052100D1FEC1 /* Launch Screen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 720B0FA21C6F052100D1FEC1 /* Launch Screen.storyboard */; };
 		720B0FA61C6F0CE900D1FEC1 /* ScoreCounterNode.m in Sources */ = {isa = PBXBuildFile; fileRef = 720B0FA51C6F0CE900D1FEC1 /* ScoreCounterNode.m */; };
 		720B0FA91C6F10EB00D1FEC1 /* PauseNode.m in Sources */ = {isa = PBXBuildFile; fileRef = 720B0FA81C6F10EB00D1FEC1 /* PauseNode.m */; };
@@ -61,6 +62,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		72014C911C76EDF2002E7BC7 /* SKScene+Utils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "SKScene+Utils.h"; sourceTree = "<group>"; };
+		72014C921C76EDF2002E7BC7 /* SKScene+Utils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "SKScene+Utils.m"; sourceTree = "<group>"; };
 		720B0FA21C6F052100D1FEC1 /* Launch Screen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = "Launch Screen.storyboard"; sourceTree = "<group>"; };
 		720B0FA41C6F0CE900D1FEC1 /* ScoreCounterNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ScoreCounterNode.h; sourceTree = "<group>"; };
 		720B0FA51C6F0CE900D1FEC1 /* ScoreCounterNode.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ScoreCounterNode.m; sourceTree = "<group>"; };
@@ -169,6 +172,8 @@
 				720B0FAE1C6F1F0200D1FEC1 /* SKNode+Control.m */,
 				72446A331C74480100B89D42 /* NSArray+Utils.h */,
 				72446A341C74480100B89D42 /* NSArray+Utils.m */,
+				72014C911C76EDF2002E7BC7 /* SKScene+Utils.h */,
+				72014C921C76EDF2002E7BC7 /* SKScene+Utils.m */,
 			);
 			name = Other;
 			sourceTree = "<group>";
@@ -409,6 +414,7 @@
 				726EFA5A190D94AF0076029B /* main.m in Sources */,
 				720B0FAC1C6F12E800D1FEC1 /* MissNode.m in Sources */,
 				720B0FA61C6F0CE900D1FEC1 /* ScoreCounterNode.m in Sources */,
+				72014C931C76EDF2002E7BC7 /* SKScene+Utils.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

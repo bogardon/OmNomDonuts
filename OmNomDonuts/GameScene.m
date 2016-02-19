@@ -14,9 +14,9 @@
 #import "LifeCounterNode.h"
 #import "MainMenuScene.h"
 #import "MissNode.h"
-#import "NSArray+Utils.h"
 #import "PauseNode.h"
 #import "SKNode+Control.h"
+#import "SKScene+Utils.h"
 #import "ScoreCounterNode.h"
 #import "ViewController.h"
 
@@ -60,12 +60,9 @@ static const NSTimeInterval kDeployPeriod = 3.0;
     case kDonutStateContracting:
       break;
     case kDonutStateHit:
-      [self onDonutHit:donut];
+      _scoreCounter.score += donut.value;
       break;
     case kDonutStateMissed:
-      if (donut.type == kDonutTypeRegular) {
-        [_lifeCounter decrementLives];
-      }
       break;
   }
 }
@@ -78,38 +75,6 @@ static const NSTimeInterval kDeployPeriod = 3.0;
 }
 
 #pragma mark Private Methods
-
-- (NSArray *)allDonuts {
-  return [self.children filteredArrayWithBlock:^BOOL(id object) {
-    return [object isKindOfClass:[Donut class]];
-  }];
-}
-
-- (NSArray *)pendingDonuts {
-  return [self.children filteredArrayWithBlock:^BOOL(Donut *donut) {
-    return [donut isKindOfClass:[Donut class]] &&
-           (donut.state == kDonutStateExpanding || donut.state == kDonutStateContracting);
-  }];
-}
-
-- (void)onDonutHit:(Donut *)donut {
-  switch (donut.type) {
-    case kDonutTypeRegular:
-      _scoreCounter.score += 10;
-      [donut fadeOut];
-      break;
-    case kDonutTypeDecelerator: {
-      [[self pendingDonuts]
-          enumerateObjectsUsingBlock:^(Donut *donut, NSUInteger idx, BOOL *_Nonnull stop) {
-            donut.speed = 0.4;
-          }];
-      [donut fadeOut];
-      break;
-    }
-    case kDonutTypeBlackhole:
-      break;
-  }
-}
 
 - (void)onPause:(id)sender {
   self.view.paused ^= YES;
@@ -126,9 +91,8 @@ static const NSTimeInterval kDeployPeriod = 3.0;
   for (NSInteger i = 0; i < 3; i++) {
     [self deployDonutWithType:kDonutTypeRegular];
   }
-  if (arc4random() % 4 == 0) {
-    [self deployDonutWithType:kDonutTypeDecelerator];
-  }
+  [self deployDonutWithType:kDonutTypeDecelerator];
+  [self deployDonutWithType:kDonutTypeBlackhole];
 }
 
 - (void)deployDonutWithType:(DonutType)type {
@@ -138,8 +102,6 @@ static const NSTimeInterval kDeployPeriod = 3.0;
       CGPointMake(arc4random() % (int)self.size.width, arc4random() % ((int)self.size.height - 20));
   donut.position = position;
   [self addChild:donut];
-
-  [donut expandAndContract];
 }
 
 - (void)resetGame {
@@ -147,7 +109,7 @@ static const NSTimeInterval kDeployPeriod = 3.0;
   [_lifeCounter reset];
 
   [self removeAllActions];
-  [self removeChildrenInArray:[self allDonuts]];
+  [self removeChildrenInArray:self.allDonuts];
 }
 
 - (void)loseGame {
