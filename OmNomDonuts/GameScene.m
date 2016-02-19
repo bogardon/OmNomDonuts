@@ -23,11 +23,8 @@
 static const NSInteger kMaxLives = 5;
 static const CGFloat kPadding = 4.0;
 static const NSTimeInterval kDeployPeriod = 3.0;
-static NSString *const kDecelerateActionKey = @"kDecelerateActionKey";
-static NSString *const kDeployActionKey = @"kDeployActionKey";
 
 @interface GameScene ()<DonutStateDelegate>
-@property(nonatomic, assign) CGFloat currentGameSpeed;
 @end
 
 @implementation GameScene {
@@ -82,16 +79,6 @@ static NSString *const kDeployActionKey = @"kDeployActionKey";
 
 #pragma mark Private Methods
 
-- (void)setCurrentGameSpeed:(CGFloat)currentGameSpeed {
-  _currentGameSpeed = currentGameSpeed;
-  NSLog(@"%f", currentGameSpeed);
-  [[self pendingDonuts]
-      enumerateObjectsUsingBlock:^(Donut *donut, NSUInteger idx, BOOL *_Nonnull stop) {
-        donut.speed = currentGameSpeed;
-      }];
-  [self actionForKey:kDeployActionKey].speed = currentGameSpeed;
-}
-
 - (NSArray *)allDonuts {
   return [self.children filteredArrayWithBlock:^BOOL(id object) {
     return [object isKindOfClass:[Donut class]];
@@ -100,8 +87,8 @@ static NSString *const kDeployActionKey = @"kDeployActionKey";
 
 - (NSArray *)pendingDonuts {
   return [self.children filteredArrayWithBlock:^BOOL(Donut *donut) {
-    return [donut isKindOfClass:[Donut class]] && donut.state != kDonutStateHit &&
-           donut.state != kDonutStateMissed;
+    return [donut isKindOfClass:[Donut class]] &&
+           (donut.state == kDonutStateExpanding || donut.state == kDonutStateContracting);
   }];
 }
 
@@ -112,13 +99,10 @@ static NSString *const kDeployActionKey = @"kDeployActionKey";
       [donut fadeOut];
       break;
     case kDonutTypeDecelerator: {
-      [self removeActionForKey:kDecelerateActionKey];
-      self.currentGameSpeed = 0.5;
-      SKAction *wait = [SKAction waitForDuration:5.0];
-      SKAction *revert = [SKAction runBlock:^{
-        self.currentGameSpeed = 1.0;
-      }];
-      [self runAction:[SKAction sequence:@[wait, revert]] withKey:kDecelerateActionKey];
+      [[self pendingDonuts]
+          enumerateObjectsUsingBlock:^(Donut *donut, NSUInteger idx, BOOL *_Nonnull stop) {
+            donut.speed = 0.4;
+          }];
       [donut fadeOut];
       break;
     }
@@ -135,14 +119,14 @@ static NSString *const kDeployActionKey = @"kDeployActionKey";
   SKAction *wait = [SKAction waitForDuration:kDeployPeriod];
   SKAction *deploy = [SKAction performSelector:@selector(onDeployTimer) onTarget:self];
   SKAction *sequence = [SKAction sequence:@[deploy, wait]];
-  [self runAction:[SKAction repeatActionForever:sequence] withKey:kDeployActionKey];
+  [self runAction:[SKAction repeatActionForever:sequence]];
 }
 
 - (void)onDeployTimer {
   for (NSInteger i = 0; i < 3; i++) {
     [self deployDonutWithType:kDonutTypeRegular];
   }
-  if (self.currentGameSpeed == 1 && arc4random() % 4 == 0) {
+  if (arc4random() % 4 == 0) {
     [self deployDonutWithType:kDonutTypeDecelerator];
   }
 }
@@ -156,13 +140,11 @@ static NSString *const kDeployActionKey = @"kDeployActionKey";
   [self addChild:donut];
 
   [donut expandAndContract];
-  donut.speed = _currentGameSpeed;
 }
 
 - (void)resetGame {
   [_scoreCounter reset];
   [_lifeCounter reset];
-  _currentGameSpeed = 1.0;
 
   [self removeAllActions];
   [self removeChildrenInArray:[self allDonuts]];

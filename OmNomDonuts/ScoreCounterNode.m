@@ -14,28 +14,24 @@ static const CGFloat kStepDelay = 0.05;
 
 #pragma mark Public Methods
 
-- (NSInteger)score {
-  return self.text.integerValue;
-}
-
 - (void)setScore:(NSInteger)score {
   [self setScore:score animated:YES];
 }
 
 - (void)setScore:(NSInteger)score animated:(BOOL)animated {
-  score = MAX(0, score);
+  _score = MAX(0, score);
 
   if (!animated) {
     self.text = [@(score) description];
     return;
   }
 
-  NSInteger displayedScore = self.score;
+  NSInteger displayedScore = self.text.integerValue;
   NSArray *actions = @[
     [SKAction runBlock:^{
       NSInteger difference = score - displayedScore;
       NSInteger step = difference / ABS(difference);
-      NSString *text = [@(self.score + step) description];
+      NSString *text = [@(self.text.integerValue + step) description];
       self.text = text;
     }],
     [SKAction waitForDuration:kStepDelay]
