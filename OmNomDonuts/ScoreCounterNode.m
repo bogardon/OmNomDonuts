@@ -8,7 +8,7 @@
 
 #import "ScoreCounterNode.h"
 
-static const CGFloat kStepDelay = 0.05;
+static const NSTimeInterval kUpdateDuration = 0.5;
 
 @implementation ScoreCounterNode
 
@@ -29,11 +29,12 @@ static const CGFloat kStepDelay = 0.05;
   NSInteger displayedScore = self.text.integerValue;
   NSInteger difference = score - displayedScore;
   NSInteger step = difference / ABS(difference);
+  NSTimeInterval stepDelay = kUpdateDuration / difference;
   NSArray *actions = @[
     [SKAction runBlock:^{
       self.text = [@(self.text.integerValue + step) description];
     }],
-    [SKAction waitForDuration:kStepDelay]
+    [SKAction waitForDuration:stepDelay]
   ];
   SKAction *sequence = [SKAction sequence:actions];
 
