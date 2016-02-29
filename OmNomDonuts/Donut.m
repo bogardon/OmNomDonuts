@@ -10,7 +10,7 @@
 
 #import "SKScene+Utils.h"
 
-static const CGSize kStandardSize = {40, 40};
+static const CGSize kStandardSize = {60, 60};
 static const NSTimeInterval kFadeDuration = 0.2;
 static const NSTimeInterval kExpandAndContractDuration = 2;
 
@@ -27,7 +27,7 @@ static const NSTimeInterval kExpandAndContractDuration = 2;
 
     switch (type) {
       case kDonutTypeRegular:
-        self.texture = [SKTexture textureWithImageNamed:@"donut2"];
+        self.texture = [SKTexture textureWithImageNamed:@"original_donut"];
         break;
       case kDonutTypeDecelerator:
         self.texture = [SKTexture textureWithImageNamed:@"pink_donut"];
@@ -47,27 +47,6 @@ static const NSTimeInterval kExpandAndContractDuration = 2;
 
 - (void)touchesEnded:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event {
   self.state = kDonutStateHit;
-
-  switch (_type) {
-    case kDonutTypeRegular:
-      [self fadeOut];
-      break;
-    case kDonutTypeDecelerator:
-      [self fadeOut];
-      [self.scene.pendingDonuts
-          enumerateObjectsUsingBlock:^(Donut *_Nonnull obj, NSUInteger idx, BOOL *_Nonnull stop) {
-            obj.speed = 0.4;
-          }];
-      break;
-    case kDonutTypeBlackhole:
-      [self swallow];
-      [self.scene.pendingDonuts
-          enumerateObjectsUsingBlock:^(Donut *_Nonnull obj, NSUInteger idx, BOOL *_Nonnull stop) {
-            obj.state = kDonutStateHit;
-            [obj gravitateTowardsPosition:self.position];
-          }];
-      break;
-  }
 }
 
 #pragma mark Public Methods
@@ -137,9 +116,30 @@ static const NSTimeInterval kExpandAndContractDuration = 2;
 - (void)setState:(DonutState)state {
   if (_state != state) {
     _state = state;
-    if (state == kDonutStateMissed) {
+    if (state == kDonutStateHit) {
       [self removeAllActions];
       self.userInteractionEnabled = NO;
+
+      switch (_type) {
+        case kDonutTypeRegular:
+          [self fadeOut];
+          break;
+        case kDonutTypeDecelerator:
+          [self fadeOut];
+          [self.scene.pendingDonuts
+           enumerateObjectsUsingBlock:^(Donut *_Nonnull obj, NSUInteger idx, BOOL *_Nonnull stop) {
+             obj.speed = 0.4;
+           }];
+          break;
+        case kDonutTypeBlackhole:
+          [self swallow];
+          [self.scene.pendingDonuts
+           enumerateObjectsUsingBlock:^(Donut *_Nonnull obj, NSUInteger idx, BOOL *_Nonnull stop) {
+             obj.state = kDonutStateHit;
+             [obj gravitateTowardsPosition:self.position];
+           }];
+          break;
+      }
     }
     [_delegate donutStateDidChange:self];
   }
