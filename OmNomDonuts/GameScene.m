@@ -36,6 +36,8 @@ static const NSTimeInterval kDeployPeriod = 3.0;
 - (instancetype)initWithSize:(CGSize)size {
   self = [super initWithSize:size];
   if (self) {
+    self.backgroundColor = [SKColor whiteColor];
+
     [self createContent];
     [self resetGame];
     [self startGame];
@@ -135,10 +137,6 @@ static const NSTimeInterval kDeployPeriod = 3.0;
 }
 
 - (void)createContent {
-  SKSpriteNode *background = [SKSpriteNode spriteNodeWithImageNamed:@"background_red"];
-  background.anchorPoint = CGPointMake(0, 0);
-  [self addChild:background];
-
   _scoreCounter = [ScoreCounterNode labelNodeWithFontNamed:@"HelveticaNeue"];
   _scoreCounter.fontColor = [SKColor darkTextColor];
   _scoreCounter.fontSize = 20;
@@ -148,15 +146,15 @@ static const NSTimeInterval kDeployPeriod = 3.0;
   _scoreCounter.horizontalAlignmentMode = SKLabelHorizontalAlignmentModeLeft;
   [self addChild:_scoreCounter];
 
-  _lifeCounter = [[LifeCounterNode alloc] initWithMaxLives:kMaxLives];
-  CGRect accumulatedFrame = [_lifeCounter calculateAccumulatedFrame];
-  _lifeCounter.position =
-      CGPointMake(CGRectGetMidX(self.frame) - accumulatedFrame.size.width / 2,
-                  CGRectGetMaxY(self.frame) - accumulatedFrame.size.height / 2 - kPadding);
-  [self addChild:_lifeCounter];
+//  _lifeCounter = [[LifeCounterNode alloc] initWithMaxLives:kMaxLives];
+//  CGRect accumulatedFrame = [_lifeCounter calculateAccumulatedFrame];
+//  _lifeCounter.position =
+//      CGPointMake(CGRectGetMidX(self.frame) - accumulatedFrame.size.width / 2,
+//                  CGRectGetMaxY(self.frame) - accumulatedFrame.size.height / 2 - kPadding);
+//  [self addChild:_lifeCounter];
 
   _pauseNode = [[PauseNode alloc] init];
-  accumulatedFrame = [_pauseNode calculateAccumulatedFrame];
+  CGRect accumulatedFrame = [_pauseNode calculateAccumulatedFrame];
   _pauseNode.position =
       CGPointMake(CGRectGetMaxX(self.frame) - accumulatedFrame.size.width - kPadding,
                   CGRectGetMaxY(self.frame) - accumulatedFrame.size.height - kPadding);

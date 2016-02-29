@@ -32,10 +32,10 @@ static const NSTimeInterval kExpandAndContractDuration = 2;
         self.texture = [atlas textureNamed:@"original_donut"];
         break;
       case kDonutTypeDecelerator:
-        self.texture = [SKTexture textureWithImageNamed:@"pink_donut"];
+        self.texture = [atlas textureNamed:@"strawberry_donut"];
         break;
       case kDonutTypeBlackhole:
-        self.texture = [SKTexture textureWithImageNamed:@"greyout_donut"];
+        self.texture = [atlas textureNamed:@"half_choco_donut"];
         break;
     }
 
@@ -51,6 +51,27 @@ static const NSTimeInterval kExpandAndContractDuration = 2;
   [super touchesEnded:touches withEvent:event];
 
   self.state = kDonutStateHit;
+
+  switch (_type) {
+    case kDonutTypeRegular:
+      [self fadeOut];
+      break;
+    case kDonutTypeDecelerator:
+      [self fadeOut];
+      [self.scene.pendingDonuts
+       enumerateObjectsUsingBlock:^(Donut *_Nonnull obj, NSUInteger idx, BOOL *_Nonnull stop) {
+         obj.speed = 0.4;
+       }];
+      break;
+    case kDonutTypeBlackhole:
+      [self swallow];
+      [self.scene.pendingDonuts
+       enumerateObjectsUsingBlock:^(Donut *_Nonnull obj, NSUInteger idx, BOOL *_Nonnull stop) {
+         obj.state = kDonutStateHit;
+         [obj gravitateTowardsPosition:self.position];
+       }];
+      break;
+  }
 }
 
 #pragma mark Public Methods
@@ -127,27 +148,6 @@ static const NSTimeInterval kExpandAndContractDuration = 2;
     if (state == kDonutStateHit) {
       [self removeAllActions];
       self.userInteractionEnabled = NO;
-
-      switch (_type) {
-        case kDonutTypeRegular:
-          [self fadeOut];
-          break;
-        case kDonutTypeDecelerator:
-          [self fadeOut];
-          [self.scene.pendingDonuts
-           enumerateObjectsUsingBlock:^(Donut *_Nonnull obj, NSUInteger idx, BOOL *_Nonnull stop) {
-             obj.speed = 0.4;
-           }];
-          break;
-        case kDonutTypeBlackhole:
-          [self swallow];
-          [self.scene.pendingDonuts
-           enumerateObjectsUsingBlock:^(Donut *_Nonnull obj, NSUInteger idx, BOOL *_Nonnull stop) {
-             obj.state = kDonutStateHit;
-             [obj gravitateTowardsPosition:self.position];
-           }];
-          break;
-      }
     }
     [_delegate donutStateDidChange:self];
   }

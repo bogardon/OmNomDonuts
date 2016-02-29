@@ -24,8 +24,8 @@ static const CGFloat kPadding = 5.0;
   if (self) {
     _maxLives = maxLives;
 
-    SKTexture *pink = [SKTexture textureWithImageNamed:@"pink_donut"];
-    SKTexture *grey = [SKTexture textureWithImageNamed:@"greyout_donut"];
+    SKTexture *pink;
+    SKTexture *grey;
     for (int i = 0; i < maxLives; i++) {
       SKSpriteNode *on = [SKSpriteNode spriteNodeWithTexture:pink size:kLifeSize];
       SKSpriteNode *off = [SKSpriteNode spriteNodeWithTexture:grey size:kLifeSize];
