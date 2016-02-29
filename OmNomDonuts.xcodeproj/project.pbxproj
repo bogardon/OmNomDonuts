@@ -335,6 +335,9 @@
 			attributes = {
 				LastUpgradeCheck = 0720;
 				TargetAttributes = {
+					726EFA47190D94AF0076029B = {
+						DevelopmentTeam = 9UC824J6W7;
+					};
 					726EFA6F190D94B00076029B = {
 						TestTargetID = 726EFA47190D94AF0076029B;
 					};
@@ -539,6 +542,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "OmNomDonuts/OmNomDonuts-Prefix.pch";
 				INFOPLIST_FILE = "OmNomDonuts/OmNomDonuts-Info.plist";
@@ -554,6 +558,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "OmNomDonuts/OmNomDonuts-Prefix.pch";
 				INFOPLIST_FILE = "OmNomDonuts/OmNomDonuts-Info.plist";
