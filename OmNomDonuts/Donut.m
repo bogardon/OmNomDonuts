@@ -11,6 +11,7 @@
 #import "SKScene+Utils.h"
 
 static const CGSize kStandardSize = {60, 60};
+static const CGFloat kSmallestTapRadius = 10.0;
 static const NSTimeInterval kFadeDuration = 0.2;
 static const NSTimeInterval kExpandAndContractDuration = 2;
 
@@ -25,9 +26,10 @@ static const NSTimeInterval kExpandAndContractDuration = 2;
   if (self) {
     _type = type;
 
+    SKTextureAtlas *atlas = [SKTextureAtlas atlasNamed:@"Sprites"];
     switch (type) {
       case kDonutTypeRegular:
-        self.texture = [SKTexture textureWithImageNamed:@"original_donut"];
+        self.texture = [atlas textureNamed:@"original_donut"];
         break;
       case kDonutTypeDecelerator:
         self.texture = [SKTexture textureWithImageNamed:@"pink_donut"];
@@ -46,10 +48,16 @@ static const NSTimeInterval kExpandAndContractDuration = 2;
 }
 
 - (void)touchesEnded:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event {
+  [super touchesEnded:touches withEvent:event];
+
   self.state = kDonutStateHit;
 }
 
 #pragma mark Public Methods
+
+- (BOOL)isPointWithinSmallestTapRadius:(CGPoint)point {
+  return hypot(point.x - self.position.x, point.y - self.position.y) <= kSmallestTapRadius;
+}
 
 - (NSInteger)value {
   switch (_type) {

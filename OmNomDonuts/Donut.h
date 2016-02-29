@@ -43,4 +43,6 @@ typedef NS_ENUM(NSInteger, DonutType) {
 - (void)swallow;
 - (void)gravitateTowardsPosition:(CGPoint)point;
 
+- (BOOL)isPointWithinSmallestTapRadius:(CGPoint)point;
+
 @end

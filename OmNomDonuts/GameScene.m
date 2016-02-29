@@ -70,8 +70,23 @@ static const NSTimeInterval kDeployPeriod = 3.0;
 #pragma mark - Touches
 
 - (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event {
+  [super touchesEnded:touches withEvent:event];
+
   UITouch *touch = [touches anyObject];
-  [self showMissAtPoint:[touch locationInNode:self]];
+  CGPoint point = [touch locationInNode:self];
+  Donut *donutToHit;
+  for (Donut *donut in [self.pendingDonuts reverseObjectEnumerator]) {
+    if ([donut isPointWithinSmallestTapRadius:point]) {
+      donutToHit = donut;
+      break;
+    }
+  }
+
+  if (donutToHit) {
+    [donutToHit touchesEnded:touches withEvent:event];
+  } else {
+    [self showMissAtPoint:point];
+  }
 }
 
 #pragma mark Private Methods
