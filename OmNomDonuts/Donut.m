@@ -14,7 +14,8 @@ static const CGSize kStandardSize = {60, 60};
 static const CGFloat kSmallestTapRadius = 10.0;
 static const NSTimeInterval kFadeDuration = 0.2;
 static const NSTimeInterval kExpandAndContractDuration = 2;
-static NSString * const kExpandAndContractActionKey = @"kExpandAndContractActionKey";
+static NSString *const kExpandAndContractActionKey = @"kExpandAndContractActionKey";
+static const CGFloat kBlackholeRadius = 120.0;
 
 @interface Donut ()
 @property(nonatomic, assign) DonutState state;
@@ -60,17 +61,20 @@ static NSString * const kExpandAndContractActionKey = @"kExpandAndContractAction
     case kDonutTypeDecelerator:
       [self fadeOut];
       [self.scene.pendingDonuts
-       enumerateObjectsUsingBlock:^(Donut *_Nonnull obj, NSUInteger idx, BOOL *_Nonnull stop) {
-         [obj slowDown];
-       }];
+          enumerateObjectsUsingBlock:^(Donut *_Nonnull obj, NSUInteger idx, BOOL *_Nonnull stop) {
+            [obj slowDown];
+          }];
       break;
     case kDonutTypeBlackhole:
       [self swallow];
       [self.scene.pendingDonuts
-       enumerateObjectsUsingBlock:^(Donut *_Nonnull obj, NSUInteger idx, BOOL *_Nonnull stop) {
-         obj.state = kDonutStateHit;
-         [obj gravitateTowardsPosition:self.position];
-       }];
+          enumerateObjectsUsingBlock:^(Donut *_Nonnull obj, NSUInteger idx, BOOL *_Nonnull stop) {
+            if (hypot(obj.position.x - self.position.x, obj.position.y - self.position.y) <
+                kBlackholeRadius) {
+              obj.state = kDonutStateHit;
+              [obj gravitateTowardsPosition:self.position];
+            }
+          }];
       break;
   }
 }

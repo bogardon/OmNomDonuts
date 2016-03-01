@@ -146,12 +146,12 @@ static const NSTimeInterval kDeployPeriod = 3.0;
   _scoreCounter.horizontalAlignmentMode = SKLabelHorizontalAlignmentModeLeft;
   [self addChild:_scoreCounter];
 
-//  _lifeCounter = [[LifeCounterNode alloc] initWithMaxLives:kMaxLives];
-//  CGRect accumulatedFrame = [_lifeCounter calculateAccumulatedFrame];
-//  _lifeCounter.position =
-//      CGPointMake(CGRectGetMidX(self.frame) - accumulatedFrame.size.width / 2,
-//                  CGRectGetMaxY(self.frame) - accumulatedFrame.size.height / 2 - kPadding);
-//  [self addChild:_lifeCounter];
+  //  _lifeCounter = [[LifeCounterNode alloc] initWithMaxLives:kMaxLives];
+  //  CGRect accumulatedFrame = [_lifeCounter calculateAccumulatedFrame];
+  //  _lifeCounter.position =
+  //      CGPointMake(CGRectGetMidX(self.frame) - accumulatedFrame.size.width / 2,
+  //                  CGRectGetMaxY(self.frame) - accumulatedFrame.size.height / 2 - kPadding);
+  //  [self addChild:_lifeCounter];
 
   _pauseNode = [[PauseNode alloc] init];
   CGRect accumulatedFrame = [_pauseNode calculateAccumulatedFrame];
