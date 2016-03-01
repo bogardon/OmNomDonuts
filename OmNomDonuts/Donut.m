@@ -14,6 +14,7 @@ static const CGSize kStandardSize = {60, 60};
 static const CGFloat kSmallestTapRadius = 10.0;
 static const NSTimeInterval kFadeDuration = 0.2;
 static const NSTimeInterval kExpandAndContractDuration = 2;
+static NSString * const kExpandAndContractActionKey = @"kExpandAndContractActionKey";
 
 @interface Donut ()
 @property(nonatomic, assign) DonutState state;
@@ -60,7 +61,7 @@ static const NSTimeInterval kExpandAndContractDuration = 2;
       [self fadeOut];
       [self.scene.pendingDonuts
        enumerateObjectsUsingBlock:^(Donut *_Nonnull obj, NSUInteger idx, BOOL *_Nonnull stop) {
-         obj.speed = 0.4;
+         [obj slowDown];
        }];
       break;
     case kDonutTypeBlackhole:
@@ -116,7 +117,11 @@ static const NSTimeInterval kExpandAndContractDuration = 2;
     [SKAction removeFromParent]
   ];
   SKAction *sequence = [SKAction sequence:actions];
-  [self runAction:sequence];
+  [self runAction:sequence withKey:kExpandAndContractActionKey];
+}
+
+- (void)slowDown {
+  [self actionForKey:kExpandAndContractActionKey].speed = 0.4;
 }
 
 - (void)fadeOut {
