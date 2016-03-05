@@ -11,6 +11,7 @@
 #import <math.h>
 
 #import "Donut.h"
+#import "GameConfig.h"
 #import "LifeCounterNode.h"
 #import "MainMenuScene.h"
 #import "MissNode.h"
@@ -20,9 +21,7 @@
 #import "ScoreCounterNode.h"
 #import "ViewController.h"
 
-static const NSInteger kMaxLives = 5;
 static const CGFloat kPadding = 4.0;
-static const NSTimeInterval kDeployPeriod = 3.0;
 
 @interface GameScene ()<DonutStateDelegate>
 @end
@@ -31,11 +30,14 @@ static const NSTimeInterval kDeployPeriod = 3.0;
   ScoreCounterNode *_scoreCounter;
   LifeCounterNode *_lifeCounter;
   PauseNode *_pauseNode;
+  GameConfig *_gameConfig;
 }
 
 - (instancetype)initWithSize:(CGSize)size {
   self = [super initWithSize:size];
   if (self) {
+    _gameConfig = [[GameConfig alloc] init];
+
     self.backgroundColor = [SKColor whiteColor];
 
     [self createContent];
@@ -98,27 +100,35 @@ static const NSTimeInterval kDeployPeriod = 3.0;
 }
 
 - (void)startGame {
-  SKAction *wait = [SKAction waitForDuration:kDeployPeriod];
+  SKAction *wait = [SKAction waitForDuration:_gameConfig.deployPeriod];
   SKAction *deploy = [SKAction performSelector:@selector(onDeployTimer) onTarget:self];
   SKAction *sequence = [SKAction sequence:@[deploy, wait]];
   [self runAction:[SKAction repeatActionForever:sequence]];
 }
 
 - (void)onDeployTimer {
-  for (NSInteger i = 0; i < 3; i++) {
+  for (NSInteger i = 0; i < _gameConfig.numberOfDonutsPerDeploy; i++) {
     [self deployDonutWithType:kDonutTypeRegular];
   }
-  [self deployDonutWithType:kDonutTypeDecelerator];
-  [self deployDonutWithType:kDonutTypeBlackhole];
+
+  if (arc4random() % 4 == 0) {
+    [self deployDonutWithType:kDonutTypeDecelerator];
+  }
+  if (arc4random() % 4 == 0) {
+    [self deployDonutWithType:kDonutTypeBlackhole];
+  }
 }
 
 - (void)deployDonutWithType:(DonutType)type {
   Donut *donut = [[Donut alloc] initWithType:type];
   donut.delegate = self;
+  CGFloat halfDimension = donut.size.width / 2.0;
   CGPoint position =
-      CGPointMake(arc4random() % (int)self.size.width, arc4random() % ((int)self.size.height - 20));
+      CGPointMake(halfDimension + arc4random() % (int)(self.size.width - 2 * halfDimension),
+                  halfDimension + arc4random() % (int)(self.size.height - 2 * halfDimension));
   donut.position = position;
   [self addChild:donut];
+  [donut expandAndContract];
 }
 
 - (void)resetGame {
@@ -146,15 +156,15 @@ static const NSTimeInterval kDeployPeriod = 3.0;
   _scoreCounter.horizontalAlignmentMode = SKLabelHorizontalAlignmentModeLeft;
   [self addChild:_scoreCounter];
 
-  //  _lifeCounter = [[LifeCounterNode alloc] initWithMaxLives:kMaxLives];
-  //  CGRect accumulatedFrame = [_lifeCounter calculateAccumulatedFrame];
-  //  _lifeCounter.position =
-  //      CGPointMake(CGRectGetMidX(self.frame) - accumulatedFrame.size.width / 2,
-  //                  CGRectGetMaxY(self.frame) - accumulatedFrame.size.height / 2 - kPadding);
-  //  [self addChild:_lifeCounter];
+  _lifeCounter = [[LifeCounterNode alloc] initWithMaxLives:_gameConfig.maxLives];
+  CGRect accumulatedFrame = [_lifeCounter calculateAccumulatedFrame];
+  _lifeCounter.position =
+      CGPointMake(CGRectGetMidX(self.frame) - accumulatedFrame.size.width / 2,
+                  CGRectGetMaxY(self.frame) - accumulatedFrame.size.height / 2 - kPadding);
+  [self addChild:_lifeCounter];
 
   _pauseNode = [[PauseNode alloc] init];
-  CGRect accumulatedFrame = [_pauseNode calculateAccumulatedFrame];
+  accumulatedFrame = [_pauseNode calculateAccumulatedFrame];
   _pauseNode.position =
       CGPointMake(CGRectGetMaxX(self.frame) - accumulatedFrame.size.width - kPadding,
                   CGRectGetMaxY(self.frame) - accumulatedFrame.size.height - kPadding);

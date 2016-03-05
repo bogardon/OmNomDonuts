@@ -43,8 +43,6 @@ static const CGFloat kBlackholeRadius = 120.0;
 
     self.size = kStandardSize;
     self.userInteractionEnabled = YES;
-
-    [self expandAndContract];
   }
   return self;
 }
@@ -100,7 +98,7 @@ static const CGFloat kBlackholeRadius = 120.0;
 - (void)expandAndContract {
   [self setScale:0];
 
-  SKAction *wait = [SKAction waitForDuration:2.0 withRange:4.0];
+  SKAction *wait = [SKAction waitForDuration:1.5 withRange:3.0];
 
   SKAction *scaleUp = [SKAction scaleTo:1 duration:kExpandAndContractDuration];
   SKAction *scaleDown = [SKAction scaleTo:0 duration:kExpandAndContractDuration];

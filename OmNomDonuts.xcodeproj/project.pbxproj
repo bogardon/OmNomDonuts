@@ -32,6 +32,7 @@
 		726EFA7C190D94B00076029B /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 726EFA7A190D94B00076029B /* InfoPlist.strings */; };
 		726EFA7E190D94B00076029B /* OmNomDonutsTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 726EFA7D190D94B00076029B /* OmNomDonutsTests.m */; };
 		726EFA89190D9B280076029B /* GameScene.m in Sources */ = {isa = PBXBuildFile; fileRef = 726EFA88190D9B280076029B /* GameScene.m */; };
+		72A1F2511C856BBC00024205 /* GameConfig.m in Sources */ = {isa = PBXBuildFile; fileRef = 72A1F2501C856BBC00024205 /* GameConfig.m */; };
 		72A3D20C19293D07002C29E1 /* Donut.m in Sources */ = {isa = PBXBuildFile; fileRef = 72A3D20B19293D07002C29E1 /* Donut.m */; };
 /* End PBXBuildFile section */
 
@@ -85,6 +86,8 @@
 		726EFA7D190D94B00076029B /* OmNomDonutsTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = OmNomDonutsTests.m; sourceTree = "<group>"; };
 		726EFA87190D9B270076029B /* GameScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameScene.h; sourceTree = "<group>"; };
 		726EFA88190D9B280076029B /* GameScene.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GameScene.m; sourceTree = "<group>"; };
+		72A1F24F1C856BBC00024205 /* GameConfig.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameConfig.h; sourceTree = "<group>"; };
+		72A1F2501C856BBC00024205 /* GameConfig.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GameConfig.m; sourceTree = "<group>"; };
 		72A3D20A19293D07002C29E1 /* Donut.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Donut.h; sourceTree = "<group>"; };
 		72A3D20B19293D07002C29E1 /* Donut.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Donut.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -129,6 +132,8 @@
 				720B0FA81C6F10EB00D1FEC1 /* PauseNode.m */,
 				720B0FAA1C6F12E800D1FEC1 /* MissNode.h */,
 				720B0FAB1C6F12E800D1FEC1 /* MissNode.m */,
+				72A1F24F1C856BBC00024205 /* GameConfig.h */,
+				72A1F2501C856BBC00024205 /* GameConfig.m */,
 			);
 			name = GameScene;
 			sourceTree = "<group>";
@@ -335,6 +340,7 @@
 			files = (
 				720B0FA91C6F10EB00D1FEC1 /* PauseNode.m in Sources */,
 				726EFA67190D94AF0076029B /* MainMenuScene.m in Sources */,
+				72A1F2511C856BBC00024205 /* GameConfig.m in Sources */,
 				72A3D20C19293D07002C29E1 /* Donut.m in Sources */,
 				7263B00C19C4E7350053D61B /* LifeCounterNode.m in Sources */,
 				720B0FAF1C6F1F0200D1FEC1 /* SKNode+Control.m in Sources */,
