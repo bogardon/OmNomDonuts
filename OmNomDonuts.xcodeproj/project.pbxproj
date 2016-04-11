@@ -17,6 +17,7 @@
 		721B75201CBB1C7400C38B1F /* DeceleratorDonut.m in Sources */ = {isa = PBXBuildFile; fileRef = 721B751F1CBB1C7400C38B1F /* DeceleratorDonut.m */; };
 		721B75231CBB223C00C38B1F /* BlackholeDonut.m in Sources */ = {isa = PBXBuildFile; fileRef = 721B75221CBB223C00C38B1F /* BlackholeDonut.m */; };
 		721B75261CBB26E400C38B1F /* BouncingDonut.m in Sources */ = {isa = PBXBuildFile; fileRef = 721B75251CBB26E400C38B1F /* BouncingDonut.m */; };
+		721B75291CBB621600C38B1F /* Catapult.m in Sources */ = {isa = PBXBuildFile; fileRef = 721B75281CBB621600C38B1F /* Catapult.m */; };
 		72446A351C74480100B89D42 /* NSArray+Utils.m in Sources */ = {isa = PBXBuildFile; fileRef = 72446A341C74480100B89D42 /* NSArray+Utils.m */; };
 		7263B00C19C4E7350053D61B /* LifeCounterNode.m in Sources */ = {isa = PBXBuildFile; fileRef = 7263B00B19C4E7350053D61B /* LifeCounterNode.m */; };
 		726EFA4C190D94AF0076029B /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 726EFA4B190D94AF0076029B /* Foundation.framework */; };
@@ -69,6 +70,8 @@
 		721B75221CBB223C00C38B1F /* BlackholeDonut.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BlackholeDonut.m; sourceTree = "<group>"; };
 		721B75241CBB26E400C38B1F /* BouncingDonut.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BouncingDonut.h; sourceTree = "<group>"; };
 		721B75251CBB26E400C38B1F /* BouncingDonut.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BouncingDonut.m; sourceTree = "<group>"; };
+		721B75271CBB621600C38B1F /* Catapult.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Catapult.h; sourceTree = "<group>"; };
+		721B75281CBB621600C38B1F /* Catapult.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Catapult.m; sourceTree = "<group>"; };
 		72446A331C74480100B89D42 /* NSArray+Utils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSArray+Utils.h"; sourceTree = "<group>"; };
 		72446A341C74480100B89D42 /* NSArray+Utils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSArray+Utils.m"; sourceTree = "<group>"; };
 		7263B00A19C4E7350053D61B /* LifeCounterNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LifeCounterNode.h; sourceTree = "<group>"; };
@@ -151,6 +154,8 @@
 				721B75221CBB223C00C38B1F /* BlackholeDonut.m */,
 				721B75241CBB26E400C38B1F /* BouncingDonut.h */,
 				721B75251CBB26E400C38B1F /* BouncingDonut.m */,
+				721B75271CBB621600C38B1F /* Catapult.h */,
+				721B75281CBB621600C38B1F /* Catapult.m */,
 			);
 			name = GameScene;
 			sourceTree = "<group>";
@@ -370,6 +375,7 @@
 				720B0FAC1C6F12E800D1FEC1 /* MissNode.m in Sources */,
 				721B75231CBB223C00C38B1F /* BlackholeDonut.m in Sources */,
 				720B0FA61C6F0CE900D1FEC1 /* ScoreCounterNode.m in Sources */,
+				721B75291CBB621600C38B1F /* Catapult.m in Sources */,
 				72014C931C76EDF2002E7BC7 /* SKScene+Utils.m in Sources */,
 				721B75261CBB26E400C38B1F /* BouncingDonut.m in Sources */,
 			);
