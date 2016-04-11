@@ -13,6 +13,10 @@
 		720B0FA91C6F10EB00D1FEC1 /* PauseNode.m in Sources */ = {isa = PBXBuildFile; fileRef = 720B0FA81C6F10EB00D1FEC1 /* PauseNode.m */; };
 		720B0FAC1C6F12E800D1FEC1 /* MissNode.m in Sources */ = {isa = PBXBuildFile; fileRef = 720B0FAB1C6F12E800D1FEC1 /* MissNode.m */; };
 		720B0FAF1C6F1F0200D1FEC1 /* SKNode+Control.m in Sources */ = {isa = PBXBuildFile; fileRef = 720B0FAE1C6F1F0200D1FEC1 /* SKNode+Control.m */; };
+		721B751D1CBB151800C38B1F /* RegularDonut.m in Sources */ = {isa = PBXBuildFile; fileRef = 721B751C1CBB151800C38B1F /* RegularDonut.m */; };
+		721B75201CBB1C7400C38B1F /* DeceleratorDonut.m in Sources */ = {isa = PBXBuildFile; fileRef = 721B751F1CBB1C7400C38B1F /* DeceleratorDonut.m */; };
+		721B75231CBB223C00C38B1F /* BlackholeDonut.m in Sources */ = {isa = PBXBuildFile; fileRef = 721B75221CBB223C00C38B1F /* BlackholeDonut.m */; };
+		721B75261CBB26E400C38B1F /* BouncingDonut.m in Sources */ = {isa = PBXBuildFile; fileRef = 721B75251CBB26E400C38B1F /* BouncingDonut.m */; };
 		72446A351C74480100B89D42 /* NSArray+Utils.m in Sources */ = {isa = PBXBuildFile; fileRef = 72446A341C74480100B89D42 /* NSArray+Utils.m */; };
 		7263B00C19C4E7350053D61B /* LifeCounterNode.m in Sources */ = {isa = PBXBuildFile; fileRef = 7263B00B19C4E7350053D61B /* LifeCounterNode.m */; };
 		726EFA4C190D94AF0076029B /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 726EFA4B190D94AF0076029B /* Foundation.framework */; };
@@ -33,7 +37,6 @@
 		726EFA7E190D94B00076029B /* OmNomDonutsTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 726EFA7D190D94B00076029B /* OmNomDonutsTests.m */; };
 		726EFA89190D9B280076029B /* GameScene.m in Sources */ = {isa = PBXBuildFile; fileRef = 726EFA88190D9B280076029B /* GameScene.m */; };
 		72A1F2511C856BBC00024205 /* GameConfig.m in Sources */ = {isa = PBXBuildFile; fileRef = 72A1F2501C856BBC00024205 /* GameConfig.m */; };
-		72A3D20C19293D07002C29E1 /* Donut.m in Sources */ = {isa = PBXBuildFile; fileRef = 72A3D20B19293D07002C29E1 /* Donut.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -58,6 +61,14 @@
 		720B0FAB1C6F12E800D1FEC1 /* MissNode.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MissNode.m; sourceTree = "<group>"; };
 		720B0FAD1C6F1F0200D1FEC1 /* SKNode+Control.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "SKNode+Control.h"; sourceTree = "<group>"; };
 		720B0FAE1C6F1F0200D1FEC1 /* SKNode+Control.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "SKNode+Control.m"; sourceTree = "<group>"; };
+		721B751B1CBB151800C38B1F /* RegularDonut.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RegularDonut.h; sourceTree = "<group>"; };
+		721B751C1CBB151800C38B1F /* RegularDonut.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RegularDonut.m; sourceTree = "<group>"; };
+		721B751E1CBB1C7400C38B1F /* DeceleratorDonut.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DeceleratorDonut.h; sourceTree = "<group>"; };
+		721B751F1CBB1C7400C38B1F /* DeceleratorDonut.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DeceleratorDonut.m; sourceTree = "<group>"; };
+		721B75211CBB223C00C38B1F /* BlackholeDonut.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BlackholeDonut.h; sourceTree = "<group>"; };
+		721B75221CBB223C00C38B1F /* BlackholeDonut.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BlackholeDonut.m; sourceTree = "<group>"; };
+		721B75241CBB26E400C38B1F /* BouncingDonut.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BouncingDonut.h; sourceTree = "<group>"; };
+		721B75251CBB26E400C38B1F /* BouncingDonut.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BouncingDonut.m; sourceTree = "<group>"; };
 		72446A331C74480100B89D42 /* NSArray+Utils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSArray+Utils.h"; sourceTree = "<group>"; };
 		72446A341C74480100B89D42 /* NSArray+Utils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSArray+Utils.m"; sourceTree = "<group>"; };
 		7263B00A19C4E7350053D61B /* LifeCounterNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LifeCounterNode.h; sourceTree = "<group>"; };
@@ -89,7 +100,6 @@
 		72A1F24F1C856BBC00024205 /* GameConfig.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameConfig.h; sourceTree = "<group>"; };
 		72A1F2501C856BBC00024205 /* GameConfig.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GameConfig.m; sourceTree = "<group>"; };
 		72A3D20A19293D07002C29E1 /* Donut.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Donut.h; sourceTree = "<group>"; };
-		72A3D20B19293D07002C29E1 /* Donut.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Donut.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -123,7 +133,6 @@
 				726EFA87190D9B270076029B /* GameScene.h */,
 				726EFA88190D9B280076029B /* GameScene.m */,
 				72A3D20A19293D07002C29E1 /* Donut.h */,
-				72A3D20B19293D07002C29E1 /* Donut.m */,
 				7263B00A19C4E7350053D61B /* LifeCounterNode.h */,
 				7263B00B19C4E7350053D61B /* LifeCounterNode.m */,
 				720B0FA41C6F0CE900D1FEC1 /* ScoreCounterNode.h */,
@@ -134,6 +143,14 @@
 				720B0FAB1C6F12E800D1FEC1 /* MissNode.m */,
 				72A1F24F1C856BBC00024205 /* GameConfig.h */,
 				72A1F2501C856BBC00024205 /* GameConfig.m */,
+				721B751B1CBB151800C38B1F /* RegularDonut.h */,
+				721B751C1CBB151800C38B1F /* RegularDonut.m */,
+				721B751E1CBB1C7400C38B1F /* DeceleratorDonut.h */,
+				721B751F1CBB1C7400C38B1F /* DeceleratorDonut.m */,
+				721B75211CBB223C00C38B1F /* BlackholeDonut.h */,
+				721B75221CBB223C00C38B1F /* BlackholeDonut.m */,
+				721B75241CBB26E400C38B1F /* BouncingDonut.h */,
+				721B75251CBB26E400C38B1F /* BouncingDonut.m */,
 			);
 			name = GameScene;
 			sourceTree = "<group>";
@@ -339,19 +356,22 @@
 			buildActionMask = 2147483647;
 			files = (
 				720B0FA91C6F10EB00D1FEC1 /* PauseNode.m in Sources */,
+				721B75201CBB1C7400C38B1F /* DeceleratorDonut.m in Sources */,
 				726EFA67190D94AF0076029B /* MainMenuScene.m in Sources */,
 				72A1F2511C856BBC00024205 /* GameConfig.m in Sources */,
-				72A3D20C19293D07002C29E1 /* Donut.m in Sources */,
 				7263B00C19C4E7350053D61B /* LifeCounterNode.m in Sources */,
 				720B0FAF1C6F1F0200D1FEC1 /* SKNode+Control.m in Sources */,
 				726EFA64190D94AF0076029B /* ViewController.m in Sources */,
 				72446A351C74480100B89D42 /* NSArray+Utils.m in Sources */,
 				726EFA89190D9B280076029B /* GameScene.m in Sources */,
+				721B751D1CBB151800C38B1F /* RegularDonut.m in Sources */,
 				726EFA5E190D94AF0076029B /* AppDelegate.m in Sources */,
 				726EFA5A190D94AF0076029B /* main.m in Sources */,
 				720B0FAC1C6F12E800D1FEC1 /* MissNode.m in Sources */,
+				721B75231CBB223C00C38B1F /* BlackholeDonut.m in Sources */,
 				720B0FA61C6F0CE900D1FEC1 /* ScoreCounterNode.m in Sources */,
 				72014C931C76EDF2002E7BC7 /* SKScene+Utils.m in Sources */,
+				721B75261CBB26E400C38B1F /* BouncingDonut.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

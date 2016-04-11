@@ -13,16 +13,15 @@
 
 @implementation SKScene (Utils)
 
-- (NSArray<Donut *> *)allDonuts {
-  return [self.children filteredArrayWithBlock:^BOOL(Donut *object) {
-    return [object isKindOfClass:[Donut class]];
+- (NSArray<SKSpriteNode<Donut> *> *)allDonuts {
+  return [self.children filteredArrayWithBlock:^BOOL(SKSpriteNode<Donut> *donut) {
+    return [donut conformsToProtocol:@protocol(Donut)];
   }];
 }
 
-- (NSArray<Donut *> *)pendingDonuts {
-  return [self.children filteredArrayWithBlock:^BOOL(Donut *object) {
-    return [object isKindOfClass:[Donut class]] &&
-           (object.state == kDonutStateExpanding || object.state == kDonutStateContracting);
+- (NSArray<SKSpriteNode<Donut> *> *)pendingDonuts {
+  return [self.children filteredArrayWithBlock:^BOOL(SKSpriteNode<Donut> *donut) {
+    return [donut conformsToProtocol:@protocol(Donut)] && !donut.hit;
   }];
 }
 

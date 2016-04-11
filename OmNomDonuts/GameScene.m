@@ -10,20 +10,27 @@
 
 #import <math.h>
 
-#import "Donut.h"
+#import "BlackholeDonut.h"
+#import "BouncingDonut.h"
+#import "DeceleratorDonut.h"
 #import "GameConfig.h"
 #import "LifeCounterNode.h"
 #import "MainMenuScene.h"
 #import "MissNode.h"
 #import "PauseNode.h"
+#import "RegularDonut.h"
 #import "SKNode+Control.h"
 #import "SKScene+Utils.h"
 #import "ScoreCounterNode.h"
 #import "ViewController.h"
 
+static const uint32_t kStaticCategory = 0x1 << 0;
+static const uint32_t kMovingCategory = 0x1 << 1;
+static const uint32_t kEdgeCategory = 0x1 << 2;
+static NSString *const kExpandAndContractActionKey = @"kExpandAndContractActionKey";
 static const CGFloat kPadding = 4.0;
 
-@interface GameScene ()<DonutStateDelegate>
+@interface GameScene ()<SKPhysicsContactDelegate>
 @end
 
 @implementation GameScene {
@@ -38,7 +45,14 @@ static const CGFloat kPadding = 4.0;
   if (self) {
     _gameConfig = [[GameConfig alloc] init];
 
-    self.backgroundColor = [SKColor whiteColor];
+    self.backgroundColor =
+        [SKColor colorWithRed:204.0 / 255.0 green:234.0 / 255.0 blue:240.0 / 255.0 alpha:1.0];
+    self.physicsBody = [SKPhysicsBody bodyWithEdgeLoopFromRect:self.frame];
+    self.physicsBody.restitution = 1;
+    self.physicsBody.friction = 0;
+    self.physicsWorld.gravity = CGVectorMake(0, 0);
+    self.physicsBody.categoryBitMask = kEdgeCategory;
+    self.physicsWorld.contactDelegate = self;
 
     [self createContent];
     [self resetGame];
@@ -47,50 +61,67 @@ static const CGFloat kPadding = 4.0;
   return self;
 }
 
-#pragma mark - SKScene
+#pragma mark SKScene
 
 - (void)update:(CFTimeInterval)currentTime {
   // Figure out if we even need this.
 }
 
-#pragma mark DonutStateDelegate
-
-- (void)donutStateDidChange:(Donut *)donut {
-  switch (donut.state) {
-    case kDonutStateInitial:
-      break;
-    case kDonutStateExpanding:
-      break;
-    case kDonutStateContracting:
-      break;
-    case kDonutStateHit:
-      _scoreCounter.score += donut.value;
-      break;
-    case kDonutStateMissed:
-      break;
-  }
-}
-
-#pragma mark - Touches
+#pragma mark Touches
 
 - (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event {
   [super touchesEnded:touches withEvent:event];
 
   UITouch *touch = [touches anyObject];
   CGPoint point = [touch locationInNode:self];
-  Donut *donutToHit;
-  for (Donut *donut in [self.pendingDonuts reverseObjectEnumerator]) {
-    if ([donut isPointWithinSmallestTapRadius:point]) {
-      donutToHit = donut;
-      break;
+  for (SKSpriteNode<Donut> *donut in [self.pendingDonuts reverseObjectEnumerator]) {
+    CGFloat distanceToCenter = hypot(point.x - donut.position.x, point.y - donut.position.y);
+    if (distanceToCenter <= MAX(donut.size.width / 2, 10)) {
+      donut.hit = YES;
+      _scoreCounter.score += donut.value;
+      if ([donut isKindOfClass:[RegularDonut class]]) {
+        [self fadeOutDonut:donut];
+      } else if ([donut isKindOfClass:[DeceleratorDonut class]]) {
+        [self fadeOutDonut:donut];
+        for (SKSpriteNode<Donut> *otherDonut in self.pendingDonuts) {
+          [self slowDownDonut:otherDonut];
+        }
+      } else if ([donut isKindOfClass:[BlackholeDonut class]]) {
+        [self fadeOutDonut:donut];
+        for (SKSpriteNode<Donut> *otherDonut in self.pendingDonuts) {
+          if (donut == otherDonut) {
+            continue;
+          }
+          if (hypot(otherDonut.position.x - donut.position.x,
+                    otherDonut.position.y - donut.position.y) < 120) {
+            otherDonut.hit = YES;
+            _scoreCounter.score += otherDonut.value;
+            [self gravitateDonut:otherDonut towardsPoint:point];
+          }
+        }
+      } else if ([donut isKindOfClass:[BouncingDonut class]]) {
+        [donut removeAllActions];
+        SKAction *scaleUp = [SKAction scaleTo:1.0 duration:0.2];
+        SKAction *wait = [SKAction waitForDuration:5.0];
+        SKAction *fade = [SKAction fadeOutWithDuration:0.2];
+        SKAction *sequence = [SKAction sequence:@[scaleUp, wait, fade, [SKAction removeFromParent]]];
+        [donut runAction:sequence];
+        donut.physicsBody.velocity = CGVectorMake(500, 500);
+      }
+      return;
     }
   }
 
-  if (donutToHit) {
-    [donutToHit touchesEnded:touches withEvent:event];
-  } else {
-    [self showMissAtPoint:point];
-  }
+  [self showMissAtPoint:point];
+}
+
+#pragma mark SKPhysicsContactDelegate
+
+- (void)didBeginContact:(SKPhysicsContact *)contact {
+  NSLog(@"%@", contact);
+}
+
+- (void)didEndContact:(SKPhysicsContact *)contact {
 }
 
 #pragma mark Private Methods
@@ -108,27 +139,103 @@ static const CGFloat kPadding = 4.0;
 
 - (void)onDeployTimer {
   for (NSInteger i = 0; i < _gameConfig.numberOfDonutsPerDeploy; i++) {
-    [self deployDonutWithType:kDonutTypeRegular];
+    [self runAction:[SKAction waitForDuration:1.5 withRange:3.0]
+         completion:^{
+           [self deployRegularDonut];
+         }];
   }
 
   if (arc4random() % 4 == 0) {
-    [self deployDonutWithType:kDonutTypeDecelerator];
+    [self deployDeceleratorDonut];
   }
+
   if (arc4random() % 4 == 0) {
-    [self deployDonutWithType:kDonutTypeBlackhole];
+    [self deployBlackholeDonut];
+  }
+
+  if (arc4random() % 4 == 0) {
+    [self deployBouncingDonut];
   }
 }
 
-- (void)deployDonutWithType:(DonutType)type {
-  Donut *donut = [[Donut alloc] initWithType:type];
-  donut.delegate = self;
+- (void)deployRegularDonut {
+  RegularDonut *donut = [[RegularDonut alloc] init];
+  donut.physicsBody = [SKPhysicsBody bodyWithCircleOfRadius:donut.size.width / 2];
+  donut.physicsBody.collisionBitMask = 0;
+  donut.physicsBody.categoryBitMask = kStaticCategory;
+  [self randomlyPositionDonut:donut];
+  [self expandAndContractDonut:donut];
+}
+
+- (void)deployDeceleratorDonut {
+  DeceleratorDonut *donut = [[DeceleratorDonut alloc] init];
+  donut.physicsBody = [SKPhysicsBody bodyWithCircleOfRadius:donut.size.width / 2];
+  donut.physicsBody.collisionBitMask = 0;
+  donut.physicsBody.categoryBitMask = kStaticCategory;
+  [self randomlyPositionDonut:donut];
+  [self expandAndContractDonut:donut];
+}
+
+- (void)deployBlackholeDonut {
+  BlackholeDonut *donut = [[BlackholeDonut alloc] init];
+  donut.physicsBody = [SKPhysicsBody bodyWithCircleOfRadius:donut.size.width / 2];
+  donut.physicsBody.collisionBitMask = 0;
+  donut.physicsBody.categoryBitMask = kStaticCategory;
+  [self randomlyPositionDonut:donut];
+  [self expandAndContractDonut:donut];
+}
+
+- (void)deployBouncingDonut {
+  BouncingDonut *donut = [[BouncingDonut alloc] init];
+  donut.physicsBody = [SKPhysicsBody bodyWithCircleOfRadius:donut.size.width / 2];
+  donut.physicsBody.categoryBitMask = kMovingCategory;
+  donut.physicsBody.collisionBitMask = kEdgeCategory;
+  donut.physicsBody.contactTestBitMask = kStaticCategory;
+  donut.physicsBody.mass = 1;
+  donut.physicsBody.linearDamping = 0;
+  donut.physicsBody.angularDamping = 0;
+  donut.physicsBody.restitution = 1;
+  donut.physicsBody.friction = 0;
+  [self randomlyPositionDonut:donut];
+  [self expandAndContractDonut:donut];
+}
+
+- (void)randomlyPositionDonut:(SKSpriteNode<Donut> *)donut {
   CGFloat halfDimension = donut.size.width / 2.0;
   CGPoint position =
       CGPointMake(halfDimension + arc4random() % (int)(self.size.width - 2 * halfDimension),
                   halfDimension + arc4random() % (int)(self.size.height - 2 * halfDimension));
   donut.position = position;
   [self addChild:donut];
-  [donut expandAndContract];
+}
+
+- (void)expandAndContractDonut:(SKSpriteNode<Donut> *)donut {
+  [donut setScale:0];
+
+  SKAction *scaleUp = [SKAction scaleTo:1 duration:donut.expandAndContractDuration];
+  SKAction *scaleDown = [SKAction scaleTo:0 duration:donut.expandAndContractDuration];
+
+  NSArray *actions = @[scaleUp, scaleDown, [SKAction removeFromParent]];
+  SKAction *sequence = [SKAction sequence:actions];
+  [donut runAction:sequence withKey:kExpandAndContractActionKey];
+}
+
+- (void)slowDownDonut:(SKSpriteNode<Donut> *)donut {
+  [donut actionForKey:kExpandAndContractActionKey].speed = 0.4;
+}
+
+- (void)fadeOutDonut:(SKSpriteNode<Donut> *)donut {
+  [donut removeAllActions];
+  NSArray *actions = @[[SKAction fadeOutWithDuration:0.2], [SKAction removeFromParent]];
+  SKAction *sequence = [SKAction sequence:actions];
+  [donut runAction:sequence];
+}
+
+- (void)gravitateDonut:(SKSpriteNode<Donut> *)donut towardsPoint:(CGPoint)point {
+  SKAction *group =
+      [SKAction group:@[[SKAction moveTo:point duration:0.2], [SKAction fadeOutWithDuration:0.2]]];
+  SKAction *sequence = [SKAction sequence:@[group, [SKAction removeFromParent]]];
+  [donut runAction:sequence];
 }
 
 - (void)resetGame {

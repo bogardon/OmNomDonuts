@@ -8,11 +8,11 @@
 
 #import <SpriteKit/SpriteKit.h>
 
-@class Donut;
+@protocol Donut;
 
 @interface SKScene (Utils)
 
-@property(nonatomic, readonly) NSArray<Donut *> *allDonuts;
-@property(nonatomic, readonly) NSArray<Donut *> *pendingDonuts;
+@property(nonatomic, readonly) NSArray<SKSpriteNode<Donut> *> *allDonuts;
+@property(nonatomic, readonly) NSArray<SKSpriteNode<Donut> *> *pendingDonuts;
 
 @end
