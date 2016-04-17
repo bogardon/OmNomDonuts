@@ -95,8 +95,8 @@ static const CGFloat kPadding = 4.0;
     _activeBouncingDonut.catapult.finger = finger;
 
     SKPhysicsJointSpring *spring = [SKPhysicsJointSpring jointWithBodyA:_activeBouncingDonut.physicsBody bodyB:finger.physicsBody anchorA:_activeBouncingDonut.position anchorB:finger.position];
-    spring.damping = 0.05;
-    spring.frequency = 0.8;
+    spring.damping = 0.2;
+    spring.frequency = 1;
     [self.physicsWorld addJoint:spring];
     _activeBouncingDonut.catapult.fingerToDonutJoint = spring;
   }
@@ -192,10 +192,18 @@ static const CGFloat kPadding = 4.0;
 }
 
 - (void)startGame {
+  [self scheduleNextDeploy];
+}
+
+- (void)scheduleNextDeploy {
   SKAction *wait = [SKAction waitForDuration:_gameConfig.deployPeriod];
   SKAction *deploy = [SKAction performSelector:@selector(onDeployTimer) onTarget:self];
-  SKAction *sequence = [SKAction sequence:@[deploy, wait]];
-  [self runAction:[SKAction repeatActionForever:sequence]];
+  __weak GameScene *weakSelf = self;
+  SKAction *reschedule = [SKAction runBlock:^{
+    [weakSelf scheduleNextDeploy];
+  }];
+  SKAction *sequence = [SKAction sequence:@[deploy, wait, reschedule]];
+  [self runAction:sequence];
 }
 
 - (void)onDeployTimer {
@@ -279,8 +287,12 @@ static const CGFloat kPadding = 4.0;
 - (void)expandAndContractDonut:(SKSpriteNode<Donut> *)donut {
   [donut setScale:0];
 
-  SKAction *scaleUp = [SKAction scaleTo:1 duration:donut.expandAndContractDuration];
-  SKAction *scaleDown = [SKAction scaleTo:0 duration:donut.expandAndContractDuration];
+  SKAction *scaleUp = [SKAction scaleTo:1 duration:0.3];
+  scaleUp.timingFunction = ^float(float t) {
+    CGFloat f = t - 1;
+    return 1 + f * f * f;
+  };
+  SKAction *scaleDown = [SKAction scaleTo:0 duration:donut.contractDuration];
 
   NSArray *actions = @[scaleUp, scaleDown, [SKAction removeFromParent]];
   SKAction *sequence = [SKAction sequence:actions];
@@ -301,7 +313,9 @@ static const CGFloat kPadding = 4.0;
 - (void)gravitateDonut:(SKSpriteNode<Donut> *)donut towardsPoint:(CGPoint)point {
   [donut removeAllActions];
   SKAction *group =
-      [SKAction group:@[[SKAction moveTo:point duration:0.2], [SKAction fadeOutWithDuration:0.2]]];
+      [SKAction group:@[[SKAction moveTo:point duration:0.2],
+                        [SKAction scaleTo:0 duration:0.2],
+                        [SKAction fadeOutWithDuration:0.2]]];
   SKAction *sequence = [SKAction sequence:@[group, [SKAction removeFromParent]]];
   [donut runAction:sequence];
 }

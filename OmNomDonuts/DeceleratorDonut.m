@@ -11,7 +11,7 @@
 @implementation DeceleratorDonut
 
 @synthesize value = _value;
-@synthesize expandAndContractDuration = _expandAndContractDuration;
+@synthesize contractDuration = _contractDuration;
 @synthesize hit = _hit;
 
 - (instancetype)init {
@@ -24,8 +24,8 @@
   return 10;
 }
 
-- (NSTimeInterval)expandAndContractDuration {
-  return 1.2;
+- (NSTimeInterval)contractDuration {
+  return 2;
 }
 
 
