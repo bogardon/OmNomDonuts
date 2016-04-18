@@ -9,10 +9,7 @@
 #import <SpriteKit/SpriteKit.h>
 
 #import "Donut.h"
-#import "Catapult.h"
 
 @interface BouncingDonut : SKSpriteNode<Donut>
-
-@property(nonatomic, strong) Catapult *catapult;
 
 @end

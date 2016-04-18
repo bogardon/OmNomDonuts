@@ -12,7 +12,6 @@
 
 #import "BlackholeDonut.h"
 #import "BouncingDonut.h"
-#import "Catapult.h"
 #import "DeceleratorDonut.h"
 #import "GameConfig.h"
 #import "LifeCounterNode.h"
@@ -72,73 +71,15 @@ static const CGFloat kPadding = 4.0;
 
 #pragma mark Touches
 
-- (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event {
-  [super touchesBegan:touches withEvent:event];
-
-  UITouch *touch = [touches anyObject];
-  CGPoint point = [touch locationInNode:self];
-  BouncingDonut *potentialBouncingDonut = (BouncingDonut *)[self nodeAtPoint:point];
-
-  if ([potentialBouncingDonut isKindOfClass:[BouncingDonut class]] &&
-      !potentialBouncingDonut.physicsBody.contactTestBitMask) {
-    _activeBouncingDonut = (BouncingDonut *)potentialBouncingDonut;
-
-    [_activeBouncingDonut removeAllActions];
-    [_activeBouncingDonut runAction:[SKAction scaleTo:1.0 duration:0.2]];
-
-    SKShapeNode *finger = [SKShapeNode shapeNodeWithCircleOfRadius:1.0];
-    finger.fillColor = [SKColor clearColor];
-    finger.position = point;
-    finger.physicsBody = [SKPhysicsBody bodyWithCircleOfRadius:1.0];
-    finger.physicsBody.dynamic = NO;
-    [self addChild:finger];
-    _activeBouncingDonut.catapult.finger = finger;
-
-    SKPhysicsJointSpring *spring = [SKPhysicsJointSpring jointWithBodyA:_activeBouncingDonut.physicsBody bodyB:finger.physicsBody anchorA:_activeBouncingDonut.position anchorB:finger.position];
-    spring.damping = 0.2;
-    spring.frequency = 1;
-    [self.physicsWorld addJoint:spring];
-    _activeBouncingDonut.catapult.fingerToDonutJoint = spring;
-  }
-}
-
-- (void)touchesMoved:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event {
-  [super touchesMoved:touches withEvent:event];
-  UITouch *touch = [touches anyObject];
-  CGPoint p1 = [touch locationInNode:self];
-  CGPoint p2 = [touch previousLocationInNode:self];
-
-  if (_activeBouncingDonut) {
-    SKNode *finger = _activeBouncingDonut.catapult.finger;
-    finger.position = CGPointMake(finger.position.x + p1.x - p2.x, finger.position.y + p1.y - p2.y);
-  }
-}
-
 - (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event {
   [super touchesEnded:touches withEvent:event];
-
-  if (_activeBouncingDonut) {
-    [self.physicsWorld removeJoint:_activeBouncingDonut.catapult.fingerToDonutJoint];
-    _activeBouncingDonut.catapult.fingerToDonutJoint = nil;
-
-    [_activeBouncingDonut.catapult.finger removeFromParent];
-    _activeBouncingDonut.catapult.finger = nil;
-
-    SKAction *sequence = [SKAction sequence:@[[SKAction waitForDuration:3.0], [SKAction fadeOutWithDuration:0.2], [SKAction removeFromParent]]];
-    [_activeBouncingDonut runAction:sequence];
-    _activeBouncingDonut.physicsBody.contactTestBitMask = kStaticCategory;
-
-    _activeBouncingDonut = nil;
-
-    return;
-  }
 
   UITouch *touch = [touches anyObject];
   CGPoint point = [touch locationInNode:self];
   for (SKSpriteNode<Donut> *donut in [self.pendingDonuts reverseObjectEnumerator]) {
     CGFloat distanceToCenter = hypot(point.x - donut.position.x, point.y - donut.position.y);
     if (distanceToCenter <= MAX(donut.size.width / 2, 10)) {
-      [self hitDonut:donut];
+      [self hitDonut:donut point:point];
       return;
     }
   }
@@ -151,7 +92,7 @@ static const CGFloat kPadding = 4.0;
 - (void)didBeginContact:(SKPhysicsContact *)contact {
   SKSpriteNode<Donut> *donut = (SKSpriteNode<Donut> *)
       (contact.bodyA.categoryBitMask == kMovingCategory ? contact.bodyB.node : contact.bodyA.node);
-  [self hitDonut:donut];
+  [self hitDonut:donut point:contact.contactPoint];
 }
 
 - (void)didEndContact:(SKPhysicsContact *)contact {
@@ -159,7 +100,7 @@ static const CGFloat kPadding = 4.0;
 
 #pragma mark Private Methods
 
-- (void)hitDonut:(SKSpriteNode<Donut> *)donut {
+- (void)hitDonut:(SKSpriteNode<Donut> *)donut point:(CGPoint)point {
   donut.hit = YES;
   _scoreCounter.score += donut.value;
 
@@ -183,8 +124,22 @@ static const CGFloat kPadding = 4.0;
         [self gravitateDonut:otherDonut towardsPoint:donut.position];
       }
     }
+  } else if ([donut isKindOfClass:[BouncingDonut class]]) {
+    [donut removeAllActions];
+    SKAction *sequence = [SKAction sequence:@[
+                                              [SKAction scaleTo:1.0 duration:0.2],
+                                              [SKAction waitForDuration:3.0],
+                                              [SKAction fadeOutWithDuration:0.2],
+                                              [SKAction removeFromParent]
+                                              ]];
+    [donut runAction:sequence];
+    donut.physicsBody.contactTestBitMask = kStaticCategory;
+    CGFloat dx = point.x - donut.position.x;
+    CGFloat dy = point.y - donut.position.y;
+    CGFloat angle = atan2(dy, dx);
+    CGVector vector = CGVectorMake(200 * cos(angle), 200 * sin(angle));
+    donut.physicsBody.velocity = vector;
   }
-
 }
 
 - (void)onPause:(id)sender {
@@ -270,9 +225,6 @@ static const CGFloat kPadding = 4.0;
   [self randomlyPositionDonut:donut];
   [self addChild:donut];
 
-  Catapult *catapult = [[Catapult alloc] init];
-  donut.catapult = catapult;
-
   [self expandAndContractDonut:donut];
 }
 
@@ -289,8 +241,9 @@ static const CGFloat kPadding = 4.0;
 
   SKAction *scaleUp = [SKAction scaleTo:1 duration:0.3];
   scaleUp.timingFunction = ^float(float t) {
-    CGFloat f = t - 1;
-    return 1 + f * f * f;
+    CGFloat s = 1.70158;
+    CGFloat f = 1.0 - t;
+    return 1.0 - ((s + 1.0) * f - s) * f * f;
   };
   SKAction *scaleDown = [SKAction scaleTo:0 duration:donut.contractDuration];
 
