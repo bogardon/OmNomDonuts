@@ -184,6 +184,7 @@ static const CGFloat kPadding = 4.0;
 
 - (void)deployRegularDonut {
   RegularDonut *donut = [[RegularDonut alloc] init];
+  donut.size = CGSizeMake(100, 100);
   donut.physicsBody = [SKPhysicsBody bodyWithCircleOfRadius:donut.size.width / 2];
   donut.physicsBody.collisionBitMask = 0;
   donut.physicsBody.categoryBitMask = kStaticCategory;
@@ -194,6 +195,7 @@ static const CGFloat kPadding = 4.0;
 
 - (void)deployDeceleratorDonut {
   DeceleratorDonut *donut = [[DeceleratorDonut alloc] init];
+  donut.size = CGSizeMake(100, 100);
   donut.physicsBody = [SKPhysicsBody bodyWithCircleOfRadius:donut.size.width / 2];
   donut.physicsBody.collisionBitMask = 0;
   donut.physicsBody.categoryBitMask = kStaticCategory;
@@ -204,6 +206,7 @@ static const CGFloat kPadding = 4.0;
 
 - (void)deployBlackholeDonut {
   BlackholeDonut *donut = [[BlackholeDonut alloc] init];
+  donut.size = CGSizeMake(100, 100);
   donut.physicsBody = [SKPhysicsBody bodyWithCircleOfRadius:donut.size.width / 2];
   donut.physicsBody.collisionBitMask = 0;
   donut.physicsBody.categoryBitMask = kStaticCategory;
@@ -214,6 +217,7 @@ static const CGFloat kPadding = 4.0;
 
 - (void)deployBouncingDonut {
   BouncingDonut *donut = [[BouncingDonut alloc] init];
+  donut.size = CGSizeMake(100, 100);
   donut.physicsBody = [SKPhysicsBody bodyWithCircleOfRadius:donut.size.width / 2];
   donut.physicsBody.categoryBitMask = kMovingCategory;
   donut.physicsBody.collisionBitMask = kEdgeCategory;
