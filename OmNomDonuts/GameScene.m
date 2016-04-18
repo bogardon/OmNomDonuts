@@ -28,6 +28,7 @@ static const uint32_t kStaticCategory = 0x1 << 0;
 static const uint32_t kMovingCategory = 0x1 << 1;
 static const uint32_t kEdgeCategory = 0x1 << 2;
 static NSString *const kExpandAndContractActionKey = @"kExpandAndContractActionKey";
+static NSString *const kResetContractSpeedKey = @"kResetContractSpeedKey";
 static const CGFloat kPadding = 4.0;
 
 @interface GameScene ()<SKPhysicsContactDelegate>
@@ -108,9 +109,16 @@ static const CGFloat kPadding = 4.0;
     [self fadeOutDonut:donut];
   } else if ([donut isKindOfClass:[DeceleratorDonut class]]) {
     [self fadeOutDonut:donut];
+    _gameConfig.contractSpeed = 0.3;
     for (SKSpriteNode<Donut> *otherDonut in self.pendingDonuts) {
-      [self slowDownDonut:otherDonut];
+      [otherDonut actionForKey:kExpandAndContractActionKey].speed = _gameConfig.contractSpeed;
     }
+    SKAction *sequence = [SKAction sequence:@[[SKAction waitForDuration:5.0],
+                                              [SKAction runBlock:^{
+      _gameConfig.contractSpeed = 1.0;
+    }]]];
+    [self removeActionForKey:kResetContractSpeedKey];
+    [self runAction:sequence withKey:kResetContractSpeedKey];
   } else if ([donut isKindOfClass:[BlackholeDonut class]]) {
     [self fadeOutDonut:donut];
     for (SKSpriteNode<Donut> *otherDonut in self.pendingDonuts) {
@@ -137,7 +145,7 @@ static const CGFloat kPadding = 4.0;
     CGFloat dx = point.x - donut.position.x;
     CGFloat dy = point.y - donut.position.y;
     CGFloat angle = atan2(dy, dx);
-    CGVector vector = CGVectorMake(200 * cos(angle), 200 * sin(angle));
+    CGVector vector = CGVectorMake(500 * cos(angle), 500 * sin(angle));
     donut.physicsBody.velocity = vector;
   }
 }
@@ -250,14 +258,11 @@ static const CGFloat kPadding = 4.0;
     return 1.0 - ((s + 1.0) * f - s) * f * f;
   };
   SKAction *scaleDown = [SKAction scaleTo:0 duration:donut.contractDuration];
+  scaleDown.speed = _gameConfig.contractSpeed;
 
   NSArray *actions = @[scaleUp, scaleDown, [SKAction removeFromParent]];
   SKAction *sequence = [SKAction sequence:actions];
   [donut runAction:sequence withKey:kExpandAndContractActionKey];
-}
-
-- (void)slowDownDonut:(SKSpriteNode<Donut> *)donut {
-  [donut actionForKey:kExpandAndContractActionKey].speed = 0.4;
 }
 
 - (void)fadeOutDonut:(SKSpriteNode<Donut> *)donut {

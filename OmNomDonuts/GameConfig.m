@@ -16,6 +16,7 @@
     _deployPeriod = 3.0;
     _numberOfDonutsPerDeploy = 3;
     _maxLives = 5;
+    _contractSpeed = 1.0;
   }
   return self;
 }
