@@ -251,16 +251,17 @@ static const CGFloat kPadding = 4.0;
 - (void)expandAndContractDonut:(SKSpriteNode<Donut> *)donut {
   [donut setScale:0];
 
-  SKAction *scaleUp = [SKAction scaleTo:1 duration:0.3];
+  SKAction *scaleUp = [SKAction scaleTo:1 duration:0.25];
   scaleUp.timingFunction = ^float(float t) {
-    CGFloat s = 1.70158;
-    CGFloat f = 1.0 - t;
-    return 1.0 - ((s + 1.0) * f - s) * f * f;
+    CGFloat f = t - 1.0;
+    return 1.0 - f * f * f * f;
   };
   SKAction *scaleDown = [SKAction scaleTo:0 duration:donut.contractDuration];
   scaleDown.speed = _gameConfig.contractSpeed;
 
-  NSArray *actions = @[scaleUp, scaleDown, [SKAction removeFromParent]];
+  SKAction *wait = [SKAction waitForDuration:0.5];
+
+  NSArray *actions = @[scaleUp, wait, scaleDown, [SKAction removeFromParent]];
   SKAction *sequence = [SKAction sequence:actions];
   [donut runAction:sequence withKey:kExpandAndContractActionKey];
 }
@@ -321,6 +322,25 @@ static const CGFloat kPadding = 4.0;
                   CGRectGetMaxY(self.frame) - accumulatedFrame.size.height - kPadding);
   [_pauseNode addTarget:self selector:@selector(onPause:)];
   [self addChild:_pauseNode];
+
+  SKTextureAtlas *atlas = [SKTextureAtlas atlasNamed:@"Sprites"];
+
+  CGFloat lastY = 0;
+  CGFloat targetWidth = 320;
+  for (int i = 1; i <= 4; i++) {
+    NSString *textureName = [NSString stringWithFormat:@"cloud%d", i];
+    SKSpriteNode *cloud = [SKSpriteNode spriteNodeWithTexture:[atlas textureNamed:textureName]];
+    CGFloat ratio = cloud.size.width / cloud.size.height;
+    if (targetWidth < cloud.size.width) {
+      cloud.size = CGSizeMake(targetWidth, targetWidth / ratio);
+    }
+    CGFloat xOffset = (CGFloat)(arc4random() % 100);
+    xOffset = arc4random() % 2 ? xOffset : -xOffset;
+    cloud.position = CGPointMake(self.frame.size.width / 2 + xOffset,
+                                 lastY + cloud.frame.size.height / 2);
+    [self addChild:cloud];
+    lastY = CGRectGetMaxY(cloud.frame);
+  }
 }
 
 - (void)showMissAtPoint:(CGPoint)point {
