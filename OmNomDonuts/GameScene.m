@@ -259,7 +259,7 @@ static const CGFloat kPadding = 4.0;
   SKAction *scaleDown = [SKAction scaleTo:0 duration:donut.contractDuration];
   scaleDown.speed = _gameConfig.contractSpeed;
 
-  SKAction *wait = [SKAction waitForDuration:0.5];
+  SKAction *wait = [SKAction waitForDuration:0.1];
 
   NSArray *actions = @[scaleUp, wait, scaleDown, [SKAction removeFromParent]];
   SKAction *sequence = [SKAction sequence:actions];
