@@ -36,6 +36,10 @@
   return UIInterfaceOrientationMaskPortrait;
 }
 
+- (BOOL)prefersStatusBarHidden {
+  return YES;
+}
+
 #pragma mark - Private Methods
 
 - (SKView *)skView {

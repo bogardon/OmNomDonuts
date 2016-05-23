@@ -264,6 +264,8 @@ static const CGFloat kPadding = 4.0;
   NSArray *actions = @[scaleUp, wait, scaleDown, [SKAction removeFromParent]];
   SKAction *sequence = [SKAction sequence:actions];
   [donut runAction:sequence withKey:kExpandAndContractActionKey];
+
+  [self runAction:[SKAction playSoundFileNamed:@"woop_up.caf" waitForCompletion:YES]];
 }
 
 - (void)fadeOutDonut:(SKSpriteNode<Donut> *)donut {
@@ -348,6 +350,8 @@ static const CGFloat kPadding = 4.0;
   shape.position = point;
   [shape showAndHide];
   [self addChild:shape];
+
+  [self runAction:[SKAction playSoundFileNamed:@"woop_down.caf" waitForCompletion:YES]];
 }
 
 @end

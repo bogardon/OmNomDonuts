@@ -13,6 +13,8 @@
 		720B0FA91C6F10EB00D1FEC1 /* PauseNode.m in Sources */ = {isa = PBXBuildFile; fileRef = 720B0FA81C6F10EB00D1FEC1 /* PauseNode.m */; };
 		720B0FAC1C6F12E800D1FEC1 /* MissNode.m in Sources */ = {isa = PBXBuildFile; fileRef = 720B0FAB1C6F12E800D1FEC1 /* MissNode.m */; };
 		720B0FAF1C6F1F0200D1FEC1 /* SKNode+Control.m in Sources */ = {isa = PBXBuildFile; fileRef = 720B0FAE1C6F1F0200D1FEC1 /* SKNode+Control.m */; };
+		7218BC7B1CF28716006582D2 /* woop_up.caf in Resources */ = {isa = PBXBuildFile; fileRef = 7218BC791CF28716006582D2 /* woop_up.caf */; };
+		7218BC7C1CF28716006582D2 /* woop_down.caf in Resources */ = {isa = PBXBuildFile; fileRef = 7218BC7A1CF28716006582D2 /* woop_down.caf */; };
 		721B751D1CBB151800C38B1F /* RegularDonut.m in Sources */ = {isa = PBXBuildFile; fileRef = 721B751C1CBB151800C38B1F /* RegularDonut.m */; };
 		721B75201CBB1C7400C38B1F /* DeceleratorDonut.m in Sources */ = {isa = PBXBuildFile; fileRef = 721B751F1CBB1C7400C38B1F /* DeceleratorDonut.m */; };
 		721B75231CBB223C00C38B1F /* BlackholeDonut.m in Sources */ = {isa = PBXBuildFile; fileRef = 721B75221CBB223C00C38B1F /* BlackholeDonut.m */; };
@@ -37,6 +39,7 @@
 		726EFA7E190D94B00076029B /* OmNomDonutsTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 726EFA7D190D94B00076029B /* OmNomDonutsTests.m */; };
 		726EFA89190D9B280076029B /* GameScene.m in Sources */ = {isa = PBXBuildFile; fileRef = 726EFA88190D9B280076029B /* GameScene.m */; };
 		72A1F2511C856BBC00024205 /* GameConfig.m in Sources */ = {isa = PBXBuildFile; fileRef = 72A1F2501C856BBC00024205 /* GameConfig.m */; };
+		72FE869F1CF28980007350BC /* omnomdonuts_theme_draft_105bpm.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 72FE869E1CF28980007350BC /* omnomdonuts_theme_draft_105bpm.m4a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -61,6 +64,8 @@
 		720B0FAB1C6F12E800D1FEC1 /* MissNode.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MissNode.m; sourceTree = "<group>"; };
 		720B0FAD1C6F1F0200D1FEC1 /* SKNode+Control.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "SKNode+Control.h"; sourceTree = "<group>"; };
 		720B0FAE1C6F1F0200D1FEC1 /* SKNode+Control.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "SKNode+Control.m"; sourceTree = "<group>"; };
+		7218BC791CF28716006582D2 /* woop_up.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = woop_up.caf; sourceTree = "<group>"; };
+		7218BC7A1CF28716006582D2 /* woop_down.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = woop_down.caf; sourceTree = "<group>"; };
 		721B751B1CBB151800C38B1F /* RegularDonut.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RegularDonut.h; sourceTree = "<group>"; };
 		721B751C1CBB151800C38B1F /* RegularDonut.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RegularDonut.m; sourceTree = "<group>"; };
 		721B751E1CBB1C7400C38B1F /* DeceleratorDonut.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DeceleratorDonut.h; sourceTree = "<group>"; };
@@ -100,6 +105,7 @@
 		72A1F24F1C856BBC00024205 /* GameConfig.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameConfig.h; sourceTree = "<group>"; };
 		72A1F2501C856BBC00024205 /* GameConfig.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GameConfig.m; sourceTree = "<group>"; };
 		72A3D20A19293D07002C29E1 /* Donut.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Donut.h; sourceTree = "<group>"; };
+		72FE869E1CF28980007350BC /* omnomdonuts_theme_draft_105bpm.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = omnomdonuts_theme_draft_105bpm.m4a; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -127,6 +133,17 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		7218BC781CF286D9006582D2 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				72FE869E1CF28980007350BC /* omnomdonuts_theme_draft_105bpm.m4a */,
+				7218BC791CF28716006582D2 /* woop_up.caf */,
+				7218BC7A1CF28716006582D2 /* woop_down.caf */,
+				726EFA6A190D94AF0076029B /* Images.xcassets */,
+			);
+			name = Resources;
+			sourceTree = "<group>";
+		};
 		7263B00619C4E6930053D61B /* GameScene */ = {
 			isa = PBXGroup;
 			children = (
@@ -211,10 +228,10 @@
 		726EFA53190D94AF0076029B /* OmNomDonuts */ = {
 			isa = PBXGroup;
 			children = (
+				7218BC781CF286D9006582D2 /* Resources */,
 				7263B00619C4E6930053D61B /* GameScene */,
 				7263B00719C4E6A50053D61B /* Other */,
 				7263B00919C4E6D60053D61B /* MainMenuScene */,
-				726EFA6A190D94AF0076029B /* Images.xcassets */,
 				726EFA54190D94AF0076029B /* Supporting Files */,
 			);
 			path = OmNomDonuts;
@@ -335,8 +352,11 @@
 			files = (
 				726EFA58190D94AF0076029B /* InfoPlist.strings in Resources */,
 				726EFA6B190D94AF0076029B /* Images.xcassets in Resources */,
+				72FE869F1CF28980007350BC /* omnomdonuts_theme_draft_105bpm.m4a in Resources */,
 				726EFA61190D94AF0076029B /* Main.storyboard in Resources */,
 				720B0FA31C6F052100D1FEC1 /* Launch Screen.storyboard in Resources */,
+				7218BC7B1CF28716006582D2 /* woop_up.caf in Resources */,
+				7218BC7C1CF28716006582D2 /* woop_down.caf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
