@@ -177,17 +177,13 @@ static const CGFloat kPadding = 4.0;
          }];
   }
 
-//  if (arc4random() % 4 == 0) {
+  if (arc4random_uniform(4) == 0) {
     [self deployDeceleratorDonut];
-//  }
-
-//  if (arc4random() % 4 == 0) {
+  } else if (arc4random_uniform(4) == 0) {
     [self deployBlackholeDonut];
-//  }
-
-//  if (arc4random() % 4 == 0) {
+  } else if (arc4random_uniform(4) == 0) {
     [self deployBouncingDonut];
-//  }
+  }
 }
 
 - (void)deployRegularDonut {
