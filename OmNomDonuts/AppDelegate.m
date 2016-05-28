@@ -8,21 +8,11 @@
 
 #import "AppDelegate.h"
 
-#import <AVFoundation/AVFoundation.h>
-
-@implementation AppDelegate {
-  AVAudioPlayer *_bgmPlayer;
-}
+@implementation AppDelegate
 
 - (BOOL)application:(UIApplication *)application
     didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
   // Override point for customization after application launch.
-
-  NSURL *bgmURL =
-      [[NSBundle mainBundle] URLForResource:@"omnomdonuts_theme_draft_105bpm" withExtension:@"m4a"];
-  _bgmPlayer = [[AVAudioPlayer alloc] initWithContentsOfURL:bgmURL error:nil];
-  _bgmPlayer.numberOfLoops = -1;
-  [_bgmPlayer play];
 
   return YES;
 }

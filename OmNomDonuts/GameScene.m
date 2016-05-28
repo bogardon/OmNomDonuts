@@ -8,6 +8,7 @@
 
 #import "GameScene.h"
 
+#import <AVFoundation/AVFoundation.h>
 #import <math.h>
 
 #import "BlackholeDonut.h"
@@ -41,6 +42,8 @@ static const CGFloat kPadding = 4.0;
   GameConfig *_gameConfig;
 
   BouncingDonut *_activeBouncingDonut;
+
+  AVAudioPlayer *_bgmPlayer;
 }
 
 - (instancetype)initWithSize:(CGSize)size {
@@ -56,6 +59,12 @@ static const CGFloat kPadding = 4.0;
     self.physicsWorld.gravity = CGVectorMake(0, 0);
     self.physicsBody.categoryBitMask = kEdgeCategory;
     self.physicsWorld.contactDelegate = self;
+
+    NSURL *bgmURL =
+        [[NSBundle mainBundle] URLForResource:@"omnomdonuts_theme_draft_105bpm" withExtension:@"m4a"];
+    _bgmPlayer = [[AVAudioPlayer alloc] initWithContentsOfURL:bgmURL error:nil];
+    _bgmPlayer.numberOfLoops = -1;
+    [_bgmPlayer play];
 
     [self createContent];
     [self resetGame];
@@ -75,8 +84,18 @@ static const CGFloat kPadding = 4.0;
 - (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event {
   [super touchesEnded:touches withEvent:event];
 
+  if (self.view.paused) {
+    return;
+  }
+
   UITouch *touch = [touches anyObject];
   CGPoint point = [touch locationInNode:self];
+
+  SKNode *node = [self nodeAtPoint:point];
+  if (node == _pauseNode) {
+    return;
+  }
+
   for (SKSpriteNode<Donut> *donut in [self.pendingDonuts reverseObjectEnumerator]) {
     CGFloat distanceToCenter = hypot(point.x - donut.position.x, point.y - donut.position.y);
     if (distanceToCenter <= MAX(donut.size.width / 2, 10)) {
@@ -152,6 +171,11 @@ static const CGFloat kPadding = 4.0;
 
 - (void)onPause:(id)sender {
   self.view.paused ^= YES;
+  if ([_bgmPlayer isPlaying]) {
+    [_bgmPlayer pause];
+  } else {
+    [_bgmPlayer play];
+  }
 }
 
 - (void)startGame {
