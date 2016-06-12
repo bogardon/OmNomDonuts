@@ -62,7 +62,7 @@ static const CGFloat kPadding = 4.0;
 
     NSURL *bgmURL =
         [[NSBundle mainBundle] URLForResource:@"omnomdonuts_theme_draft_105bpm" withExtension:@"m4a"];
-//    _bgmPlayer = [[AVAudioPlayer alloc] initWithContentsOfURL:bgmURL error:nil];
+    _bgmPlayer = [[AVAudioPlayer alloc] initWithContentsOfURL:bgmURL error:nil];
     _bgmPlayer.numberOfLoops = -1;
     [_bgmPlayer play];
 
