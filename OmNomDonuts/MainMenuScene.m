@@ -7,25 +7,40 @@
 //
 
 #import "GameScene.h"
+
 #import "MainMenuScene.h"
+#import "MenuButtonNode.h"
+#import "SKNode+Control.h"
 #import "ViewController.h"
 
 @interface MainMenuScene ()
 @end
 
-@implementation MainMenuScene
+@implementation MainMenuScene {
+  MenuButtonNode *_playButton;
+}
 
 - (id)initWithSize:(CGSize)size {
   if (self = [super initWithSize:size]) {
     self.backgroundColor = [SKColor whiteColor];
+
+    _playButton = [MenuButtonNode labelNodeWithText:@"Play"];
+    _playButton.userInteractionEnabled = YES;
+    _playButton.fontColor = [SKColor darkTextColor];
+    _playButton.position = CGPointMake(CGRectGetMidX(self.frame), CGRectGetMidY(self.frame));
+    [self addChild:_playButton];
+
+    [_playButton addTarget:self selector:@selector(onPlay:)];
   }
   return self;
 }
 
-- (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event {
+#pragma mark Private Methods
+
+- (void)onPlay:(id)sender {
   GameScene *gameScene = [[GameScene alloc] initWithSize:self.view.bounds.size];
   gameScene.scaleMode = SKSceneScaleModeAspectFill;
-  SKTransition *flip = [SKTransition flipVerticalWithDuration:0.5f];
+  SKTransition *flip = [SKTransition flipVerticalWithDuration:0.5];
   [self.view presentScene:gameScene transition:flip];
 }
 

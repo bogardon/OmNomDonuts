@@ -19,6 +19,7 @@
 		721B75201CBB1C7400C38B1F /* DeceleratorDonut.m in Sources */ = {isa = PBXBuildFile; fileRef = 721B751F1CBB1C7400C38B1F /* DeceleratorDonut.m */; };
 		721B75231CBB223C00C38B1F /* BlackholeDonut.m in Sources */ = {isa = PBXBuildFile; fileRef = 721B75221CBB223C00C38B1F /* BlackholeDonut.m */; };
 		721B75261CBB26E400C38B1F /* BouncingDonut.m in Sources */ = {isa = PBXBuildFile; fileRef = 721B75251CBB26E400C38B1F /* BouncingDonut.m */; };
+		7231AD471D0DCD3A0045EC01 /* MenuButtonNode.m in Sources */ = {isa = PBXBuildFile; fileRef = 7231AD461D0DCD3A0045EC01 /* MenuButtonNode.m */; };
 		72446A351C74480100B89D42 /* NSArray+Utils.m in Sources */ = {isa = PBXBuildFile; fileRef = 72446A341C74480100B89D42 /* NSArray+Utils.m */; };
 		7263B00C19C4E7350053D61B /* LifeCounterNode.m in Sources */ = {isa = PBXBuildFile; fileRef = 7263B00B19C4E7350053D61B /* LifeCounterNode.m */; };
 		726EFA4C190D94AF0076029B /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 726EFA4B190D94AF0076029B /* Foundation.framework */; };
@@ -74,6 +75,8 @@
 		721B75221CBB223C00C38B1F /* BlackholeDonut.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BlackholeDonut.m; sourceTree = "<group>"; };
 		721B75241CBB26E400C38B1F /* BouncingDonut.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BouncingDonut.h; sourceTree = "<group>"; };
 		721B75251CBB26E400C38B1F /* BouncingDonut.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BouncingDonut.m; sourceTree = "<group>"; };
+		7231AD451D0DCD3A0045EC01 /* MenuButtonNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MenuButtonNode.h; sourceTree = "<group>"; };
+		7231AD461D0DCD3A0045EC01 /* MenuButtonNode.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MenuButtonNode.m; sourceTree = "<group>"; };
 		72446A331C74480100B89D42 /* NSArray+Utils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSArray+Utils.h"; sourceTree = "<group>"; };
 		72446A341C74480100B89D42 /* NSArray+Utils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSArray+Utils.m"; sourceTree = "<group>"; };
 		7263B00A19C4E7350053D61B /* LifeCounterNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LifeCounterNode.h; sourceTree = "<group>"; };
@@ -190,6 +193,8 @@
 			children = (
 				726EFA65190D94AF0076029B /* MainMenuScene.h */,
 				726EFA66190D94AF0076029B /* MainMenuScene.m */,
+				7231AD451D0DCD3A0045EC01 /* MenuButtonNode.h */,
+				7231AD461D0DCD3A0045EC01 /* MenuButtonNode.m */,
 			);
 			name = MainMenuScene;
 			sourceTree = "<group>";
@@ -379,6 +384,7 @@
 				721B75201CBB1C7400C38B1F /* DeceleratorDonut.m in Sources */,
 				726EFA67190D94AF0076029B /* MainMenuScene.m in Sources */,
 				72A1F2511C856BBC00024205 /* GameConfig.m in Sources */,
+				7231AD471D0DCD3A0045EC01 /* MenuButtonNode.m in Sources */,
 				7263B00C19C4E7350053D61B /* LifeCounterNode.m in Sources */,
 				720B0FAF1C6F1F0200D1FEC1 /* SKNode+Control.m in Sources */,
 				726EFA64190D94AF0076029B /* ViewController.m in Sources */,

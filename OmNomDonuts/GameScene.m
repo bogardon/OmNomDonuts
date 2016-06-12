@@ -62,7 +62,7 @@ static const CGFloat kPadding = 4.0;
 
     NSURL *bgmURL =
         [[NSBundle mainBundle] URLForResource:@"omnomdonuts_theme_draft_105bpm" withExtension:@"m4a"];
-    _bgmPlayer = [[AVAudioPlayer alloc] initWithContentsOfURL:bgmURL error:nil];
+//    _bgmPlayer = [[AVAudioPlayer alloc] initWithContentsOfURL:bgmURL error:nil];
     _bgmPlayer.numberOfLoops = -1;
     [_bgmPlayer play];
 
@@ -321,6 +321,24 @@ static const CGFloat kPadding = 4.0;
 }
 
 - (void)createContent {
+  SKTextureAtlas *atlas = [SKTextureAtlas atlasNamed:@"Sprites"];
+  CGFloat lastY = 0;
+  CGFloat targetWidth = 320;
+  for (int i = 1; i <= 4; i++) {
+    NSString *textureName = [NSString stringWithFormat:@"cloud%d", i];
+    SKSpriteNode *cloud = [SKSpriteNode spriteNodeWithTexture:[atlas textureNamed:textureName]];
+    CGFloat ratio = cloud.size.width / cloud.size.height;
+    if (targetWidth < cloud.size.width) {
+      cloud.size = CGSizeMake(targetWidth, targetWidth / ratio);
+    }
+    CGFloat xOffset = (CGFloat)(arc4random() % 100);
+    xOffset = arc4random() % 2 ? xOffset : -xOffset;
+    cloud.position = CGPointMake(self.frame.size.width / 2 + xOffset,
+                                 lastY + cloud.frame.size.height / 2);
+    [self addChild:cloud];
+    lastY = CGRectGetMaxY(cloud.frame);
+  }
+
   _scoreCounter = [ScoreCounterNode labelNodeWithFontNamed:@"HelveticaNeue"];
   _scoreCounter.fontColor = [SKColor darkTextColor];
   _scoreCounter.fontSize = 20;
@@ -338,31 +356,12 @@ static const CGFloat kPadding = 4.0;
   [self addChild:_lifeCounter];
 
   _pauseNode = [[PauseNode alloc] init];
-  accumulatedFrame = [_pauseNode calculateAccumulatedFrame];
+  _pauseNode.anchorPoint = CGPointZero;
   _pauseNode.position =
-      CGPointMake(CGRectGetMaxX(self.frame) - accumulatedFrame.size.width - kPadding,
-                  CGRectGetMaxY(self.frame) - accumulatedFrame.size.height - kPadding);
+      CGPointMake(CGRectGetMaxX(self.frame) - _pauseNode.size.width,
+                  CGRectGetMaxY(self.frame) - _pauseNode.size.height);
   [_pauseNode addTarget:self selector:@selector(onPause:)];
   [self addChild:_pauseNode];
-
-  SKTextureAtlas *atlas = [SKTextureAtlas atlasNamed:@"Sprites"];
-
-  CGFloat lastY = 0;
-  CGFloat targetWidth = 320;
-  for (int i = 1; i <= 4; i++) {
-    NSString *textureName = [NSString stringWithFormat:@"cloud%d", i];
-    SKSpriteNode *cloud = [SKSpriteNode spriteNodeWithTexture:[atlas textureNamed:textureName]];
-    CGFloat ratio = cloud.size.width / cloud.size.height;
-    if (targetWidth < cloud.size.width) {
-      cloud.size = CGSizeMake(targetWidth, targetWidth / ratio);
-    }
-    CGFloat xOffset = (CGFloat)(arc4random() % 100);
-    xOffset = arc4random() % 2 ? xOffset : -xOffset;
-    cloud.position = CGPointMake(self.frame.size.width / 2 + xOffset,
-                                 lastY + cloud.frame.size.height / 2);
-    [self addChild:cloud];
-    lastY = CGRectGetMaxY(cloud.frame);
-  }
 }
 
 - (void)showMissAtPoint:(CGPoint)point {

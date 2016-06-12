@@ -8,6 +8,6 @@
 
 #import <SpriteKit/SpriteKit.h>
 
-@interface PauseNode : SKShapeNode
+@interface PauseNode : SKSpriteNode
 
 @end
