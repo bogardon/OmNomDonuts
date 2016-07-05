@@ -1,11 +1,3 @@
-//
-//  SKNode+Control.m
-//  OmNomDonuts
-//
-//  Created by jzw on 2/13/16.
-//
-//
-
 #import "SKNode+Control.h"
 
 #import <objc/runtime.h>
@@ -53,7 +45,9 @@
     invocation.selector = pair.selector;
     invocation.target = pair.target;
     SKNode *node = self;
-    [invocation setArgument:&node atIndex:2];
+    if (methodSignature.numberOfArguments >= 3) {
+      [invocation setArgument:&node atIndex:2];
+    }
     [invocation invoke];
   }
 }

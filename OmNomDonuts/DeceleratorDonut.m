@@ -1,11 +1,3 @@
-//
-//  DeceleratorDonut.m
-//  OmNomDonuts
-//
-//  Created by jzw on 4/10/16.
-//
-//
-
 #import "DeceleratorDonut.h"
 
 @implementation DeceleratorDonut

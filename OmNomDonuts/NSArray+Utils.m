@@ -1,11 +1,3 @@
-//
-//  NSArray+Utils.m
-//  OmNomDonuts
-//
-//  Created by jzw on 2/16/16.
-//
-//
-
 #import "NSArray+Utils.h"
 
 @implementation NSArray (Utils)

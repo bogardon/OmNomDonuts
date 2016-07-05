@@ -1,11 +1,3 @@
-//
-//  Difficulty.m
-//  OmNomDonuts
-//
-//  Created by jzw on 2/29/16.
-//
-//
-
 #import "GameConfig.h"
 
 @implementation GameConfig

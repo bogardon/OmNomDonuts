@@ -1,11 +1,3 @@
-//
-//  LifeCounterNode.m
-//  OmNomDonuts
-//
-//  Created by John Z Wu on 9/13/14.
-//
-//
-
 #import "LifeCounterNode.h"
 
 static const CGSize kLifeSize = {20, 20};
@@ -24,11 +16,12 @@ static const CGFloat kPadding = 5.0;
   if (self) {
     _maxLives = maxLives;
 
-    SKTexture *pink;
-    SKTexture *grey;
+    SKTextureAtlas *atlas = [SKTextureAtlas atlasNamed:@"Sprites"];
+    SKTexture *filled = [atlas textureNamed:@"heart"];
+    SKTexture *empty;;
     for (int i = 0; i < maxLives; i++) {
-      SKSpriteNode *on = [SKSpriteNode spriteNodeWithTexture:pink size:kLifeSize];
-      SKSpriteNode *off = [SKSpriteNode spriteNodeWithTexture:grey size:kLifeSize];
+      SKSpriteNode *on = [SKSpriteNode spriteNodeWithTexture:filled size:kLifeSize];
+      SKSpriteNode *off = [SKSpriteNode spriteNodeWithTexture:empty size:kLifeSize];
       on.name = [NSString stringWithFormat:@"pink%d", i];
       off.name = [NSString stringWithFormat:@"grey%d", i];
       on.anchorPoint = off.anchorPoint = CGPointMake(0, 0.5);

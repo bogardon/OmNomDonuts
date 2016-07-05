@@ -1,14 +1,5 @@
-//
-//  GameScene.m
-//  OmNomDonuts
-//
-//  Created by John Z Wu on 4/27/14.
-//
-//
-
 #import "GameScene.h"
 
-#import <AVFoundation/AVFoundation.h>
 #import <math.h>
 
 #import "BlackholeDonut.h"
@@ -17,9 +8,10 @@
 #import "GameConfig.h"
 #import "LifeCounterNode.h"
 #import "MainMenuScene.h"
+#import "MenuNode.h"
 #import "MissNode.h"
-#import "PauseNode.h"
 #import "RegularDonut.h"
+#import "PlayNode.h"
 #import "SKNode+Control.h"
 #import "SKNode+Utils.h"
 #import "ScoreCounterNode.h"
@@ -38,12 +30,11 @@ static const CGFloat kPadding = 4.0;
 @implementation GameScene {
   ScoreCounterNode *_scoreCounter;
   LifeCounterNode *_lifeCounter;
-  PauseNode *_pauseNode;
   GameConfig *_gameConfig;
 
   BouncingDonut *_activeBouncingDonut;
 
-  AVAudioPlayer *_bgmPlayer;
+  BOOL _gameOver;
 }
 
 - (instancetype)initWithSize:(CGSize)size {
@@ -59,12 +50,6 @@ static const CGFloat kPadding = 4.0;
     self.physicsWorld.gravity = CGVectorMake(0, 0);
     self.physicsBody.categoryBitMask = kEdgeCategory;
     self.physicsWorld.contactDelegate = self;
-
-    NSURL *bgmURL =
-        [[NSBundle mainBundle] URLForResource:@"omnomdonuts_theme_draft_105bpm" withExtension:@"m4a"];
-    _bgmPlayer = [[AVAudioPlayer alloc] initWithContentsOfURL:bgmURL error:nil];
-    _bgmPlayer.numberOfLoops = -1;
-    [_bgmPlayer play];
 
     [self createContent];
     [self resetGame];
@@ -84,18 +69,12 @@ static const CGFloat kPadding = 4.0;
 - (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event {
   [super touchesEnded:touches withEvent:event];
 
-  if (self.view.paused) {
+  if (self.view.paused || _gameOver) {
     return;
   }
 
   UITouch *touch = [touches anyObject];
   CGPoint point = [touch locationInNode:self];
-
-  SKNode *node = [self nodeAtPoint:point];
-  if (node == _pauseNode) {
-    return;
-  }
-
   for (SKSpriteNode<Donut> *donut in [self.pendingDonuts reverseObjectEnumerator]) {
     CGFloat distanceToCenter = hypot(point.x - donut.position.x, point.y - donut.position.y);
     if (distanceToCenter <= MAX(donut.size.width / 2, 10)) {
@@ -169,17 +148,16 @@ static const CGFloat kPadding = 4.0;
   }
 }
 
-- (void)onPause:(id)sender {
-  self.view.paused ^= YES;
-  if ([_bgmPlayer isPlaying]) {
-    [_bgmPlayer pause];
-  } else {
-    [_bgmPlayer play];
-  }
-}
-
 - (void)startGame {
   [self scheduleNextDeploy];
+}
+
+- (void)endGame {
+  _gameOver = YES;
+  for (SKNode *node in self.allDonuts) {
+    [node removeAllActions];
+  }
+  [self removeAllActions];
 }
 
 - (void)scheduleNextDeploy {
@@ -281,7 +259,13 @@ static const CGFloat kPadding = 4.0;
 
   SKAction *wait = [SKAction waitForDuration:0.1];
 
-  NSArray *actions = @[scaleUp, wait, scaleDown, [SKAction removeFromParent]];
+  __weak SKSpriteNode<Donut> *weakDonut = donut;
+  __weak GameScene *weakSelf = self;
+  SKAction *miss = [SKAction runBlock:^{
+    [weakSelf missDonut:weakDonut];
+  }];
+
+  NSArray *actions = @[scaleUp, wait, scaleDown, [SKAction removeFromParent], miss];
   SKAction *sequence = [SKAction sequence:actions];
   [donut runAction:sequence withKey:kExpandAndContractActionKey];
 
@@ -313,11 +297,45 @@ static const CGFloat kPadding = 4.0;
   [self removeChildrenInArray:self.allDonuts];
 }
 
-- (void)loseGame {
+- (void)missDonut:(SKSpriteNode<Donut> *)donut {
+  if ([donut isKindOfClass:[RegularDonut class]]) {
+    [_lifeCounter decrementLives];
+
+    if (_lifeCounter.currentLives == 0) {
+      [self endGame];
+      [self presentPostGameNodes];
+    }
+  }
+}
+
+- (void)presentPostGameNodes {
+  PlayNode *play = [[PlayNode alloc] init];
+  play.position = CGPointMake(CGRectGetMidX(self.frame) - play.size.width,
+                              CGRectGetMidY(self.frame));
+  play.userInteractionEnabled = YES;
+  [play addTarget:self selector:@selector(restartGame)];
+  [self addChild:play];
+
+  MenuNode *menu = [[MenuNode alloc] init];
+  menu.position = CGPointMake(CGRectGetMidX(self.frame) + menu.size.width,
+                              CGRectGetMidY(self.frame));
+  menu.userInteractionEnabled = YES;
+  [menu addTarget:self selector:@selector(showMainMenu)];
+  [self addChild:menu];
+}
+
+- (void)showMainMenu {
   MainMenuScene *mainMenuScene = [[MainMenuScene alloc] initWithSize:self.view.bounds.size];
   mainMenuScene.scaleMode = SKSceneScaleModeAspectFill;
-  SKTransition *transition = [SKTransition flipVerticalWithDuration:0.5];
+  SKTransition *transition = [SKTransition crossFadeWithDuration:0.5];
   [self.view presentScene:mainMenuScene transition:transition];
+}
+
+- (void)restartGame {
+  GameScene *gameScene = [[GameScene alloc] initWithSize:self.view.bounds.size];
+  gameScene.scaleMode = SKSceneScaleModeAspectFill;
+  SKTransition *transition = [SKTransition crossFadeWithDuration:0.5];
+  [self.view presentScene:gameScene transition:transition];
 }
 
 - (void)createContent {
@@ -354,14 +372,6 @@ static const CGFloat kPadding = 4.0;
       CGPointMake(CGRectGetMidX(self.frame) - accumulatedFrame.size.width / 2,
                   CGRectGetMaxY(self.frame) - accumulatedFrame.size.height / 2 - kPadding);
   [self addChild:_lifeCounter];
-
-  _pauseNode = [[PauseNode alloc] init];
-  _pauseNode.anchorPoint = CGPointZero;
-  _pauseNode.position =
-      CGPointMake(CGRectGetMaxX(self.frame) - _pauseNode.size.width,
-                  CGRectGetMaxY(self.frame) - _pauseNode.size.height);
-  [_pauseNode addTarget:self selector:@selector(onPause:)];
-  [self addChild:_pauseNode];
 }
 
 - (void)showMissAtPoint:(CGPoint)point {

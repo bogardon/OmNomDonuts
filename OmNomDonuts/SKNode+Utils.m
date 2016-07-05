@@ -1,11 +1,3 @@
-//
-//  SKScene+Utils.m
-//  OmNomDonuts
-//
-//  Created by jzw on 2/18/16.
-//
-//
-
 #import "SKNode+Utils.h"
 
 #import "Donut.h"

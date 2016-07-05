@@ -1,11 +1,3 @@
-//
-//  BouncingDonut.m
-//  OmNomDonuts
-//
-//  Created by jzw on 4/10/16.
-//
-//
-
 #import "BouncingDonut.h"
 
 @implementation BouncingDonut

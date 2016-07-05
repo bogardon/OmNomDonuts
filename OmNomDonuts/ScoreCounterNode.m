@@ -1,11 +1,3 @@
-//
-//  ScoreCounterNode.m
-//  OmNomDonuts
-//
-//  Created by jzw on 2/12/16.
-//
-//
-
 #import "ScoreCounterNode.h"
 
 static const NSTimeInterval kUpdateDuration = 0.5;

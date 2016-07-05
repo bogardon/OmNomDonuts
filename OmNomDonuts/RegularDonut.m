@@ -1,11 +1,3 @@
-//
-//  RegularDonut.m
-//  OmNomDonuts
-//
-//  Created by jzw on 4/10/16.
-//
-//
-
 #import "RegularDonut.h"
 
 @implementation RegularDonut

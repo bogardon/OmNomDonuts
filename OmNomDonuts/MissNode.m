@@ -1,11 +1,3 @@
-//
-//  MissNode.m
-//  OmNomDonuts
-//
-//  Created by jzw on 2/12/16.
-//
-//
-
 #import "MissNode.h"
 
 static const CGFloat kRadius = 5.0;

@@ -1,5 +1,5 @@
 #import <SpriteKit/SpriteKit.h>
 
-@interface PauseNode : SKSpriteNode
+@interface MenuNode : SKSpriteNode
 
 @end

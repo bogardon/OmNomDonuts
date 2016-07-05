@@ -1,11 +1,3 @@
-//
-//  SKScene+Utils.h
-//  OmNomDonuts
-//
-//  Created by jzw on 2/18/16.
-//
-//
-
 #import <SpriteKit/SpriteKit.h>
 
 @protocol Donut;

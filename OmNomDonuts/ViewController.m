@@ -8,6 +8,7 @@
 
 #import "ViewController.h"
 
+#import <AVFoundation/AVFoundation.h>
 #import <SpriteKit/SpriteKit.h>
 
 #import "GameScene.h"
@@ -19,10 +20,19 @@
 
 @end
 
-@implementation ViewController
+@implementation ViewController {
+  AVAudioPlayer *_bgmPlayer;
+}
 
 - (void)viewDidLoad {
   [super viewDidLoad];
+
+  NSURL *bgmURL =
+      [[NSBundle mainBundle] URLForResource:@"omnomdonuts_theme_draft_105bpm"
+                              withExtension:@"m4a"];
+  _bgmPlayer = [[AVAudioPlayer alloc] initWithContentsOfURL:bgmURL error:nil];
+  _bgmPlayer.numberOfLoops = -1;
+  [_bgmPlayer play];
 
   self.skView.showsFPS = YES;
   self.skView.showsNodeCount = YES;

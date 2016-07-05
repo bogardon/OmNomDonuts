@@ -1,11 +1,3 @@
-//
-//  Difficulty.h
-//  OmNomDonuts
-//
-//  Created by jzw on 2/29/16.
-//
-//
-
 #import <Foundation/Foundation.h>
 
 @interface GameConfig : NSObject
