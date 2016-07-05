@@ -40,7 +40,7 @@
 - (void)onPlay:(id)sender {
   GameScene *gameScene = [[GameScene alloc] initWithSize:self.view.bounds.size];
   gameScene.scaleMode = SKSceneScaleModeAspectFill;
-  SKTransition *flip = [SKTransition flipVerticalWithDuration:0.5];
+  SKTransition *flip = [SKTransition crossFadeWithDuration:0.5];
   [self.view presentScene:gameScene transition:flip];
 }
 

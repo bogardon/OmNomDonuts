@@ -6,12 +6,12 @@
 //
 //
 
-#import "SKScene+Utils.h"
+#import "SKNode+Utils.h"
 
 #import "Donut.h"
 #import "NSArray+Utils.h"
 
-@implementation SKScene (Utils)
+@implementation SKNode (Utils)
 
 - (NSArray<SKSpriteNode<Donut> *> *)allDonuts {
   return [self.children filteredArrayWithBlock:^BOOL(SKSpriteNode<Donut> *donut) {

@@ -21,7 +21,7 @@
 #import "PauseNode.h"
 #import "RegularDonut.h"
 #import "SKNode+Control.h"
-#import "SKScene+Utils.h"
+#import "SKNode+Utils.h"
 #import "ScoreCounterNode.h"
 #import "ViewController.h"
 

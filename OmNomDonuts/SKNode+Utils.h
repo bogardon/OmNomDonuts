@@ -10,7 +10,7 @@
 
 @protocol Donut;
 
-@interface SKScene (Utils)
+@interface SKNode (Utils)
 
 @property(nonatomic, readonly) NSArray<SKSpriteNode<Donut> *> *allDonuts;
 @property(nonatomic, readonly) NSArray<SKSpriteNode<Donut> *> *pendingDonuts;

@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		72014C931C76EDF2002E7BC7 /* SKScene+Utils.m in Sources */ = {isa = PBXBuildFile; fileRef = 72014C921C76EDF2002E7BC7 /* SKScene+Utils.m */; };
 		720B0FA31C6F052100D1FEC1 /* Launch Screen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 720B0FA21C6F052100D1FEC1 /* Launch Screen.storyboard */; };
 		720B0FA61C6F0CE900D1FEC1 /* ScoreCounterNode.m in Sources */ = {isa = PBXBuildFile; fileRef = 720B0FA51C6F0CE900D1FEC1 /* ScoreCounterNode.m */; };
 		720B0FA91C6F10EB00D1FEC1 /* PauseNode.m in Sources */ = {isa = PBXBuildFile; fileRef = 720B0FA81C6F10EB00D1FEC1 /* PauseNode.m */; };
@@ -40,6 +39,7 @@
 		726EFA7E190D94B00076029B /* OmNomDonutsTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 726EFA7D190D94B00076029B /* OmNomDonutsTests.m */; };
 		726EFA89190D9B280076029B /* GameScene.m in Sources */ = {isa = PBXBuildFile; fileRef = 726EFA88190D9B280076029B /* GameScene.m */; };
 		72A1F2511C856BBC00024205 /* GameConfig.m in Sources */ = {isa = PBXBuildFile; fileRef = 72A1F2501C856BBC00024205 /* GameConfig.m */; };
+		72DAD9D51D2C5079001C5516 /* SKNode+Utils.m in Sources */ = {isa = PBXBuildFile; fileRef = 72DAD9D41D2C5079001C5516 /* SKNode+Utils.m */; };
 		72FE869F1CF28980007350BC /* omnomdonuts_theme_draft_105bpm.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 72FE869E1CF28980007350BC /* omnomdonuts_theme_draft_105bpm.m4a */; };
 /* End PBXBuildFile section */
 
@@ -54,8 +54,6 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		72014C911C76EDF2002E7BC7 /* SKScene+Utils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "SKScene+Utils.h"; sourceTree = "<group>"; };
-		72014C921C76EDF2002E7BC7 /* SKScene+Utils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "SKScene+Utils.m"; sourceTree = "<group>"; };
 		720B0FA21C6F052100D1FEC1 /* Launch Screen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = "Launch Screen.storyboard"; sourceTree = "<group>"; };
 		720B0FA41C6F0CE900D1FEC1 /* ScoreCounterNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ScoreCounterNode.h; sourceTree = "<group>"; };
 		720B0FA51C6F0CE900D1FEC1 /* ScoreCounterNode.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ScoreCounterNode.m; sourceTree = "<group>"; };
@@ -108,6 +106,8 @@
 		72A1F24F1C856BBC00024205 /* GameConfig.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameConfig.h; sourceTree = "<group>"; };
 		72A1F2501C856BBC00024205 /* GameConfig.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GameConfig.m; sourceTree = "<group>"; };
 		72A3D20A19293D07002C29E1 /* Donut.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Donut.h; sourceTree = "<group>"; };
+		72DAD9D31D2C5079001C5516 /* SKNode+Utils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "SKNode+Utils.h"; sourceTree = "<group>"; };
+		72DAD9D41D2C5079001C5516 /* SKNode+Utils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "SKNode+Utils.m"; sourceTree = "<group>"; };
 		72FE869E1CF28980007350BC /* omnomdonuts_theme_draft_105bpm.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = omnomdonuts_theme_draft_105bpm.m4a; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -178,12 +178,12 @@
 		7263B00719C4E6A50053D61B /* Other */ = {
 			isa = PBXGroup;
 			children = (
+				72DAD9D31D2C5079001C5516 /* SKNode+Utils.h */,
+				72DAD9D41D2C5079001C5516 /* SKNode+Utils.m */,
 				720B0FAD1C6F1F0200D1FEC1 /* SKNode+Control.h */,
 				720B0FAE1C6F1F0200D1FEC1 /* SKNode+Control.m */,
 				72446A331C74480100B89D42 /* NSArray+Utils.h */,
 				72446A341C74480100B89D42 /* NSArray+Utils.m */,
-				72014C911C76EDF2002E7BC7 /* SKScene+Utils.h */,
-				72014C921C76EDF2002E7BC7 /* SKScene+Utils.m */,
 			);
 			name = Other;
 			sourceTree = "<group>";
@@ -389,6 +389,7 @@
 				720B0FAF1C6F1F0200D1FEC1 /* SKNode+Control.m in Sources */,
 				726EFA64190D94AF0076029B /* ViewController.m in Sources */,
 				72446A351C74480100B89D42 /* NSArray+Utils.m in Sources */,
+				72DAD9D51D2C5079001C5516 /* SKNode+Utils.m in Sources */,
 				726EFA89190D9B280076029B /* GameScene.m in Sources */,
 				721B751D1CBB151800C38B1F /* RegularDonut.m in Sources */,
 				726EFA5E190D94AF0076029B /* AppDelegate.m in Sources */,
@@ -396,7 +397,6 @@
 				720B0FAC1C6F12E800D1FEC1 /* MissNode.m in Sources */,
 				721B75231CBB223C00C38B1F /* BlackholeDonut.m in Sources */,
 				720B0FA61C6F0CE900D1FEC1 /* ScoreCounterNode.m in Sources */,
-				72014C931C76EDF2002E7BC7 /* SKScene+Utils.m in Sources */,
 				721B75261CBB26E400C38B1F /* BouncingDonut.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
