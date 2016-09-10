@@ -40,7 +40,7 @@ static const CGFloat kPadding = 4.0;
 - (instancetype)initWithSize:(CGSize)size {
   self = [super initWithSize:size];
   if (self) {
-    _gameConfig = [[GameConfig alloc] init];
+    _gameConfig = [GameConfig sharedConfig];
 
     self.backgroundColor =
         [SKColor colorWithRed:204.0 / 255.0 green:234.0 / 255.0 blue:240.0 / 255.0 alpha:1.0];
@@ -172,9 +172,12 @@ static const CGFloat kPadding = 4.0;
 }
 
 - (void)onDeployTimer {
-  for (NSInteger i = 0; i < _gameConfig.numberOfDonutsPerDeploy; i++) {
+  for (NSInteger i = 0; i < _gameConfig.donutsPerDeploy; i++) {
     [self runAction:[SKAction waitForDuration:1.5 withRange:3.0]
          completion:^{
+           if (self->_gameOver) {
+             return;
+           }
            [self deployRegularDonut];
          }];
   }

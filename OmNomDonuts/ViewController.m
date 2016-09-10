@@ -11,18 +11,19 @@
 #import <AVFoundation/AVFoundation.h>
 #import <SpriteKit/SpriteKit.h>
 
-#import "GameScene.h"
 #import "MainMenuScene.h"
 
 @interface ViewController ()
 
-@property(nonatomic, readonly) SKView *skView;
+@property(nonatomic, readonly) SKView *view;
 
 @end
 
 @implementation ViewController {
   AVAudioPlayer *_bgmPlayer;
 }
+
+@dynamic view;
 
 - (void)viewDidLoad {
   [super viewDidLoad];
@@ -32,14 +33,14 @@
                               withExtension:@"m4a"];
   _bgmPlayer = [[AVAudioPlayer alloc] initWithContentsOfURL:bgmURL error:nil];
   _bgmPlayer.numberOfLoops = -1;
-  [_bgmPlayer play];
+//  [_bgmPlayer play];
 
-  self.skView.showsFPS = YES;
-  self.skView.showsNodeCount = YES;
+  self.view.showsFPS = YES;
+  self.view.showsNodeCount = YES;
 
-  MainMenuScene *mainMenuScene = [MainMenuScene sceneWithSize:self.skView.bounds.size];
+  MainMenuScene *mainMenuScene = [MainMenuScene sceneWithSize:self.view.bounds.size];
   mainMenuScene.scaleMode = SKSceneScaleModeAspectFill;
-  [self.skView presentScene:mainMenuScene];
+  [self.view presentScene:mainMenuScene];
 }
 
 - (UIInterfaceOrientationMask)supportedInterfaceOrientations {
@@ -48,12 +49,6 @@
 
 - (BOOL)prefersStatusBarHidden {
   return YES;
-}
-
-#pragma mark - Private Methods
-
-- (SKView *)skView {
-  return (SKView *)self.view;
 }
 
 @end

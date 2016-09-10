@@ -42,6 +42,8 @@
 		72E0D6E31D2C611B00693A46 /* PlayNode.m in Sources */ = {isa = PBXBuildFile; fileRef = 72E0D6E21D2C611B00693A46 /* PlayNode.m */; };
 		72E0D6E61D2C632500693A46 /* MenuNode.m in Sources */ = {isa = PBXBuildFile; fileRef = 72E0D6E51D2C632500693A46 /* MenuNode.m */; };
 		72FE869F1CF28980007350BC /* omnomdonuts_theme_draft_105bpm.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 72FE869E1CF28980007350BC /* omnomdonuts_theme_draft_105bpm.m4a */; };
+		72FFC5CB1D84A85300E82896 /* SettingsNode.m in Sources */ = {isa = PBXBuildFile; fileRef = 72FFC5CA1D84A85300E82896 /* SettingsNode.m */; };
+		72FFC5D51D84C8F500E82896 /* Slider.m in Sources */ = {isa = PBXBuildFile; fileRef = 72FFC5D41D84C8F500E82896 /* Slider.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -112,6 +114,10 @@
 		72E0D6E41D2C632500693A46 /* MenuNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MenuNode.h; sourceTree = "<group>"; };
 		72E0D6E51D2C632500693A46 /* MenuNode.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MenuNode.m; sourceTree = "<group>"; };
 		72FE869E1CF28980007350BC /* omnomdonuts_theme_draft_105bpm.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = omnomdonuts_theme_draft_105bpm.m4a; sourceTree = "<group>"; };
+		72FFC5C91D84A85300E82896 /* SettingsNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SettingsNode.h; sourceTree = "<group>"; };
+		72FFC5CA1D84A85300E82896 /* SettingsNode.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SettingsNode.m; sourceTree = "<group>"; };
+		72FFC5D31D84C8F500E82896 /* Slider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Slider.h; sourceTree = "<group>"; };
+		72FFC5D41D84C8F500E82896 /* Slider.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Slider.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -191,6 +197,8 @@
 				72446A341C74480100B89D42 /* NSArray+Utils.m */,
 				72E0D6E41D2C632500693A46 /* MenuNode.h */,
 				72E0D6E51D2C632500693A46 /* MenuNode.m */,
+				72FFC5C91D84A85300E82896 /* SettingsNode.h */,
+				72FFC5CA1D84A85300E82896 /* SettingsNode.m */,
 			);
 			name = Other;
 			sourceTree = "<group>";
@@ -200,6 +208,8 @@
 			children = (
 				726EFA65190D94AF0076029B /* MainMenuScene.h */,
 				726EFA66190D94AF0076029B /* MainMenuScene.m */,
+				72FFC5D31D84C8F500E82896 /* Slider.h */,
+				72FFC5D41D84C8F500E82896 /* Slider.m */,
 			);
 			name = MainMenuScene;
 			sourceTree = "<group>";
@@ -389,9 +399,11 @@
 				721B75201CBB1C7400C38B1F /* DeceleratorDonut.m in Sources */,
 				726EFA67190D94AF0076029B /* MainMenuScene.m in Sources */,
 				72A1F2511C856BBC00024205 /* GameConfig.m in Sources */,
+				72FFC5CB1D84A85300E82896 /* SettingsNode.m in Sources */,
 				72E0D6E61D2C632500693A46 /* MenuNode.m in Sources */,
 				7263B00C19C4E7350053D61B /* LifeCounterNode.m in Sources */,
 				720B0FAF1C6F1F0200D1FEC1 /* SKNode+Control.m in Sources */,
+				72FFC5D51D84C8F500E82896 /* Slider.m in Sources */,
 				726EFA64190D94AF0076029B /* ViewController.m in Sources */,
 				72446A351C74480100B89D42 /* NSArray+Utils.m in Sources */,
 				72DAD9D51D2C5079001C5516 /* SKNode+Utils.m in Sources */,
