@@ -2,11 +2,12 @@
 
 @interface GameConfig : NSObject
 
-@property(nonatomic, assign) NSTimeInterval deployPeriod;
+@property(nonatomic, assign) NSTimeInterval startingDeployPeriod;
+@property(nonatomic, assign) NSTimeInterval endingDeployPeriod;
 @property(nonatomic, assign) NSInteger donutsPerDeploy;
-@property(nonatomic, assign) CGFloat donutDeployAvgDelay;
 @property(nonatomic, assign) NSInteger maxLives;
 @property(nonatomic, assign) CGFloat gameSpeed;
+@property(nonatomic, assign) CGFloat exponentialDecayConstant;
 
 + (instancetype)sharedConfig;
 

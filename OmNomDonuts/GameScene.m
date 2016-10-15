@@ -36,6 +36,9 @@ static const CGFloat kPadding = 4.0;
   BouncingDonut *_activeBouncingDonut;
 
   BOOL _gameOver;
+
+  CGFloat _deployPeriod;
+  NSTimeInterval _elapsedTime;
 }
 
 - (instancetype)initWithSize:(CGSize)size {
@@ -153,6 +156,22 @@ static const CGFloat kPadding = 4.0;
 
 - (void)startGame {
   [self scheduleNextDeploy];
+  [self progressDifficulty];
+}
+
+- (void)progressDifficulty {
+  SKAction *wait = [SKAction waitForDuration:1.0];
+  SKAction *updateDeployPeriod = [SKAction runBlock:^{
+    _elapsedTime += 1.0;
+    _deployPeriod = MAX(_gameConfig.endingDeployPeriod,
+                        _gameConfig.startingDeployPeriod * exp(-_elapsedTime /
+                                                               _gameConfig.exponentialDecayConstant));
+    NSLog(@"%g : %f", _elapsedTime, _deployPeriod);
+    if (_deployPeriod > _gameConfig.endingDeployPeriod) {
+      [self progressDifficulty];
+    };
+  }];
+  [self runAction:[SKAction sequence:@[wait, updateDeployPeriod]]];
 }
 
 - (void)endGame {
@@ -164,7 +183,7 @@ static const CGFloat kPadding = 4.0;
 }
 
 - (void)scheduleNextDeploy {
-  SKAction *wait = [SKAction waitForDuration:_gameConfig.deployPeriod];
+  SKAction *wait = [SKAction waitForDuration:_deployPeriod];
   SKAction *deploy = [SKAction performSelector:@selector(onDeployTimer) onTarget:self];
   __weak GameScene *weakSelf = self;
   SKAction *reschedule = [SKAction runBlock:^{
@@ -177,7 +196,7 @@ static const CGFloat kPadding = 4.0;
 
 - (void)onDeployTimer {
   for (NSInteger i = 0; i < _gameConfig.donutsPerDeploy; i++) {
-    [self runAction:[SKAction waitForDuration:1.5 withRange:3.0]
+    [self runAction:[SKAction waitForDuration:_deployPeriod / 10 withRange:_deployPeriod / 5]
          completion:^{
            if (self->_gameOver) {
              return;
@@ -296,6 +315,8 @@ static const CGFloat kPadding = 4.0;
 }
 
 - (void)resetGame {
+  _deployPeriod = [_gameConfig startingDeployPeriod];
+  _elapsedTime = 0;
   [_scoreCounter reset];
   [_lifeCounter reset];
 
@@ -305,7 +326,7 @@ static const CGFloat kPadding = 4.0;
 
 - (void)missDonut:(SKSpriteNode<DonutProtocol> *)donut {
   if ([donut isKindOfClass:[RegularDonut class]]) {
-    [_lifeCounter decrementLives];
+//    [_lifeCounter decrementLives];
 
     if (_lifeCounter.currentLives == 0) {
       [self endGame];
