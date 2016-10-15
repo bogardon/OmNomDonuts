@@ -14,6 +14,7 @@
 @interface SKNode ()
 
 @property(nonatomic, readonly) NSMutableArray *targetSelectorPairs;
+@property(nonatomic, readonly) NSMutableArray *callbacks;;
 
 @end
 
@@ -30,11 +31,27 @@
   return targetSelectorPairs;
 }
 
+- (NSMutableArray *)callbacks {
+  NSMutableArray *callbacks = objc_getAssociatedObject(self, @selector(callbacks));
+  if (!callbacks) {
+    callbacks = [NSMutableArray array];
+    objc_setAssociatedObject(self,
+                             @selector(callbacks),
+                             callbacks,
+                             OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+  }
+  return callbacks;
+}
+
 - (void)addTarget:(id)target selector:(SEL)selector {
   TargetSelectorPair *pair = [[TargetSelectorPair alloc] init];
   pair.target = target;
   pair.selector = selector;
   [self.targetSelectorPairs addObject:pair];
+}
+
+- (void)addCallback:(Callback)callback {
+  [self.callbacks addObject:callback];
 }
 
 - (void)invokeTargets {
@@ -49,6 +66,10 @@
       [invocation setArgument:&node atIndex:2];
     }
     [invocation invoke];
+  }
+
+  for (Callback callback in self.callbacks) {
+    callback(self);
   }
 }
 

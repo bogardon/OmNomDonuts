@@ -7,14 +7,12 @@
 #import "Slider.h"
 #import "GameConfig.h"
 
+static const CGFloat kPadding = 16.0;
+
 @interface MainMenuScene ()
 @end
 
-@implementation MainMenuScene {
-  Slider *_deployPeriodSlider;
-  Slider *_donutsPerDeploySlider;
-  Slider *_maxLivesSlider;
-}
+@implementation MainMenuScene
 
 - (id)initWithSize:(CGSize)size {
   if (self = [super initWithSize:size]) {
@@ -23,46 +21,62 @@
     PlayNode *play = [[PlayNode alloc] init];
     play.userInteractionEnabled = YES;
     play.position = CGPointMake(CGRectGetMidX(self.frame),
-                                CGRectGetMidY(self.frame));
+                                kPadding + play.size.height / 2);
     [self addChild:play];
     [play addTarget:self selector:@selector(onPlay:)];
 
-    _deployPeriodSlider = [[Slider alloc] init];
-    _deployPeriodSlider.title = @"Deploy period";
-    _deployPeriodSlider.scale = 2;
-    _deployPeriodSlider.minValue = 1;
-    _deployPeriodSlider.maxValue = 10;
-    _deployPeriodSlider.currentValue = [GameConfig sharedConfig].deployPeriod;
-    _deployPeriodSlider.color = [SKColor redColor];
-    _deployPeriodSlider.position = CGPointMake(CGRectGetMidX(self.frame),
-                                               CGRectGetMidY(self.frame) - 70);
-    [self addChild:_deployPeriodSlider];
-    [_deployPeriodSlider addTarget:self selector:@selector(onDeployPeriod:)];
+    Slider *deployPeriodSlider = [[Slider alloc] init];
+    deployPeriodSlider.title = @"Deploy period";
+    deployPeriodSlider.scale = 2;
+    deployPeriodSlider.minValue = 1;
+    deployPeriodSlider.maxValue = 10;
+    deployPeriodSlider.currentValue = [GameConfig sharedConfig].deployPeriod;
+    deployPeriodSlider.color = [SKColor redColor];
+    CGRect sliderFrame = [deployPeriodSlider calculateAccumulatedFrame];
+    deployPeriodSlider.position =
+        CGPointMake(CGRectGetMidX(self.frame),
+                    CGRectGetMaxY(self.frame) - kPadding - sliderFrame.size.height);
+    [self addChild:deployPeriodSlider];
+    [deployPeriodSlider addTarget:self selector:@selector(onDeployPeriod:)];
 
-    _donutsPerDeploySlider = [[Slider alloc] init];
-    _donutsPerDeploySlider.title = @"Donuts per deploy";
-    _donutsPerDeploySlider.scale = 1;
-    _donutsPerDeploySlider.minValue = 1;
-    _donutsPerDeploySlider.maxValue = 10;
-    _donutsPerDeploySlider.currentValue = [GameConfig sharedConfig].donutsPerDeploy;
-    _donutsPerDeploySlider.color = [SKColor greenColor];
-    _donutsPerDeploySlider.position = CGPointMake(CGRectGetMidX(self.frame),
-                                                  CGRectGetMidY(_deployPeriodSlider.frame) - 50);
-    [self addChild:_donutsPerDeploySlider];
-    [_donutsPerDeploySlider addTarget:self selector:@selector(onDonutsPerDeploy:)];
+    Slider *donutsPerDeploySlider = [[Slider alloc] init];
+    donutsPerDeploySlider.title = @"Donuts per deploy";
+    donutsPerDeploySlider.scale = 1;
+    donutsPerDeploySlider.minValue = 1;
+    donutsPerDeploySlider.maxValue = 10;
+    donutsPerDeploySlider.currentValue = [GameConfig sharedConfig].donutsPerDeploy;
+    donutsPerDeploySlider.color = [SKColor greenColor];
+    donutsPerDeploySlider.position =
+        CGPointMake(CGRectGetMidX(self.frame),
+                    CGRectGetMidY(deployPeriodSlider.frame) - kPadding - sliderFrame.size.height);
+    [self addChild:donutsPerDeploySlider];
+    [donutsPerDeploySlider addTarget:self selector:@selector(onDonutsPerDeploy:)];
 
-    _maxLivesSlider = [[Slider alloc] init];
-    _maxLivesSlider.title = @"Max lives";
-    _maxLivesSlider.scale = 1;
-    _maxLivesSlider.minValue = 1;
-    _maxLivesSlider.maxValue = 10;
-    _maxLivesSlider.currentValue = [GameConfig sharedConfig].maxLives;
-    _maxLivesSlider.color = [SKColor blueColor];
-    _maxLivesSlider.position = CGPointMake(CGRectGetMidX(self.frame),
-                                           CGRectGetMidY(_donutsPerDeploySlider.frame) - 50);
-    [self addChild:_maxLivesSlider];
-    [_maxLivesSlider addTarget:self selector:@selector(onMaxLives:)];
+    Slider *donutDeployAvgDelaySlider = [[Slider alloc] init];
+    donutDeployAvgDelaySlider.title = @"Donut deploy average delay";
+    donutDeployAvgDelaySlider.scale = 4;
+    donutDeployAvgDelaySlider.minValue = 0;
+    donutDeployAvgDelaySlider.maxValue = 1.5;
+    donutDeployAvgDelaySlider.currentValue = [GameConfig sharedConfig].donutDeployAvgDelay;
+    donutDeployAvgDelaySlider.color = [SKColor blueColor];
+    donutDeployAvgDelaySlider.position =
+        CGPointMake(CGRectGetMidX(self.frame),
+                    CGRectGetMidY(donutsPerDeploySlider.frame) - kPadding - sliderFrame.size.height);
+    [self addChild:donutDeployAvgDelaySlider];
+    [donutDeployAvgDelaySlider addTarget:self selector:@selector(onDonutDeplyAvgDelay:)];
 
+    Slider *maxLivesSlider = [[Slider alloc] init];
+    maxLivesSlider.title = @"Max lives";
+    maxLivesSlider.scale = 1;
+    maxLivesSlider.minValue = 1;
+    maxLivesSlider.maxValue = 10;
+    maxLivesSlider.currentValue = [GameConfig sharedConfig].maxLives;
+    maxLivesSlider.color = [SKColor yellowColor];
+    maxLivesSlider.position =
+        CGPointMake(CGRectGetMidX(self.frame),
+                    CGRectGetMidY(donutDeployAvgDelaySlider.frame) - kPadding - sliderFrame.size.height);
+    [self addChild:maxLivesSlider];
+    [maxLivesSlider addTarget:self selector:@selector(onMaxLives:)];
   }
   return self;
 }
@@ -76,16 +90,20 @@
   [self.view presentScene:gameScene transition:transition];
 }
 
-- (void)onDeployPeriod:(id)sender {
-  [GameConfig sharedConfig].deployPeriod = _deployPeriodSlider.currentValue;
+- (void)onDeployPeriod:(Slider *)sender {
+  [GameConfig sharedConfig].deployPeriod = sender.currentValue;
 }
 
-- (void)onDonutsPerDeploy:(id)sender {
-  [GameConfig sharedConfig].donutsPerDeploy = _donutsPerDeploySlider.currentValue;
+- (void)onDonutsPerDeploy:(Slider *)sender {
+  [GameConfig sharedConfig].donutsPerDeploy = sender.currentValue;
 }
 
-- (void)onMaxLives:(id)sender {
-  [GameConfig sharedConfig].maxLives = _maxLivesSlider.currentValue;
+- (void)onDonutDeplyAvgDelay:(Slider *)sender {
+  [GameConfig sharedConfig].donutDeployAvgDelay = sender.currentValue;
+}
+
+- (void)onMaxLives:(Slider *)sender {
+  [GameConfig sharedConfig].maxLives = sender.currentValue;
 }
 
 @end

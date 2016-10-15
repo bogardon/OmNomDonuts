@@ -13,6 +13,7 @@
   self = [super init];
   if (self) {
     _scale = 1;
+    _currentValue = -1;
 
     self.userInteractionEnabled = YES;
 
@@ -29,7 +30,7 @@
     [line moveToPoint:CGPointMake(-100, 0)];
     [line addLineToPoint:CGPointMake(100, 0)];
     _maxTrack.path = line.CGPath;
-    _maxTrack.strokeColor = [SKColor lightGrayColor];
+    _maxTrack.strokeColor = [[SKColor lightGrayColor] colorWithAlphaComponent:0.8];
     _maxTrack.lineWidth = 2.0;
     _maxTrack.lineCap = kCGLineCapRound;
     [self addChild:_maxTrack];
@@ -51,7 +52,8 @@
 - (void)setColor:(SKColor *)color {
   _color = color;
 
-  _minTrack.strokeColor = _thumb.fillColor = color;
+  _minTrack.strokeColor = [color colorWithAlphaComponent:0.8];
+  _thumb.fillColor = color;
 }
 
 - (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event {

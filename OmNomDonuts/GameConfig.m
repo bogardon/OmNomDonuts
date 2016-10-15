@@ -14,12 +14,19 @@
 - (instancetype)init {
   self = [super init];
   if (self) {
-    _deployPeriod = 3.0;
-    _donutsPerDeploy = 3;
-    _maxLives = 5;
-    _contractSpeed = 1.0;
+    [self reset];
   }
   return self;
+}
+
+#pragma mark Public Methods
+
+- (void)reset {
+  _deployPeriod = 3.0;
+  _donutsPerDeploy = 3.0;
+  _donutDeployAvgDelay = 0.75;
+  _maxLives = 5;
+  _gameSpeed = 1.0;
 }
 
 @end
