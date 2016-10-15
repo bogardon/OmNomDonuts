@@ -22,6 +22,7 @@ static const uint32_t kMovingCategory = 0x1 << 1;
 static const uint32_t kEdgeCategory = 0x1 << 2;
 static NSString *const kExpandAndContractActionKey = @"kExpandAndContractActionKey";
 static NSString *const kResetContractSpeedKey = @"kResetContractSpeedKey";
+static NSString *const kScheduleNextDeployKey = @"kScheduleNextDeployKey";
 static const CGFloat kPadding = 4.0;
 
 @interface GameScene ()<SKPhysicsContactDelegate>
@@ -107,13 +108,15 @@ static const CGFloat kPadding = 4.0;
     [self fadeOutDonut:donut];
   } else if ([donut isKindOfClass:[DeceleratorDonut class]]) {
     [self fadeOutDonut:donut];
-    _gameConfig.contractSpeed = 0.3;
+    CGFloat gameSpeed = 0.5;
+    _gameConfig.gameSpeed = gameSpeed;
     for (SKSpriteNode<Donut> *otherDonut in self.pendingDonuts) {
-      [otherDonut actionForKey:kExpandAndContractActionKey].speed = _gameConfig.contractSpeed;
+      [otherDonut actionForKey:kExpandAndContractActionKey].speed = _gameConfig.gameSpeed;
     }
+    [self actionForKey:kScheduleNextDeployKey].speed = _gameConfig.gameSpeed;
     SKAction *sequence = [SKAction sequence:@[[SKAction waitForDuration:5.0],
                                               [SKAction runBlock:^{
-      _gameConfig.contractSpeed = 1.0;
+      _gameConfig.gameSpeed = 1.0;
     }]]];
     [self removeActionForKey:kResetContractSpeedKey];
     [self runAction:sequence withKey:kResetContractSpeedKey];
@@ -168,6 +171,7 @@ static const CGFloat kPadding = 4.0;
     [weakSelf scheduleNextDeploy];
   }];
   SKAction *sequence = [SKAction sequence:@[deploy, wait, reschedule]];
+  sequence.speed = _gameConfig.gameSpeed;
   [self runAction:sequence];
 }
 
@@ -257,10 +261,8 @@ static const CGFloat kPadding = 4.0;
     CGFloat f = t - 1.0;
     return 1.0 - f * f * f * f;
   };
-  SKAction *scaleDown = [SKAction scaleTo:0 duration:donut.contractDuration];
-  scaleDown.speed = _gameConfig.contractSpeed;
-
   SKAction *wait = [SKAction waitForDuration:0.1];
+  SKAction *scaleDown = [SKAction scaleTo:0 duration:donut.contractDuration];
 
   __weak SKSpriteNode<Donut> *weakDonut = donut;
   __weak GameScene *weakSelf = self;
@@ -270,6 +272,7 @@ static const CGFloat kPadding = 4.0;
 
   NSArray *actions = @[scaleUp, wait, scaleDown, [SKAction removeFromParent], miss];
   SKAction *sequence = [SKAction sequence:actions];
+  sequence.speed = _gameConfig.gameSpeed;
   [donut runAction:sequence withKey:kExpandAndContractActionKey];
 
   [self runAction:[SKAction playSoundFileNamed:@"woop_up.caf" waitForCompletion:YES]];
