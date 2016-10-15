@@ -106,7 +106,7 @@
 		726EFA88190D9B280076029B /* GameScene.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GameScene.m; sourceTree = "<group>"; };
 		72A1F24F1C856BBC00024205 /* GameConfig.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameConfig.h; sourceTree = "<group>"; };
 		72A1F2501C856BBC00024205 /* GameConfig.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GameConfig.m; sourceTree = "<group>"; };
-		72A3D20A19293D07002C29E1 /* Donut.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Donut.h; sourceTree = "<group>"; };
+		72A3D20A19293D07002C29E1 /* DonutProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DonutProtocol.h; sourceTree = "<group>"; };
 		72DAD9D31D2C5079001C5516 /* SKNode+Utils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "SKNode+Utils.h"; sourceTree = "<group>"; };
 		72DAD9D41D2C5079001C5516 /* SKNode+Utils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "SKNode+Utils.m"; sourceTree = "<group>"; };
 		72E0D6E11D2C611B00693A46 /* PlayNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PlayNode.h; sourceTree = "<group>"; };
@@ -161,7 +161,7 @@
 			children = (
 				726EFA87190D9B270076029B /* GameScene.h */,
 				726EFA88190D9B280076029B /* GameScene.m */,
-				72A3D20A19293D07002C29E1 /* Donut.h */,
+				72A3D20A19293D07002C29E1 /* DonutProtocol.h */,
 				7263B00A19C4E7350053D61B /* LifeCounterNode.h */,
 				7263B00B19C4E7350053D61B /* LifeCounterNode.m */,
 				720B0FA41C6F0CE900D1FEC1 /* ScoreCounterNode.h */,

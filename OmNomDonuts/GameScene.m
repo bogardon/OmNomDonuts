@@ -76,7 +76,7 @@ static const CGFloat kPadding = 4.0;
 
   UITouch *touch = [touches anyObject];
   CGPoint point = [touch locationInNode:self];
-  for (SKSpriteNode<Donut> *donut in [self.pendingDonuts reverseObjectEnumerator]) {
+  for (SKSpriteNode<DonutProtocol> *donut in [self.pendingDonuts reverseObjectEnumerator]) {
     CGFloat distanceToCenter = hypot(point.x - donut.position.x, point.y - donut.position.y);
     if (distanceToCenter <= MAX(donut.size.width / 2, 10)) {
       [self hitDonut:donut point:point];
@@ -90,7 +90,7 @@ static const CGFloat kPadding = 4.0;
 #pragma mark SKPhysicsContactDelegate
 
 - (void)didBeginContact:(SKPhysicsContact *)contact {
-  SKSpriteNode<Donut> *donut = (SKSpriteNode<Donut> *)
+  SKSpriteNode<DonutProtocol> *donut = (SKSpriteNode<DonutProtocol> *)
       (contact.bodyA.categoryBitMask == kMovingCategory ? contact.bodyB.node : contact.bodyA.node);
   [self hitDonut:donut point:contact.contactPoint];
 }
@@ -100,7 +100,7 @@ static const CGFloat kPadding = 4.0;
 
 #pragma mark Private Methods
 
-- (void)hitDonut:(SKSpriteNode<Donut> *)donut point:(CGPoint)point {
+- (void)hitDonut:(SKSpriteNode<DonutProtocol> *)donut point:(CGPoint)point {
   donut.hit = YES;
   _scoreCounter.score += donut.value;
 
@@ -110,7 +110,7 @@ static const CGFloat kPadding = 4.0;
     [self fadeOutDonut:donut];
     CGFloat gameSpeed = 0.5;
     _gameConfig.gameSpeed = gameSpeed;
-    for (SKSpriteNode<Donut> *otherDonut in self.pendingDonuts) {
+    for (SKSpriteNode<DonutProtocol> *otherDonut in self.pendingDonuts) {
       [otherDonut actionForKey:kExpandAndContractActionKey].speed = _gameConfig.gameSpeed;
     }
     [self actionForKey:kScheduleNextDeployKey].speed = _gameConfig.gameSpeed;
@@ -122,7 +122,7 @@ static const CGFloat kPadding = 4.0;
     [self runAction:sequence withKey:kResetContractSpeedKey];
   } else if ([donut isKindOfClass:[BlackholeDonut class]]) {
     [self fadeOutDonut:donut];
-    for (SKSpriteNode<Donut> *otherDonut in self.pendingDonuts) {
+    for (SKSpriteNode<DonutProtocol> *otherDonut in self.pendingDonuts) {
       if (donut == otherDonut) {
         continue;
       }
@@ -245,7 +245,7 @@ static const CGFloat kPadding = 4.0;
   [self expandAndContractDonut:donut];
 }
 
-- (void)randomlyPositionDonut:(SKSpriteNode<Donut> *)donut {
+- (void)randomlyPositionDonut:(SKSpriteNode<DonutProtocol> *)donut {
   CGFloat halfDimension = donut.size.width / 2.0;
   CGPoint position =
       CGPointMake(halfDimension + arc4random() % (int)(self.size.width - 2 * halfDimension),
@@ -253,7 +253,7 @@ static const CGFloat kPadding = 4.0;
   donut.position = position;
 }
 
-- (void)expandAndContractDonut:(SKSpriteNode<Donut> *)donut {
+- (void)expandAndContractDonut:(SKSpriteNode<DonutProtocol> *)donut {
   [donut setScale:0];
 
   SKAction *scaleUp = [SKAction scaleTo:1 duration:0.25];
@@ -264,7 +264,7 @@ static const CGFloat kPadding = 4.0;
   SKAction *wait = [SKAction waitForDuration:0.1];
   SKAction *scaleDown = [SKAction scaleTo:0 duration:donut.contractDuration];
 
-  __weak SKSpriteNode<Donut> *weakDonut = donut;
+  __weak SKSpriteNode<DonutProtocol> *weakDonut = donut;
   __weak GameScene *weakSelf = self;
   SKAction *miss = [SKAction runBlock:^{
     [weakSelf missDonut:weakDonut];
@@ -278,14 +278,14 @@ static const CGFloat kPadding = 4.0;
   [self runAction:[SKAction playSoundFileNamed:@"woop_up.caf" waitForCompletion:YES]];
 }
 
-- (void)fadeOutDonut:(SKSpriteNode<Donut> *)donut {
+- (void)fadeOutDonut:(SKSpriteNode<DonutProtocol> *)donut {
   [donut removeAllActions];
   NSArray *actions = @[[SKAction fadeOutWithDuration:0.2], [SKAction removeFromParent]];
   SKAction *sequence = [SKAction sequence:actions];
   [donut runAction:sequence];
 }
 
-- (void)gravitateDonut:(SKSpriteNode<Donut> *)donut towardsPoint:(CGPoint)point {
+- (void)gravitateDonut:(SKSpriteNode<DonutProtocol> *)donut towardsPoint:(CGPoint)point {
   [donut removeAllActions];
   SKAction *group =
       [SKAction group:@[[SKAction moveTo:point duration:0.2],
@@ -303,7 +303,7 @@ static const CGFloat kPadding = 4.0;
   [self removeChildrenInArray:self.allDonuts];
 }
 
-- (void)missDonut:(SKSpriteNode<Donut> *)donut {
+- (void)missDonut:(SKSpriteNode<DonutProtocol> *)donut {
   if ([donut isKindOfClass:[RegularDonut class]]) {
     [_lifeCounter decrementLives];
 

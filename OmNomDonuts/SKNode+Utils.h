@@ -1,10 +1,10 @@
 #import <SpriteKit/SpriteKit.h>
 
-@protocol Donut;
+@protocol DonutProtocol;
 
 @interface SKNode (Utils)
 
-@property(nonatomic, readonly) NSArray<SKSpriteNode<Donut> *> *allDonuts;
-@property(nonatomic, readonly) NSArray<SKSpriteNode<Donut> *> *pendingDonuts;
+@property(nonatomic, readonly) NSArray<SKSpriteNode<DonutProtocol> *> *allDonuts;
+@property(nonatomic, readonly) NSArray<SKSpriteNode<DonutProtocol> *> *pendingDonuts;
 
 @end
