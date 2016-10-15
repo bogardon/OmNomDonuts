@@ -22,7 +22,7 @@
 #pragma mark Public Methods
 
 - (void)reset {
-  _exponentialDecayConstant = 100;
+  _timeToEndingDeployPeriod = 120.0;
   _startingDeployPeriod = 3.0;
   _endingDeployPeriod = 1.0;
   _donutsPerDeploy = 3.0;

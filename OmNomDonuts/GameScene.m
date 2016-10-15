@@ -163,9 +163,8 @@ static const CGFloat kPadding = 4.0;
   SKAction *wait = [SKAction waitForDuration:1.0];
   SKAction *updateDeployPeriod = [SKAction runBlock:^{
     _elapsedTime += 1.0;
-    _deployPeriod = MAX(_gameConfig.endingDeployPeriod,
-                        _gameConfig.startingDeployPeriod * exp(-_elapsedTime /
-                                                               _gameConfig.exponentialDecayConstant));
+    CGFloat deployPeriodDifference = _gameConfig.startingDeployPeriod - _gameConfig.endingDeployPeriod;
+    _deployPeriod = _gameConfig.startingDeployPeriod - deployPeriodDifference * _elapsedTime / _gameConfig.timeToEndingDeployPeriod;
     NSLog(@"%g : %f", _elapsedTime, _deployPeriod);
     if (_deployPeriod > _gameConfig.endingDeployPeriod) {
       [self progressDifficulty];

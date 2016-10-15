@@ -52,18 +52,18 @@ static const CGFloat kPadding = 16.0;
     [self addChild:endingDeployPeriodSlider];
     [endingDeployPeriodSlider addTarget:self selector:@selector(onEndingDeployPeriod:)];
 
-    Slider *exponentialDecayConstantSlider = [[Slider alloc] init];
-    exponentialDecayConstantSlider.title = @"Exponential decay constant";
-    exponentialDecayConstantSlider.scale = 1;
-    exponentialDecayConstantSlider.minValue = 80;
-    exponentialDecayConstantSlider.maxValue = 200;
-    exponentialDecayConstantSlider.currentValue = [GameConfig sharedConfig].exponentialDecayConstant;
-    exponentialDecayConstantSlider.color = [SKColor blueColor];
-    exponentialDecayConstantSlider.position =
+    Slider *timeToEndingDeployPeriodSlider = [[Slider alloc] init];
+    timeToEndingDeployPeriodSlider.title = @"Time to ending deploy period";
+    timeToEndingDeployPeriodSlider.scale = 0.2;
+    timeToEndingDeployPeriodSlider.minValue = 60;
+    timeToEndingDeployPeriodSlider.maxValue = 180;
+    timeToEndingDeployPeriodSlider.currentValue = [GameConfig sharedConfig].timeToEndingDeployPeriod;
+    timeToEndingDeployPeriodSlider.color = [SKColor blueColor];
+    timeToEndingDeployPeriodSlider.position =
     CGPointMake(CGRectGetMidX(self.frame),
                 CGRectGetMidY(endingDeployPeriodSlider.frame) - kPadding - sliderFrame.size.height);
-    [self addChild:exponentialDecayConstantSlider];
-    [exponentialDecayConstantSlider addTarget:self selector:@selector(onExponentialDecayConstant:)];
+    [self addChild:timeToEndingDeployPeriodSlider];
+    [timeToEndingDeployPeriodSlider addTarget:self selector:@selector(onTimeToEndingDeployPeriod:)];
 
     Slider *donutsPerDeploySlider = [[Slider alloc] init];
     donutsPerDeploySlider.title = @"Donuts per deploy";
@@ -74,7 +74,7 @@ static const CGFloat kPadding = 16.0;
     donutsPerDeploySlider.color = [SKColor cyanColor];
     donutsPerDeploySlider.position =
         CGPointMake(CGRectGetMidX(self.frame),
-                    CGRectGetMidY(exponentialDecayConstantSlider.frame) - kPadding - sliderFrame.size.height);
+                    CGRectGetMidY(timeToEndingDeployPeriodSlider.frame) - kPadding - sliderFrame.size.height);
     [self addChild:donutsPerDeploySlider];
     [donutsPerDeploySlider addTarget:self selector:@selector(onDonutsPerDeploy:)];
 
@@ -112,8 +112,8 @@ static const CGFloat kPadding = 16.0;
   [GameConfig sharedConfig].endingDeployPeriod = sender.currentValue;
 }
 
-- (void)onExponentialDecayConstant:(Slider *)sender {
-  [GameConfig sharedConfig].exponentialDecayConstant = sender.currentValue;
+- (void)onTimeToEndingDeployPeriod:(Slider *)sender {
+  [GameConfig sharedConfig].timeToEndingDeployPeriod = sender.currentValue;
 }
 
 - (void)onDonutsPerDeploy:(Slider *)sender {

@@ -7,7 +7,7 @@
 @property(nonatomic, assign) NSInteger donutsPerDeploy;
 @property(nonatomic, assign) NSInteger maxLives;
 @property(nonatomic, assign) CGFloat gameSpeed;
-@property(nonatomic, assign) CGFloat exponentialDecayConstant;
+@property(nonatomic, assign) CGFloat timeToEndingDeployPeriod;
 
 + (instancetype)sharedConfig;
 
