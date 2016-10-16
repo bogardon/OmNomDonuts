@@ -40,6 +40,8 @@ static const CGFloat kPadding = 4.0;
   NSInteger _numberOfDonuts;
   SKAudioNode *_woopUpAudioNode;
   SKAudioNode *_woopDownAudioNode;
+  SKAction *_woopUpAction;
+  SKAction *_woopDownAction;
 }
 
 - (instancetype)initWithSize:(CGSize)size {
@@ -47,14 +49,8 @@ static const CGFloat kPadding = 4.0;
   if (self) {
     _gameConfig = [GameConfig sharedConfig];
 
-    _woopUpAudioNode = [[SKAudioNode alloc] initWithFileNamed:@"woop_up_converted.caf"];
-    _woopUpAudioNode.positional = NO;
-    _woopUpAudioNode.autoplayLooped = NO;
-    [self addChild:_woopUpAudioNode];
-    _woopDownAudioNode = [[SKAudioNode alloc] initWithFileNamed:@"woop_down.caf"];
-    _woopDownAudioNode.positional = NO;
-    _woopDownAudioNode.autoplayLooped = NO;
-    [self addChild:_woopDownAudioNode];
+    _woopUpAction = [SKAction playSoundFileNamed:@"woop_up_converted.caf" waitForCompletion:YES];
+    _woopDownAction = [SKAction playSoundFileNamed:@"woop_down_converted.caf" waitForCompletion:YES];
 
     self.backgroundColor =
         [SKColor colorWithRed:204.0 / 255.0 green:234.0 / 255.0 blue:240.0 / 255.0 alpha:1.0];
@@ -64,12 +60,16 @@ static const CGFloat kPadding = 4.0;
     self.physicsWorld.gravity = CGVectorMake(0, 0);
     self.physicsBody.categoryBitMask = kEdgeCategory;
     self.physicsWorld.contactDelegate = self;
-
-    [self createContent];
-    [self resetGame];
-    [self startGame];
   }
   return self;
+}
+
+- (void)didMoveToView:(SKView *)view {
+  [super didMoveToView:view];
+
+  [self createContent];
+  [self resetGame];
+  [self startGame];
 }
 
 #pragma mark SKScene
@@ -266,7 +266,7 @@ static const CGFloat kPadding = 4.0;
   sequence.speed = _gameConfig.gameSpeed;
   [donut runAction:sequence withKey:kExpandAndContractActionKey];
 
-  [_woopUpAudioNode runAction:[SKAction play]];
+  [self runAction:_woopUpAction];
 }
 
 - (void)resolveDonut:(SKSpriteNode<DonutProtocol> *)donut {
@@ -387,7 +387,7 @@ static const CGFloat kPadding = 4.0;
   [shape showAndHide];
   [self addChild:shape];
 
-  [_woopDownAudioNode runAction:[SKAction play]];
+  [self runAction:_woopDownAction];
 }
 
 @end
