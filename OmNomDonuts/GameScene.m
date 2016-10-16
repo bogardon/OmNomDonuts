@@ -251,6 +251,7 @@ static const CGFloat kPadding = 4.0;
     CGFloat f = t - 1.0;
     return 1.0 - f * f * f * f;
   };
+  SKAction *scaleGroup = [SKAction group:@[scaleUp, _woopUpAction]];
   SKAction *wait2 = [SKAction waitForDuration:0.1];
   SKAction *scaleDown = [SKAction scaleTo:0 duration:donut.contractDuration];
 
@@ -261,12 +262,10 @@ static const CGFloat kPadding = 4.0;
     [weakSelf resolveDonut:weakDonut];
   }];
 
-  NSArray *actions = @[wait1, scaleUp, wait2, scaleDown, [SKAction removeFromParent], resolve];
+  NSArray *actions = @[wait1, scaleGroup, wait2, scaleDown, [SKAction removeFromParent], resolve];
   SKAction *sequence = [SKAction sequence:actions];
   sequence.speed = _gameConfig.gameSpeed;
   [donut runAction:sequence withKey:kExpandAndContractActionKey];
-
-  [self runAction:_woopUpAction];
 }
 
 - (void)resolveDonut:(SKSpriteNode<DonutProtocol> *)donut {
@@ -347,8 +346,8 @@ static const CGFloat kPadding = 4.0;
 
 - (void)createContent {
   SKTextureAtlas *atlas = [SKTextureAtlas atlasNamed:@"Sprites"];
-  CGFloat lastY = 0;
-  CGFloat targetWidth = 320;
+  CGFloat targetWidth = self.size.width;
+
   for (int i = 1; i <= 4; i++) {
     NSString *textureName = [NSString stringWithFormat:@"cloud%d", i];
     SKSpriteNode *cloud = [SKSpriteNode spriteNodeWithTexture:[atlas textureNamed:textureName]];
@@ -356,12 +355,12 @@ static const CGFloat kPadding = 4.0;
     if (targetWidth < cloud.size.width) {
       cloud.size = CGSizeMake(targetWidth, targetWidth / ratio);
     }
-    CGFloat xOffset = (CGFloat)(arc4random() % 100);
-    xOffset = arc4random() % 2 ? xOffset : -xOffset;
+    CGFloat xOffset = arc4random_uniform(100);
+    xOffset = arc4random_uniform(2) ? xOffset : -xOffset;
+    CGFloat positionY = (i - 1) * self.size.height / 4;
     cloud.position = CGPointMake(self.frame.size.width / 2 + xOffset,
-                                 lastY + cloud.frame.size.height / 2);
+                                 positionY + cloud.frame.size.height / 2);
     [self addChild:cloud];
-    lastY = CGRectGetMaxY(cloud.frame);
   }
 
   _scoreCounter = [ScoreCounterNode labelNodeWithFontNamed:@"HelveticaNeue"];
