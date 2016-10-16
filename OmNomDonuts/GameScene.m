@@ -38,12 +38,23 @@ static const CGFloat kPadding = 4.0;
   BOOL _gameOver;
 
   NSInteger _numberOfDonuts;
+  SKAudioNode *_woopUpAudioNode;
+  SKAudioNode *_woopDownAudioNode;
 }
 
 - (instancetype)initWithSize:(CGSize)size {
   self = [super initWithSize:size];
   if (self) {
     _gameConfig = [GameConfig sharedConfig];
+
+    _woopUpAudioNode = [[SKAudioNode alloc] initWithFileNamed:@"woop_up_converted.caf"];
+    _woopUpAudioNode.positional = NO;
+    _woopUpAudioNode.autoplayLooped = NO;
+    [self addChild:_woopUpAudioNode];
+    _woopDownAudioNode = [[SKAudioNode alloc] initWithFileNamed:@"woop_down.caf"];
+    _woopDownAudioNode.positional = NO;
+    _woopDownAudioNode.autoplayLooped = NO;
+    [self addChild:_woopDownAudioNode];
 
     self.backgroundColor =
         [SKColor colorWithRed:204.0 / 255.0 green:234.0 / 255.0 blue:240.0 / 255.0 alpha:1.0];
@@ -164,10 +175,7 @@ static const CGFloat kPadding = 4.0;
 
 - (void)endGame {
   _gameOver = YES;
-  for (SKNode *node in self.allDonuts) {
-    [node removeAllActions];
-  }
-  [self removeAllActions];
+  self.paused = YES;
 }
 
 - (void)deployDonuts {
@@ -258,7 +266,7 @@ static const CGFloat kPadding = 4.0;
   sequence.speed = _gameConfig.gameSpeed;
   [donut runAction:sequence withKey:kExpandAndContractActionKey];
 
-  [self runAction:[SKAction playSoundFileNamed:@"woop_up.caf" waitForCompletion:YES]];
+  [_woopUpAudioNode runAction:[SKAction play]];
 }
 
 - (void)resolveDonut:(SKSpriteNode<DonutProtocol> *)donut {
@@ -379,7 +387,7 @@ static const CGFloat kPadding = 4.0;
   [shape showAndHide];
   [self addChild:shape];
 
-  [self runAction:[SKAction playSoundFileNamed:@"woop_down.caf" waitForCompletion:YES]];
+  [_woopDownAudioNode runAction:[SKAction play]];
 }
 
 @end
