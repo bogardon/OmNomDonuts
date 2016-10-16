@@ -5,7 +5,12 @@
 @property(nonatomic, assign) NSInteger maxLives;
 @property(nonatomic, assign) CGFloat gameSpeed;
 
-@property(nonatomic, assign) NSInteger startingNumberOfDonuts;
+@property(nonatomic, assign) NSInteger initialNumberOfDonuts;
+@property(nonatomic, assign) NSInteger finalNumberOfDonuts;
+
+@property(nonatomic, assign) CGFloat donutRadius;
+@property(nonatomic, assign) CGFloat forgivenessRadius;
+@property(nonatomic, assign) NSTimeInterval contractDuration;
 
 + (instancetype)sharedConfig;
 

@@ -22,7 +22,11 @@
 #pragma mark Public Methods
 
 - (void)reset {
-  _startingNumberOfDonuts = 3;
+  _contractDuration = 4.0;
+  _donutRadius = 60.0;
+  _forgivenessRadius = 10.0;
+  _initialNumberOfDonuts = 1;
+  _finalNumberOfDonuts = 8;
   _maxLives = 5;
   _gameSpeed = 1.0;
 }

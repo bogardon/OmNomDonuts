@@ -25,32 +25,90 @@ static const CGFloat kPadding = 16.0;
     [self addChild:play];
     [play addTarget:self selector:@selector(onPlay:)];
 
-    Slider *startingNumberOfDonutsSlider = [[Slider alloc] init];
-    startingNumberOfDonutsSlider.title = @"Starting number of donuts";
-    startingNumberOfDonutsSlider.scale = 1;
-    startingNumberOfDonutsSlider.minValue = 1;
-    startingNumberOfDonutsSlider.maxValue = 6;
-    startingNumberOfDonutsSlider.currentValue = [GameConfig sharedConfig].startingNumberOfDonuts;
-    startingNumberOfDonutsSlider.color = [SKColor redColor];
-    CGRect sliderFrame = [startingNumberOfDonutsSlider calculateAccumulatedFrame];
-    startingNumberOfDonutsSlider.position =
+    Slider *slider = [[Slider alloc] init];
+    slider.title = @"Initial number of donuts";
+    slider.scale = 1;
+    slider.minValue = 1;
+    slider.maxValue = 5;
+    slider.currentValue = [GameConfig sharedConfig].initialNumberOfDonuts;
+    slider.color = [SKColor redColor];
+    CGRect sliderFrame = [slider calculateAccumulatedFrame];
+    slider.position =
         CGPointMake(CGRectGetMidX(self.frame),
                     CGRectGetMaxY(self.frame) - kPadding - sliderFrame.size.height);
-    [self addChild:startingNumberOfDonutsSlider];
-    [startingNumberOfDonutsSlider addTarget:self selector:@selector(onStartingNumberOfDonuts:)];
+    [self addChild:slider];
+    [slider addTarget:self selector:@selector(onInitialNumberOfDonuts:)];
+    CGFloat lastSliderY = CGRectGetMidY(slider.frame);
 
-    Slider *maxLivesSlider = [[Slider alloc] init];
-    maxLivesSlider.title = @"Max lives";
-    maxLivesSlider.scale = 1;
-    maxLivesSlider.minValue = 1;
-    maxLivesSlider.maxValue = 10;
-    maxLivesSlider.currentValue = [GameConfig sharedConfig].maxLives;
-    maxLivesSlider.color = [SKColor greenColor];
-    maxLivesSlider.position =
+    slider = [[Slider alloc] init];
+    slider.title = @"Final number of donuts";
+    slider.scale = 1;
+    slider.minValue = 6;
+    slider.maxValue = 12;
+    slider.currentValue = [GameConfig sharedConfig].finalNumberOfDonuts;
+    slider.color = [SKColor blueColor];
+    slider.position =
         CGPointMake(CGRectGetMidX(self.frame),
-                    CGRectGetMidY(startingNumberOfDonutsSlider.frame) - kPadding - sliderFrame.size.height);
-    [self addChild:maxLivesSlider];
-    [maxLivesSlider addTarget:self selector:@selector(onMaxLives:)];
+                    lastSliderY - kPadding - sliderFrame.size.height);
+    [self addChild:slider];
+    [slider addTarget:self selector:@selector(onFinalNumberOfDonuts:)];
+    lastSliderY = CGRectGetMidY(slider.frame);
+
+    slider = [[Slider alloc] init];
+    slider.title = @"Max lives";
+    slider.scale = 1;
+    slider.minValue = 1;
+    slider.maxValue = 10;
+    slider.currentValue = [GameConfig sharedConfig].maxLives;
+    slider.color = [SKColor greenColor];
+    slider.position =
+        CGPointMake(CGRectGetMidX(self.frame),
+                    lastSliderY - kPadding - sliderFrame.size.height);
+    [self addChild:slider];
+    [slider addTarget:self selector:@selector(onMaxLives:)];
+    lastSliderY = CGRectGetMidY(slider.frame);
+
+    slider = [[Slider alloc] init];
+    slider.title = @"Donut radius";
+    slider.scale = 1;
+    slider.minValue = 40;
+    slider.maxValue = 80;
+    slider.currentValue = [GameConfig sharedConfig].donutRadius;
+    slider.color = [SKColor cyanColor];
+    slider.position =
+    CGPointMake(CGRectGetMidX(self.frame),
+                lastSliderY - kPadding - sliderFrame.size.height);
+    [self addChild:slider];
+    [slider addTarget:self selector:@selector(onDonutRadius:)];
+    lastSliderY = CGRectGetMidY(slider.frame);
+
+    slider = [[Slider alloc] init];
+    slider.title = @"Forgiveness radius";
+    slider.scale = 1;
+    slider.minValue = 0;
+    slider.maxValue = 30;
+    slider.currentValue = [GameConfig sharedConfig].forgivenessRadius;
+    slider.color = [SKColor magentaColor];
+    slider.position =
+    CGPointMake(CGRectGetMidX(self.frame),
+                lastSliderY - kPadding - sliderFrame.size.height);
+    [self addChild:slider];
+    [slider addTarget:self selector:@selector(onForgivenessRadius:)];
+    lastSliderY = CGRectGetMidY(slider.frame);
+
+    slider = [[Slider alloc] init];
+    slider.title = @"Contraction duration";
+    slider.scale = 2;
+    slider.minValue = 2.0;
+    slider.maxValue = 8.0;
+    slider.currentValue = [GameConfig sharedConfig].contractDuration;
+    slider.color = [SKColor yellowColor];
+    slider.position =
+    CGPointMake(CGRectGetMidX(self.frame),
+                lastSliderY - kPadding - sliderFrame.size.height);
+    [self addChild:slider];
+    [slider addTarget:self selector:@selector(onContractDuration:)];
+    lastSliderY = CGRectGetMidY(slider.frame);
   }
   return self;
 }
@@ -64,12 +122,28 @@ static const CGFloat kPadding = 16.0;
   [self.view presentScene:gameScene transition:transition];
 }
 
-- (void)onStartingNumberOfDonuts:(Slider *)sender {
-  [GameConfig sharedConfig].startingNumberOfDonuts = sender.currentValue;
+- (void)onInitialNumberOfDonuts:(Slider *)sender {
+  [GameConfig sharedConfig].initialNumberOfDonuts = sender.currentValue;
+}
+
+- (void)onFinalNumberOfDonuts:(Slider *)sender {
+  [GameConfig sharedConfig].finalNumberOfDonuts = sender.currentValue;
 }
 
 - (void)onMaxLives:(Slider *)sender {
   [GameConfig sharedConfig].maxLives = sender.currentValue;
+}
+
+- (void)onDonutRadius:(Slider *)sender {
+  [GameConfig sharedConfig].donutRadius = sender.currentValue;
+}
+
+- (void)onForgivenessRadius:(Slider *)sender {
+  [GameConfig sharedConfig].forgivenessRadius = sender.currentValue;
+}
+
+- (void)onContractDuration:(Slider *)sender {
+  [GameConfig sharedConfig].contractDuration = sender.currentValue;
 }
 
 @end

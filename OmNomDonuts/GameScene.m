@@ -50,7 +50,8 @@ static const CGFloat kPadding = 4.0;
     _gameConfig = [GameConfig sharedConfig];
 
     _woopUpAction = [SKAction playSoundFileNamed:@"woop_up_converted.caf" waitForCompletion:YES];
-    _woopDownAction = [SKAction playSoundFileNamed:@"woop_down_converted.caf" waitForCompletion:YES];
+    _woopDownAction = [SKAction playSoundFileNamed:@"woop_down_converted.caf"
+                                 waitForCompletion:YES];
 
     self.backgroundColor =
         [SKColor colorWithRed:204.0 / 255.0 green:234.0 / 255.0 blue:240.0 / 255.0 alpha:1.0];
@@ -91,7 +92,7 @@ static const CGFloat kPadding = 4.0;
   CGPoint point = [touch locationInNode:self];
   for (SKSpriteNode<DonutProtocol> *donut in [self.pendingDonuts reverseObjectEnumerator]) {
     CGFloat distanceToCenter = hypot(point.x - donut.position.x, point.y - donut.position.y);
-    if (distanceToCenter <= MAX(donut.size.width / 2, 10)) {
+    if (distanceToCenter <= MAX(donut.size.width / 2, _gameConfig.forgivenessRadius)) {
       [self hitDonut:donut point:point];
       return;
     }
@@ -117,9 +118,13 @@ static const CGFloat kPadding = 4.0;
   donut.hit = YES;
   _scoreCounter.score += donut.value;
 
-  if (_scoreCounter.score / 100 > _numberOfDonuts - _gameConfig.startingNumberOfDonuts) {
-    _numberOfDonuts++;
-    [self deployRegularDonut];
+  if (_scoreCounter.score / 100 > _numberOfDonuts - _gameConfig.initialNumberOfDonuts) {
+    NSInteger newNumberOfDonuts = MAX(_gameConfig.initialNumberOfDonuts,
+                                      MIN(_gameConfig.finalNumberOfDonuts, _numberOfDonuts + 1));
+    if (newNumberOfDonuts > _numberOfDonuts) {
+      _numberOfDonuts = newNumberOfDonuts;
+      [self deployRegularDonut];
+    }
   }
 
   if ([donut isKindOfClass:[RegularDonut class]]) {
@@ -186,11 +191,10 @@ static const CGFloat kPadding = 4.0;
 
 - (void)deployRegularDonut {
   RegularDonut *donut = [[RegularDonut alloc] init];
-  donut.size = CGSizeMake(100, 100);
+  donut.size = CGSizeMake(2 * _gameConfig.donutRadius, 2 * _gameConfig.donutRadius);
   donut.physicsBody = [SKPhysicsBody bodyWithCircleOfRadius:donut.size.width / 2];
   donut.physicsBody.collisionBitMask = 0;
   donut.physicsBody.categoryBitMask = kStaticCategory;
-
   [self addChild:donut];
   [self randomlyPositionDonut:donut];
   [self expandAndContractDonut:donut];
@@ -237,15 +241,15 @@ static const CGFloat kPadding = 4.0;
 - (void)randomlyPositionDonut:(SKSpriteNode<DonutProtocol> *)donut {
   CGFloat halfDimension = donut.size.width / 2.0;
   CGPoint position =
-      CGPointMake(halfDimension + arc4random() % (int)(self.size.width - 2 * halfDimension),
-                  halfDimension + arc4random() % (int)(self.size.height - 2 * halfDimension));
+      CGPointMake(halfDimension + arc4random_uniform(self.size.width - 2 * halfDimension),
+                  halfDimension + arc4random_uniform(self.size.height - 2 * halfDimension));
   donut.position = position;
 }
 
 - (void)expandAndContractDonut:(SKSpriteNode<DonutProtocol> *)donut {
   [donut setScale:0];
 
-  SKAction *wait1 = [SKAction waitForDuration:0.1 withRange:0.2];
+  SKAction *wait1 = [SKAction waitForDuration:0.25 withRange:0.5];
   SKAction *scaleUp = [SKAction scaleTo:1 duration:0.25];
   scaleUp.timingFunction = ^float(float t) {
     CGFloat f = t - 1.0;
@@ -253,7 +257,7 @@ static const CGFloat kPadding = 4.0;
   };
   SKAction *scaleGroup = [SKAction group:@[scaleUp, _woopUpAction]];
   SKAction *wait2 = [SKAction waitForDuration:0.1];
-  SKAction *scaleDown = [SKAction scaleTo:0 duration:donut.contractDuration];
+  SKAction *scaleDown = [SKAction scaleTo:0 duration:_gameConfig.contractDuration];
 
   __weak SKSpriteNode<DonutProtocol> *weakDonut = donut;
   __weak GameScene *weakSelf = self;
@@ -295,7 +299,7 @@ static const CGFloat kPadding = 4.0;
 }
 
 - (void)resetGame {
-  _numberOfDonuts = _gameConfig.startingNumberOfDonuts;
+  _numberOfDonuts = _gameConfig.initialNumberOfDonuts;
   [_scoreCounter reset];
   [_lifeCounter reset];
 
