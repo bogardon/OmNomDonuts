@@ -38,10 +38,12 @@ static const CGFloat kPadding = 4.0;
   BOOL _gameOver;
 
   NSInteger _numberOfDonuts;
-  SKAudioNode *_woopUpAudioNode;
-  SKAudioNode *_woopDownAudioNode;
   SKAction *_woopUpAction;
   SKAction *_woopDownAction;
+
+  SKNode *_backgroundLayer;
+  SKNode *_gameLayer;
+  SKNode *_menuLayer;
 }
 
 - (instancetype)initWithSize:(CGSize)size {
@@ -90,7 +92,7 @@ static const CGFloat kPadding = 4.0;
 
   UITouch *touch = [touches anyObject];
   CGPoint point = [touch locationInNode:self];
-  for (SKSpriteNode<DonutProtocol> *donut in [self.pendingDonuts reverseObjectEnumerator]) {
+  for (SKSpriteNode<DonutProtocol> *donut in [_gameLayer.pendingDonuts reverseObjectEnumerator]) {
     CGFloat distanceToCenter = hypot(point.x - donut.position.x, point.y - donut.position.y);
     if (distanceToCenter <= MAX(donut.size.width / 2, _gameConfig.forgivenessRadius)) {
       [self hitDonut:donut point:point];
@@ -133,7 +135,7 @@ static const CGFloat kPadding = 4.0;
     [self fadeOutDonut:donut];
     CGFloat gameSpeed = 0.5;
     _gameConfig.gameSpeed = gameSpeed;
-    for (SKSpriteNode<DonutProtocol> *otherDonut in self.pendingDonuts) {
+    for (SKSpriteNode<DonutProtocol> *otherDonut in _gameLayer.pendingDonuts) {
       [otherDonut actionForKey:kExpandAndContractActionKey].speed = _gameConfig.gameSpeed;
     }
     [self actionForKey:kScheduleNextDeployKey].speed = _gameConfig.gameSpeed;
@@ -145,7 +147,7 @@ static const CGFloat kPadding = 4.0;
     [self runAction:sequence withKey:kResetContractSpeedKey];
   } else if ([donut isKindOfClass:[BlackholeDonut class]]) {
     [self fadeOutDonut:donut];
-    for (SKSpriteNode<DonutProtocol> *otherDonut in self.pendingDonuts) {
+    for (SKSpriteNode<DonutProtocol> *otherDonut in _gameLayer.pendingDonuts) {
       if (donut == otherDonut) {
         continue;
       }
@@ -195,7 +197,7 @@ static const CGFloat kPadding = 4.0;
   donut.physicsBody = [SKPhysicsBody bodyWithCircleOfRadius:donut.size.width / 2];
   donut.physicsBody.collisionBitMask = 0;
   donut.physicsBody.categoryBitMask = kStaticCategory;
-  [self addChild:donut];
+  [_gameLayer insertChild:donut atIndex:0];
   [self randomlyPositionDonut:donut];
   [self expandAndContractDonut:donut];
 }
@@ -206,7 +208,7 @@ static const CGFloat kPadding = 4.0;
   donut.physicsBody = [SKPhysicsBody bodyWithCircleOfRadius:donut.size.width / 2];
   donut.physicsBody.collisionBitMask = 0;
   donut.physicsBody.categoryBitMask = kStaticCategory;
-  [self addChild:donut];
+  [_gameLayer insertChild:donut atIndex:0];
   [self randomlyPositionDonut:donut];
   [self expandAndContractDonut:donut];
 }
@@ -217,7 +219,7 @@ static const CGFloat kPadding = 4.0;
   donut.physicsBody = [SKPhysicsBody bodyWithCircleOfRadius:donut.size.width / 2];
   donut.physicsBody.collisionBitMask = 0;
   donut.physicsBody.categoryBitMask = kStaticCategory;
-  [self addChild:donut];
+  [_gameLayer insertChild:donut atIndex:0];
   [self randomlyPositionDonut:donut];
   [self expandAndContractDonut:donut];
 }
@@ -233,7 +235,7 @@ static const CGFloat kPadding = 4.0;
   donut.physicsBody.angularDamping = 0;
   donut.physicsBody.restitution = 1;
   donut.physicsBody.friction = 0;
-  [self addChild:donut];
+  [_gameLayer insertChild:donut atIndex:0];
   [self randomlyPositionDonut:donut];
   [self expandAndContractDonut:donut];
 }
@@ -304,7 +306,7 @@ static const CGFloat kPadding = 4.0;
   [_lifeCounter reset];
 
   [self removeAllActions];
-  [self removeChildrenInArray:self.allDonuts];
+  [_gameLayer removeChildrenInArray:_gameLayer.allDonuts];
 }
 
 - (void)missDonut:(SKSpriteNode<DonutProtocol> *)donut {
@@ -324,14 +326,14 @@ static const CGFloat kPadding = 4.0;
                               CGRectGetMidY(self.frame));
   play.userInteractionEnabled = YES;
   [play addTarget:self selector:@selector(restartGame)];
-  [self addChild:play];
+  [_menuLayer addChild:play];
 
   MenuNode *menu = [[MenuNode alloc] init];
   menu.position = CGPointMake(CGRectGetMidX(self.frame) + menu.size.width,
                               CGRectGetMidY(self.frame));
   menu.userInteractionEnabled = YES;
   [menu addTarget:self selector:@selector(showMainMenu)];
-  [self addChild:menu];
+  [_menuLayer addChild:menu];
 }
 
 - (void)showMainMenu {
@@ -349,6 +351,13 @@ static const CGFloat kPadding = 4.0;
 }
 
 - (void)createContent {
+  _backgroundLayer = [SKNode node];
+  _gameLayer = [SKNode node];
+  _menuLayer = [SKNode node];
+  [self addChild:_backgroundLayer];
+  [self addChild:_gameLayer];
+  [self addChild:_menuLayer];
+
   SKTextureAtlas *atlas = [SKTextureAtlas atlasNamed:@"Sprites"];
   CGFloat targetWidth = self.size.width;
 
@@ -364,7 +373,7 @@ static const CGFloat kPadding = 4.0;
     CGFloat positionY = (i - 1) * self.size.height / 4;
     cloud.position = CGPointMake(self.frame.size.width / 2 + xOffset,
                                  positionY + cloud.frame.size.height / 2);
-    [self addChild:cloud];
+    [_backgroundLayer addChild:cloud];
   }
 
   _scoreCounter = [ScoreCounterNode labelNodeWithFontNamed:@"HelveticaNeue"];
@@ -374,21 +383,21 @@ static const CGFloat kPadding = 4.0;
       CGPointMake(CGRectGetMinX(self.frame) + kPadding, CGRectGetMaxY(self.frame) - kPadding);
   _scoreCounter.verticalAlignmentMode = SKLabelVerticalAlignmentModeTop;
   _scoreCounter.horizontalAlignmentMode = SKLabelHorizontalAlignmentModeLeft;
-  [self addChild:_scoreCounter];
+  [_menuLayer addChild:_scoreCounter];
 
   _lifeCounter = [[LifeCounterNode alloc] initWithMaxLives:_gameConfig.maxLives];
   CGRect accumulatedFrame = [_lifeCounter calculateAccumulatedFrame];
   _lifeCounter.position =
       CGPointMake(CGRectGetMidX(self.frame) - accumulatedFrame.size.width / 2,
                   CGRectGetMaxY(self.frame) - accumulatedFrame.size.height / 2 - kPadding);
-  [self addChild:_lifeCounter];
+  [_menuLayer addChild:_lifeCounter];
 }
 
 - (void)showMissAtPoint:(CGPoint)point {
   MissNode *shape = [MissNode node];
   shape.position = point;
   [shape showAndHide];
-  [self addChild:shape];
+  [_gameLayer addChild:shape];
 
   [self runAction:_woopDownAction];
 }
