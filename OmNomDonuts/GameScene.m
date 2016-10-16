@@ -237,12 +237,13 @@ static const CGFloat kPadding = 4.0;
 - (void)expandAndContractDonut:(SKSpriteNode<DonutProtocol> *)donut {
   [donut setScale:0];
 
+  SKAction *wait1 = [SKAction waitForDuration:0.1 withRange:0.2];
   SKAction *scaleUp = [SKAction scaleTo:1 duration:0.25];
   scaleUp.timingFunction = ^float(float t) {
     CGFloat f = t - 1.0;
     return 1.0 - f * f * f * f;
   };
-  SKAction *wait = [SKAction waitForDuration:0.1];
+  SKAction *wait2 = [SKAction waitForDuration:0.1];
   SKAction *scaleDown = [SKAction scaleTo:0 duration:donut.contractDuration];
 
   __weak SKSpriteNode<DonutProtocol> *weakDonut = donut;
@@ -252,7 +253,7 @@ static const CGFloat kPadding = 4.0;
     [weakSelf resolveDonut:weakDonut];
   }];
 
-  NSArray *actions = @[scaleUp, wait, scaleDown, [SKAction removeFromParent], resolve];
+  NSArray *actions = @[wait1, scaleUp, wait2, scaleDown, [SKAction removeFromParent], resolve];
   SKAction *sequence = [SKAction sequence:actions];
   sequence.speed = _gameConfig.gameSpeed;
   [donut runAction:sequence withKey:kExpandAndContractActionKey];
