@@ -22,10 +22,7 @@
 #pragma mark Public Methods
 
 - (void)reset {
-  _timeToEndingDeployPeriod = 120.0;
-  _startingDeployPeriod = 3.0;
-  _endingDeployPeriod = 1.0;
-  _donutsPerDeploy = 3.0;
+  _startingNumberOfDonuts = 3;
   _maxLives = 5;
   _gameSpeed = 1.0;
 }

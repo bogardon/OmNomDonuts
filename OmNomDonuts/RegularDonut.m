@@ -17,7 +17,7 @@
 }
 
 - (NSTimeInterval)contractDuration {
-  return 3;
+  return 4;
 }
 
 @end

@@ -37,8 +37,7 @@ static const CGFloat kPadding = 4.0;
 
   BOOL _gameOver;
 
-  CGFloat _deployPeriod;
-  NSTimeInterval _elapsedTime;
+  NSInteger _numberOfDonuts;
 }
 
 - (instancetype)initWithSize:(CGSize)size {
@@ -107,6 +106,11 @@ static const CGFloat kPadding = 4.0;
   donut.hit = YES;
   _scoreCounter.score += donut.value;
 
+  if (_scoreCounter.score / 100 > _numberOfDonuts - _gameConfig.startingNumberOfDonuts) {
+    _numberOfDonuts++;
+    [self deployRegularDonut];
+  }
+
   if ([donut isKindOfClass:[RegularDonut class]]) {
     [self fadeOutDonut:donut];
   } else if ([donut isKindOfClass:[DeceleratorDonut class]]) {
@@ -155,22 +159,7 @@ static const CGFloat kPadding = 4.0;
 }
 
 - (void)startGame {
-  [self scheduleNextDeploy];
-  [self progressDifficulty];
-}
-
-- (void)progressDifficulty {
-  SKAction *wait = [SKAction waitForDuration:1.0];
-  SKAction *updateDeployPeriod = [SKAction runBlock:^{
-    _elapsedTime += 1.0;
-    CGFloat deployPeriodDifference = _gameConfig.startingDeployPeriod - _gameConfig.endingDeployPeriod;
-    _deployPeriod = _gameConfig.startingDeployPeriod - deployPeriodDifference * _elapsedTime / _gameConfig.timeToEndingDeployPeriod;
-    NSLog(@"%g : %f", _elapsedTime, _deployPeriod);
-    if (_deployPeriod > _gameConfig.endingDeployPeriod) {
-      [self progressDifficulty];
-    };
-  }];
-  [self runAction:[SKAction sequence:@[wait, updateDeployPeriod]]];
+  [self deployDonuts];
 }
 
 - (void)endGame {
@@ -181,35 +170,9 @@ static const CGFloat kPadding = 4.0;
   [self removeAllActions];
 }
 
-- (void)scheduleNextDeploy {
-  SKAction *wait = [SKAction waitForDuration:_deployPeriod];
-  SKAction *deploy = [SKAction performSelector:@selector(onDeployTimer) onTarget:self];
-  __weak GameScene *weakSelf = self;
-  SKAction *reschedule = [SKAction runBlock:^{
-    [weakSelf scheduleNextDeploy];
-  }];
-  SKAction *sequence = [SKAction sequence:@[deploy, wait, reschedule]];
-  sequence.speed = _gameConfig.gameSpeed;
-  [self runAction:sequence];
-}
-
-- (void)onDeployTimer {
-  for (NSInteger i = 0; i < _gameConfig.donutsPerDeploy; i++) {
-    [self runAction:[SKAction waitForDuration:_deployPeriod / 10 withRange:_deployPeriod / 5]
-         completion:^{
-           if (self->_gameOver) {
-             return;
-           }
-           [self deployRegularDonut];
-         }];
-  }
-
-  if (arc4random_uniform(4) == 0) {
-    [self deployDeceleratorDonut];
-  } else if (arc4random_uniform(4) == 0) {
-    [self deployBlackholeDonut];
-  } else if (arc4random_uniform(4) == 0) {
-    [self deployBouncingDonut];
+- (void)deployDonuts {
+  for (NSInteger i = 0; i < _numberOfDonuts; i++) {
+    [self deployRegularDonut];
   }
 }
 
@@ -219,6 +182,7 @@ static const CGFloat kPadding = 4.0;
   donut.physicsBody = [SKPhysicsBody bodyWithCircleOfRadius:donut.size.width / 2];
   donut.physicsBody.collisionBitMask = 0;
   donut.physicsBody.categoryBitMask = kStaticCategory;
+
   [self addChild:donut];
   [self randomlyPositionDonut:donut];
   [self expandAndContractDonut:donut];
@@ -257,9 +221,8 @@ static const CGFloat kPadding = 4.0;
   donut.physicsBody.angularDamping = 0;
   donut.physicsBody.restitution = 1;
   donut.physicsBody.friction = 0;
-  [self randomlyPositionDonut:donut];
   [self addChild:donut];
-
+  [self randomlyPositionDonut:donut];
   [self expandAndContractDonut:donut];
 }
 
@@ -284,11 +247,12 @@ static const CGFloat kPadding = 4.0;
 
   __weak SKSpriteNode<DonutProtocol> *weakDonut = donut;
   __weak GameScene *weakSelf = self;
-  SKAction *miss = [SKAction runBlock:^{
+  SKAction *resolve = [SKAction runBlock:^{
     [weakSelf missDonut:weakDonut];
+    [weakSelf resolveDonut:weakDonut];
   }];
 
-  NSArray *actions = @[scaleUp, wait, scaleDown, [SKAction removeFromParent], miss];
+  NSArray *actions = @[scaleUp, wait, scaleDown, [SKAction removeFromParent], resolve];
   SKAction *sequence = [SKAction sequence:actions];
   sequence.speed = _gameConfig.gameSpeed;
   [donut runAction:sequence withKey:kExpandAndContractActionKey];
@@ -296,9 +260,18 @@ static const CGFloat kPadding = 4.0;
   [self runAction:[SKAction playSoundFileNamed:@"woop_up.caf" waitForCompletion:YES]];
 }
 
+- (void)resolveDonut:(SKSpriteNode<DonutProtocol> *)donut {
+  [self deployRegularDonut];
+}
+
 - (void)fadeOutDonut:(SKSpriteNode<DonutProtocol> *)donut {
   [donut removeAllActions];
-  NSArray *actions = @[[SKAction fadeOutWithDuration:0.2], [SKAction removeFromParent]];
+  __weak SKSpriteNode<DonutProtocol> *weakDonut = donut;
+  __weak GameScene *weakSelf = self;
+  SKAction *resolve = [SKAction runBlock:^{
+    [weakSelf resolveDonut:weakDonut];
+  }];
+  NSArray *actions = @[[SKAction fadeOutWithDuration:0.2], [SKAction removeFromParent], resolve];
   SKAction *sequence = [SKAction sequence:actions];
   [donut runAction:sequence];
 }
@@ -314,8 +287,7 @@ static const CGFloat kPadding = 4.0;
 }
 
 - (void)resetGame {
-  _deployPeriod = [_gameConfig startingDeployPeriod];
-  _elapsedTime = 0;
+  _numberOfDonuts = _gameConfig.startingNumberOfDonuts;
   [_scoreCounter reset];
   [_lifeCounter reset];
 
@@ -325,7 +297,7 @@ static const CGFloat kPadding = 4.0;
 
 - (void)missDonut:(SKSpriteNode<DonutProtocol> *)donut {
   if ([donut isKindOfClass:[RegularDonut class]]) {
-//    [_lifeCounter decrementLives];
+    [_lifeCounter decrementLives];
 
     if (_lifeCounter.currentLives == 0) {
       [self endGame];
