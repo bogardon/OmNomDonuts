@@ -14,6 +14,7 @@
 		720B0FAF1C6F1F0200D1FEC1 /* SKNode+Control.m in Sources */ = {isa = PBXBuildFile; fileRef = 720B0FAE1C6F1F0200D1FEC1 /* SKNode+Control.m */; };
 		7213AA8C1DB3128D00181AA6 /* woop_up_converted.caf in Resources */ = {isa = PBXBuildFile; fileRef = 7213AA8B1DB3128D00181AA6 /* woop_up_converted.caf */; };
 		7213AA8E1DB3143300181AA6 /* woop_down_converted.caf in Resources */ = {isa = PBXBuildFile; fileRef = 7213AA8D1DB3143300181AA6 /* woop_down_converted.caf */; };
+		7213AA911DB453CB00181AA6 /* Donut.m in Sources */ = {isa = PBXBuildFile; fileRef = 7213AA901DB453CB00181AA6 /* Donut.m */; };
 		721B751D1CBB151800C38B1F /* RegularDonut.m in Sources */ = {isa = PBXBuildFile; fileRef = 721B751C1CBB151800C38B1F /* RegularDonut.m */; };
 		721B75201CBB1C7400C38B1F /* DeceleratorDonut.m in Sources */ = {isa = PBXBuildFile; fileRef = 721B751F1CBB1C7400C38B1F /* DeceleratorDonut.m */; };
 		721B75231CBB223C00C38B1F /* BlackholeDonut.m in Sources */ = {isa = PBXBuildFile; fileRef = 721B75221CBB223C00C38B1F /* BlackholeDonut.m */; };
@@ -68,6 +69,8 @@
 		720B0FAE1C6F1F0200D1FEC1 /* SKNode+Control.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "SKNode+Control.m"; sourceTree = "<group>"; };
 		7213AA8B1DB3128D00181AA6 /* woop_up_converted.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = woop_up_converted.caf; sourceTree = "<group>"; };
 		7213AA8D1DB3143300181AA6 /* woop_down_converted.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = woop_down_converted.caf; sourceTree = "<group>"; };
+		7213AA8F1DB453CB00181AA6 /* Donut.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Donut.h; sourceTree = "<group>"; };
+		7213AA901DB453CB00181AA6 /* Donut.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Donut.m; sourceTree = "<group>"; };
 		721B751B1CBB151800C38B1F /* RegularDonut.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RegularDonut.h; sourceTree = "<group>"; };
 		721B751C1CBB151800C38B1F /* RegularDonut.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RegularDonut.m; sourceTree = "<group>"; };
 		721B751E1CBB1C7400C38B1F /* DeceleratorDonut.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DeceleratorDonut.h; sourceTree = "<group>"; };
@@ -180,6 +183,8 @@
 				721B75221CBB223C00C38B1F /* BlackholeDonut.m */,
 				721B75241CBB26E400C38B1F /* BouncingDonut.h */,
 				721B75251CBB26E400C38B1F /* BouncingDonut.m */,
+				7213AA8F1DB453CB00181AA6 /* Donut.h */,
+				7213AA901DB453CB00181AA6 /* Donut.m */,
 			);
 			name = GameScene;
 			sourceTree = "<group>";
@@ -411,6 +416,7 @@
 				721B751D1CBB151800C38B1F /* RegularDonut.m in Sources */,
 				726EFA5E190D94AF0076029B /* AppDelegate.m in Sources */,
 				72E0D6E31D2C611B00693A46 /* PlayNode.m in Sources */,
+				7213AA911DB453CB00181AA6 /* Donut.m in Sources */,
 				726EFA5A190D94AF0076029B /* main.m in Sources */,
 				720B0FAC1C6F12E800D1FEC1 /* MissNode.m in Sources */,
 				721B75231CBB223C00C38B1F /* BlackholeDonut.m in Sources */,
