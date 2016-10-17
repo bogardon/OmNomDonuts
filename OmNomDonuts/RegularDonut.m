@@ -1,5 +1,7 @@
 #import "RegularDonut.h"
 
+#import "GameConfig.h"
+
 @implementation RegularDonut
 
 - (NSString *)textureName {
@@ -20,7 +22,7 @@
     return 1.0 - f * f * f * f;
   };
   SKAction *wait = [SKAction waitForDuration:0.1];
-  SKAction *scaleDown = [SKAction scaleTo:0 duration:4];
+  SKAction *scaleDown = [SKAction scaleTo:0 duration:[GameConfig sharedConfig].contractDuration];
   SKAction *resolved = [SKAction runBlock:^{
     self.state = kDonutStateMissed;
   }];
