@@ -10,9 +10,9 @@
 
 - (void)runDeployActions {
   [self removeAllActions];
-
   [self setScale:0];
 
+  SKAction *wait1 = [SKAction waitForDuration:0.5 withRange:1];
   SKAction *pending = [SKAction runBlock:^{
     self.state = kDonutStatePending;
   }];
@@ -21,13 +21,13 @@
     CGFloat f = t - 1.0;
     return 1.0 - f * f * f * f;
   };
-  SKAction *wait = [SKAction waitForDuration:0.1];
+  SKAction *wait2 = [SKAction waitForDuration:0.2];
   SKAction *scaleDown = [SKAction scaleTo:0 duration:[GameConfig sharedConfig].contractDuration];
   SKAction *resolved = [SKAction runBlock:^{
     self.state = kDonutStateMissed;
   }];
   NSArray *actions =
-      @[pending, scaleUp, wait, scaleDown, resolved, [SKAction removeFromParent]];
+      @[wait1, pending, scaleUp, wait2, scaleDown, resolved, [SKAction removeFromParent]];
   SKAction *sequence = [SKAction sequence:actions];
   [self runAction:sequence];
 }

@@ -3,10 +3,14 @@
 @implementation Donut
 
 - (instancetype)init {
-  SKTextureAtlas *atlas = [SKTextureAtlas atlasNamed:@"Sprites"];
-  SKTexture *texture = [atlas textureNamed:self.textureName];
-  self.state = kDonutStateInitialized;
-  return [self initWithTexture:texture];
+  self = [super init];
+  if (self) {
+    self.state = kDonutStateInitialized;
+    SKTextureAtlas *atlas = [SKTextureAtlas atlasNamed:@"Sprites"];
+    SKTexture *texture = [atlas textureNamed:self.textureName];
+    self.texture = texture;
+  }
+  return self;
 }
 
 #pragma mark Public Methods
@@ -27,8 +31,6 @@
 
 - (void)setState:(DonutState)state {
   [self.delegate donutWillTransitionState:self oldState:_state newState:state];
-
-  self.userInteractionEnabled = state == kDonutStateMissed || state == kDonutStateTapped;
 
   _state = state;
 }

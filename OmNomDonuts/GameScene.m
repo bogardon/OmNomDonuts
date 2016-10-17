@@ -53,9 +53,8 @@ static const CGFloat kPadding = 4.0;
 
     _gameConfig = [GameConfig sharedConfig];
 
-    _woopUpAction = [SKAction playSoundFileNamed:@"woop_up_converted.caf" waitForCompletion:YES];
-    _woopDownAction = [SKAction playSoundFileNamed:@"woop_down_converted.caf"
-                                 waitForCompletion:YES];
+    _woopUpAction = [SKAction playSoundFileNamed:@"woop_up.caf" waitForCompletion:YES];
+    _woopDownAction = [SKAction playSoundFileNamed:@"woop_down.caf" waitForCompletion:YES];
 
     self.backgroundColor =
         [SKColor colorWithRed:204.0 / 255.0 green:234.0 / 255.0 blue:240.0 / 255.0 alpha:1.0];
