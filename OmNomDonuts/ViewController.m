@@ -33,7 +33,7 @@
                               withExtension:@"m4a"];
   _bgmPlayer = [[AVAudioPlayer alloc] initWithContentsOfURL:bgmURL error:nil];
   _bgmPlayer.numberOfLoops = -1;
-  [_bgmPlayer play];
+//  [_bgmPlayer play];
 
   self.view.showsFPS = YES;
   self.view.showsNodeCount = YES;

@@ -5,7 +5,6 @@
 - (instancetype)init {
   self = [super init];
   if (self) {
-    self.state = kDonutStateInitialized;
     SKTextureAtlas *atlas = [SKTextureAtlas atlasNamed:@"Sprites"];
     SKTexture *texture = [atlas textureNamed:self.textureName];
     self.texture = texture;

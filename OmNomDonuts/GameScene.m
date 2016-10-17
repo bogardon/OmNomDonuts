@@ -19,9 +19,7 @@
 static const uint32_t kStaticCategory = 0x1 << 0;
 static const uint32_t kMovingCategory = 0x1 << 1;
 static const uint32_t kEdgeCategory = 0x1 << 2;
-static NSString *const kExpandAndContractActionKey = @"kExpandAndContractActionKey";
-static NSString *const kResetContractSpeedKey = @"kResetContractSpeedKey";
-static NSString *const kScheduleNextDeployKey = @"kScheduleNextDeployKey";
+static NSString *const kSlowDownActionKey = @"kSlowDownActionKey";
 static const CGFloat kPadding = 4.0;
 
 @interface GameScene ()<DonutDelegate, SKPhysicsContactDelegate>
@@ -139,6 +137,8 @@ static const CGFloat kPadding = 4.0;
             _gameConfig.finalNumberOfDonuts > _gameConfig.initialNumberOfDonuts + newMultiple) {
           [self deployRegularDonut];
         }
+      } else if ([donut isKindOfClass:[DeceleratorDonut class]]) {
+        [self slowDownForSeconds:5];
       }
       break;
     case kDonutStateMissed:
@@ -169,11 +169,38 @@ static const CGFloat kPadding = 4.0;
   for (NSInteger i = 0; i < _gameConfig.initialNumberOfDonuts; i++) {
     [self deployRegularDonut];
   }
+  [self runAction:[SKAction repeatActionForever:[SKAction sequence:@[[SKAction waitForDuration:1],
+                                                                     [SKAction runBlock:^{
+    for (Donut *donut in _gameLayer.children) {
+      if (![donut isKindOfClass:[RegularDonut class]]) {
+        return;
+      }
+    }
+    if (arc4random_uniform(20) == 0) {
+      [self deployDeceleratorDonut];
+    }
+  }]]]]];
 }
 
 - (void)endGame {
   _gameOver = YES;
   self.paused = YES;
+}
+
+- (void)slowDownForSeconds:(CGFloat)seconds {
+  [self removeActionForKey:kSlowDownActionKey];
+  for (Donut *donut in _gameLayer.children) {
+    if ([donut isKindOfClass:[RegularDonut class]]) {
+      donut.speed = 0.5;
+    }
+  }
+  [self runAction:[SKAction sequence:@[[SKAction waitForDuration:5], [SKAction runBlock:^{
+    for (Donut *donut in _gameLayer.children) {
+      if ([donut isKindOfClass:[RegularDonut class]]) {
+        donut.speed = 1.0;
+      }
+    }
+  }]]] withKey:kSlowDownActionKey];
 }
 
 - (void)deployRegularDonut {
@@ -183,6 +210,7 @@ static const CGFloat kPadding = 4.0;
   donut.physicsBody = [SKPhysicsBody bodyWithCircleOfRadius:donut.size.width / 2];
   donut.physicsBody.collisionBitMask = 0;
   donut.physicsBody.categoryBitMask = kStaticCategory;
+  donut.speed = [self actionForKey:kSlowDownActionKey] ? 0.5 : 1.0;
   [_gameLayer insertChild:donut atIndex:0];
   [self randomlyPositionDonut:donut];
   [donut runDeployActions];
