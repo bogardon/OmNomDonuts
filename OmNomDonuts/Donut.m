@@ -1,12 +1,13 @@
 #import "Donut.h"
 
-@interface Donut ()
-
-@property(nonatomic, assign) DonutState state;
-
-@end
-
 @implementation Donut
+
+- (instancetype)init {
+  SKTextureAtlas *atlas = [SKTextureAtlas atlasNamed:@"Sprites"];
+  SKTexture *texture = [atlas textureNamed:self.textureName];
+  self.state = kDonutStateInitialized;
+  return [self initWithTexture:texture];
+}
 
 #pragma mark Public Methods
 
@@ -26,6 +27,8 @@
 
 - (void)setState:(DonutState)state {
   [self.delegate donutWillTransitionState:self oldState:_state newState:state];
+
+  self.userInteractionEnabled = state == kDonutStateMissed || state == kDonutStateTapped;
 
   _state = state;
 }

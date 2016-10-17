@@ -2,23 +2,16 @@
 
 @implementation BouncingDonut
 
-@synthesize value = _value;
-@synthesize contractDuration = _contractDuration;
-@synthesize hit = _hit;
-
-- (instancetype)init {
-  SKTextureAtlas *atlas = [SKTextureAtlas atlasNamed:@"Sprites"];
-  SKTexture *texture = [atlas textureNamed:@"full_choco_donut"];
-  return [self initWithTexture:texture];
+- (NSString *)textureName {
+  return @"full_choco_donut";
 }
 
-- (NSInteger)value {
-  return 10;
+- (void)runDeployActions {
+
 }
 
-- (NSTimeInterval)contractDuration {
-  return 2;
-}
+- (void)runFinishActions {
 
+}
 
 @end

@@ -2,23 +2,16 @@
 
 @implementation DeceleratorDonut
 
-@synthesize value = _value;
-@synthesize contractDuration = _contractDuration;
-@synthesize hit = _hit;
-
-- (instancetype)init {
-  SKTextureAtlas *atlas = [SKTextureAtlas atlasNamed:@"Sprites"];
-  SKTexture *texture = [atlas textureNamed:@"strawberry_donut"];
-  return [self initWithTexture:texture];
+- (NSString *)textureName {
+  return @"strawberry_donut";
 }
 
-- (NSInteger)value {
-  return 10;
+- (void)runDeployActions {
+
 }
 
-- (NSTimeInterval)contractDuration {
-  return 2;
-}
+- (void)runFinishActions {
 
+}
 
 @end

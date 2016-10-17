@@ -3,7 +3,8 @@
 typedef NS_ENUM(NSInteger, DonutState) {
   kDonutStateInitialized,
   kDonutStatePending,
-  kDonutStateResolved,
+  kDonutStateMissed,
+  kDonutStateTapped,
 };
 
 @protocol DonutDelegate;
@@ -12,7 +13,7 @@ typedef NS_ENUM(NSInteger, DonutState) {
 @interface Donut : SKSpriteNode
 
 @property(nonatomic, readonly) NSString *textureName;
-@property(nonatomic, readonly) DonutState state;
+@property(nonatomic, assign) DonutState state;
 @property(nonatomic, weak) id<DonutDelegate> delegate;
 
 - (void)runDeployActions;

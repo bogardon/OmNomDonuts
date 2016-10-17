@@ -2,22 +2,16 @@
 
 @implementation BlackholeDonut
 
-@synthesize value = _value;
-@synthesize contractDuration = _contractDuration;
-@synthesize hit = _hit;
-
-- (instancetype)init {
-  SKTextureAtlas *atlas = [SKTextureAtlas atlasNamed:@"Sprites"];
-  SKTexture *texture = [atlas textureNamed:@"half_choco_donut"];
-  return [self initWithTexture:texture];
+- (NSString *)textureName {
+  return @"half_choco_donut";
 }
 
-- (NSInteger)value {
-  return 10;
+- (void)runDeployActions {
+
 }
 
-- (NSTimeInterval)contractDuration {
-  return 2.0;
+- (void)runFinishActions {
+
 }
 
 @end

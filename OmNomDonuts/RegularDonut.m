@@ -2,22 +2,43 @@
 
 @implementation RegularDonut
 
-@synthesize value = _value;
-@synthesize contractDuration = _contractDuration;
-@synthesize hit = _hit;
-
-- (instancetype)init {
-  SKTextureAtlas *atlas = [SKTextureAtlas atlasNamed:@"Sprites"];
-  SKTexture *texture = [atlas textureNamed:@"regular_donut"];
-  return [self initWithTexture:texture];
+- (NSString *)textureName {
+  return @"regular_donut";
 }
 
-- (NSInteger)value {
-  return 10;
+- (void)runDeployActions {
+  [self removeAllActions];
+
+  [self setScale:0];
+
+  SKAction *pending = [SKAction runBlock:^{
+    self.state = kDonutStatePending;
+  }];
+  SKAction *scaleUp = [SKAction scaleTo:1 duration:0.25];
+  scaleUp.timingFunction = ^float(float t) {
+    CGFloat f = t - 1.0;
+    return 1.0 - f * f * f * f;
+  };
+  SKAction *wait = [SKAction waitForDuration:0.1];
+  SKAction *scaleDown = [SKAction scaleTo:0 duration:4];
+  SKAction *resolved = [SKAction runBlock:^{
+    self.state = kDonutStateMissed;
+  }];
+  NSArray *actions =
+      @[pending, scaleUp, wait, scaleDown, resolved, [SKAction removeFromParent]];
+  SKAction *sequence = [SKAction sequence:actions];
+  [self runAction:sequence];
 }
 
-- (NSTimeInterval)contractDuration {
-  return 4;
+- (void)runFinishActions {
+  [self removeAllActions];
+
+  SKAction *resolved = [SKAction runBlock:^{
+    self.state = kDonutStateTapped;
+  }];
+  NSArray *actions = @[resolved, [SKAction fadeOutWithDuration:0.2], [SKAction removeFromParent]];
+  SKAction *sequence = [SKAction sequence:actions];
+  [self runAction:sequence];
 }
 
 @end

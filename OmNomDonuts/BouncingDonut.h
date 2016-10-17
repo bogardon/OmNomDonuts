@@ -1,7 +1,5 @@
-#import <SpriteKit/SpriteKit.h>
+#import "Donut.h"
 
-#import "DonutProtocol.h"
-
-@interface BouncingDonut : SKSpriteNode<DonutProtocol>
+@interface BouncingDonut : Donut
 
 @end

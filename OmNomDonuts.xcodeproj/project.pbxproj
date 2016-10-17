@@ -39,7 +39,6 @@
 		726EFA7E190D94B00076029B /* OmNomDonutsTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 726EFA7D190D94B00076029B /* OmNomDonutsTests.m */; };
 		726EFA89190D9B280076029B /* GameScene.m in Sources */ = {isa = PBXBuildFile; fileRef = 726EFA88190D9B280076029B /* GameScene.m */; };
 		72A1F2511C856BBC00024205 /* GameConfig.m in Sources */ = {isa = PBXBuildFile; fileRef = 72A1F2501C856BBC00024205 /* GameConfig.m */; };
-		72DAD9D51D2C5079001C5516 /* SKNode+Utils.m in Sources */ = {isa = PBXBuildFile; fileRef = 72DAD9D41D2C5079001C5516 /* SKNode+Utils.m */; };
 		72E0D6E31D2C611B00693A46 /* PlayNode.m in Sources */ = {isa = PBXBuildFile; fileRef = 72E0D6E21D2C611B00693A46 /* PlayNode.m */; };
 		72E0D6E61D2C632500693A46 /* MenuNode.m in Sources */ = {isa = PBXBuildFile; fileRef = 72E0D6E51D2C632500693A46 /* MenuNode.m */; };
 		72FE869F1CF28980007350BC /* omnomdonuts_theme_draft_105bpm.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 72FE869E1CF28980007350BC /* omnomdonuts_theme_draft_105bpm.m4a */; };
@@ -109,9 +108,6 @@
 		726EFA88190D9B280076029B /* GameScene.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GameScene.m; sourceTree = "<group>"; };
 		72A1F24F1C856BBC00024205 /* GameConfig.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameConfig.h; sourceTree = "<group>"; };
 		72A1F2501C856BBC00024205 /* GameConfig.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GameConfig.m; sourceTree = "<group>"; };
-		72A3D20A19293D07002C29E1 /* DonutProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DonutProtocol.h; sourceTree = "<group>"; };
-		72DAD9D31D2C5079001C5516 /* SKNode+Utils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "SKNode+Utils.h"; sourceTree = "<group>"; };
-		72DAD9D41D2C5079001C5516 /* SKNode+Utils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "SKNode+Utils.m"; sourceTree = "<group>"; };
 		72E0D6E11D2C611B00693A46 /* PlayNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PlayNode.h; sourceTree = "<group>"; };
 		72E0D6E21D2C611B00693A46 /* PlayNode.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PlayNode.m; sourceTree = "<group>"; };
 		72E0D6E41D2C632500693A46 /* MenuNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MenuNode.h; sourceTree = "<group>"; };
@@ -164,7 +160,6 @@
 			children = (
 				726EFA87190D9B270076029B /* GameScene.h */,
 				726EFA88190D9B280076029B /* GameScene.m */,
-				72A3D20A19293D07002C29E1 /* DonutProtocol.h */,
 				7263B00A19C4E7350053D61B /* LifeCounterNode.h */,
 				7263B00B19C4E7350053D61B /* LifeCounterNode.m */,
 				720B0FA41C6F0CE900D1FEC1 /* ScoreCounterNode.h */,
@@ -194,8 +189,6 @@
 			children = (
 				72E0D6E11D2C611B00693A46 /* PlayNode.h */,
 				72E0D6E21D2C611B00693A46 /* PlayNode.m */,
-				72DAD9D31D2C5079001C5516 /* SKNode+Utils.h */,
-				72DAD9D41D2C5079001C5516 /* SKNode+Utils.m */,
 				720B0FAE1C6F1F0200D1FEC1 /* SKNode+Control.m */,
 				720B0FAD1C6F1F0200D1FEC1 /* SKNode+Control.h */,
 				72446A331C74480100B89D42 /* NSArray+Utils.h */,
@@ -411,7 +404,6 @@
 				72FFC5D51D84C8F500E82896 /* Slider.m in Sources */,
 				726EFA64190D94AF0076029B /* ViewController.m in Sources */,
 				72446A351C74480100B89D42 /* NSArray+Utils.m in Sources */,
-				72DAD9D51D2C5079001C5516 /* SKNode+Utils.m in Sources */,
 				726EFA89190D9B280076029B /* GameScene.m in Sources */,
 				721B751D1CBB151800C38B1F /* RegularDonut.m in Sources */,
 				726EFA5E190D94AF0076029B /* AppDelegate.m in Sources */,
